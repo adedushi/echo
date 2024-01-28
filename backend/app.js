@@ -8,6 +8,7 @@ const csurf = require('csurf');
 const { isProduction } = require('./config/keys');
 
 require('./models/User');
+require("./models/Echo");
 require('./config/passport');
 const passport = require('passport');
 
