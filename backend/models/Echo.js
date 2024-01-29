@@ -6,6 +6,10 @@ const echoSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
+    imageUrls: {
+        type: [String],
+        required: false
+    },
     text: {
         type: String,
         required: true

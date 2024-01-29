@@ -10,6 +10,8 @@
     "node": "18.x"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.501.0",
+    "@aws-sdk/lib-storage": "^3.501.0",
     "@faker-js/faker": "^8.4.0",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "~1.4.4",
@@ -21,6 +23,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.1.1",
     "morgan": "~1.9.1",
+    "multer": "^1.4.5-lts.1",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0"

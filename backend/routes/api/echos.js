@@ -9,7 +9,7 @@ const validateEchoInput = require('../../validations/echos');
 router.get('/', async (req, res) => {
     try {
         const echos = await Echo.find()
-            .populate("author", "_id username")
+            .populate("author", "_id username profileImageUrl")
             .sort({ createdAt: -1 });
         return res.json(echos);
     }
@@ -31,7 +31,7 @@ router.get('/user/:userId', async (req, res, next) => {
     try {
         const echos = await Echo.find({ author: user._id })
             .sort({ createdAt: -1 })
-            .populate("author", "_id username");
+            .populate("author", "_id username profileImageUrl");
         return res.json(echos);
     }
     catch (err) {
@@ -42,7 +42,7 @@ router.get('/user/:userId', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
     try {
         const echo = await Echo.findById(req.params.id)
-            .populate("author", "_id username");
+            .populate("author", "_id username profileImageUrl");
         return res.json(echo);
     }
     catch (err) {

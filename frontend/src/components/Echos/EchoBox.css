@@ -9,3 +9,9 @@ h3 {
     margin-bottom: 5px;
     min-height: 57px;
 }
+
+.profile-image {
+    height: 18px;
+    margin-right: 5px;
+    margin-left: 2px;
+}
