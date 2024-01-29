@@ -28,17 +28,17 @@ const singleFileUpload = async ({ file, isPublic = false }) => {
     }
 };
 
-const multipleFilesUpload = async ({ files, isPublic = false }) => {
-    return await Promise.all(
-        files.map((file) => {
-            return singleFileUpload({ file, isPublic });
-        })
-    );
-};
+// const multipleFilesUpload = async ({ files, isPublic = false }) => {
+//     return await Promise.all(
+//         files.map((file) => {
+//             return singleFileUpload({ file, isPublic });
+//         })
+//     );
+// };
 
 module.exports = {
     singleFileUpload,
-    multipleFilesUpload
+    // multipleFilesUpload
 };
 
 const storage = multer.memoryStorage({
@@ -49,13 +49,13 @@ const storage = multer.memoryStorage({
 
 const singleMulterUpload = (nameOfKey) =>
     multer({ storage: storage }).single(nameOfKey);
-const multipleMulterUpload = (nameOfKey) =>
-    multer({ storage: storage }).array(nameOfKey);
+// const multipleMulterUpload = (nameOfKey) =>
+//     multer({ storage: storage }).array(nameOfKey);
 
 module.exports = {
     singleFileUpload,
-    multipleFilesUpload,
+    // multipleFilesUpload,
     // retrievePrivateFile,
     singleMulterUpload,
-    multipleMulterUpload
+    // multipleMulterUpload
 };

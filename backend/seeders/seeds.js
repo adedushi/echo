@@ -8,6 +8,37 @@ const { faker } = require('@faker-js/faker');
 const NUM_SEED_USERS = 10;
 const NUM_SEED_ECHOS = 30;
 
+const DEFAULT_PROFILE_IMAGE_URL = 'https://teamlab-echo.s3.amazonaws.com/public/blank-profile-picture.png';
+const DEFAULT_AUDIO_URL = 'https://teamlab-echo.s3.amazonaws.com/public/baby-shark.mp3'
+
+const addLikes = () => {
+    likes = []
+    for (let i = 0; i < 5; i++) {
+        likes.push(users[i]._id)
+    }
+    return likes
+}
+
+const addReplies = () => {
+    replies = []
+    for (let i = 0; i < 2; i++) {
+        replies.push({
+            replyAuthor: users[i]._id,
+            replyAudioUrl: DEFAULT_AUDIO_URL,
+            replyText: undefined
+        })
+    }
+    return replies
+}
+
+const addReverbs = () => {
+    const reverbs = []
+    for (let i = 0; i < 2; i++) {
+        reverbs.push(users[i]._id)
+    }
+    return reverbs
+}
+
 const users = [];
 
 users.push(
@@ -25,7 +56,8 @@ for (let i = 1; i < NUM_SEED_USERS; i++) {
         new User({
             username: faker.internet.userName(firstName, lastName),
             email: faker.internet.email(firstName, lastName),
-            hashedPassword: bcrypt.hashSync(faker.internet.password(), 10)
+            hashedPassword: bcrypt.hashSync(faker.internet.password(), 10),
+            profileImageUrl: DEFAULT_PROFILE_IMAGE_URL
         })
     )
 }
@@ -35,11 +67,17 @@ const echos = [];
 for (let i = 0; i < NUM_SEED_ECHOS; i++) {
     echos.push(
         new Echo({
-            text: faker.hacker.phrase(),
-            author: users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+            title: faker.hacker.phrase(),
+            author: users[Math.floor(Math.random() * NUM_SEED_USERS)]._id,
+            audioUrl: DEFAULT_AUDIO_URL,
+            replies: addReplies(),
+            likes: addLikes(),
+            reverbs: addReverbs()
         })
     )
 }
+
+
 
 mongoose
     .connect(db, { useNewUrlParser: true })
@@ -68,3 +106,14 @@ const insertSeeds = () => {
             process.exit(1);
         });
 }
+
+// const initializeImagesAndAudio = async () => {
+//     console.log("Initializing profile avatars...");
+//     await User.updateMany({}, { profileImageUrl: DEFAULT_PROFILE_IMAGE_URL });
+
+//     console.log("Initializing Echo image URLs...");
+//     await Echo.updateMany({}, { audioUrl: DEFAULT_AUDIO_URL });
+
+//     console.log("Done!");
+//     mongoose.disconnect();
+// }

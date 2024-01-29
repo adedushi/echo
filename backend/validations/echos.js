@@ -2,10 +2,13 @@ const { check } = require("express-validator");
 const handleValidationErrors = require('./handleValidationErrors');
 
 const validateEchoInput = [
-    check('text')
+    check('title')
         .exists({ checkFalsy: true })
-        .isLength({ min: 5, max: 140 })
-        .withMessage('Echo must be between 5 and 140 characters'),
+        .isLength({ min: 5, max: 40 })
+        .withMessage('Title must be between 5 and 40 characters'),
+    check('audioUrl')
+        .exists({ checkFalsy: true })
+        .withMessage('Recording must be included in an Echo'),
     handleValidationErrors
 ];
 
