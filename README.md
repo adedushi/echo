@@ -11,4 +11,16 @@ Echo is a alternative platform to the tpyical social media style app. Unlike twi
 * MongoDb/AWS for our noSql database and audio storage respectivley.
 * Howler Javascript library for our audio player functionality.
 
-##Feature 1
+## Feature 1 - User Auth
+Users can create their own account and login and logout. All their posts and likes will be persisted between sessions. 
+
+## Feature 2 - Follow / Unfollow
+Users will be able to follow and unfollow their favorite accounts. 
+
+## Feature 3 - ECHO CRUD
+Users will be able to create an Echo by uploading an audio clip. They will be able to update the title, and delete it if needed. 
+
+## Feature 4 - Replies & Likes
+Users will be able to reply to an echo with an audio clip and like echos they enjoy. 
+
+
