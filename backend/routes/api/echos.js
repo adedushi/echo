@@ -5,12 +5,30 @@ const User = mongoose.model('User');
 const Echo = mongoose.model('Echo');
 const { requireUser } = require('../../config/passport');
 const validateEchoInput = require('../../validations/echos');
-const { multipleFilesUpload, multipleMulterUpload } = require("../../awsS3");
+const { singleFileUpload, singleMulterUpload } = require("../../awsS3");
 
 router.get('/', async (req, res) => {
     try {
         const echos = await Echo.find()
-            .populate("author", "_id username profileImageUrl")
+            .populate({
+                path: 'author',
+                select: '_id username profileImageUrl'
+            })
+            .populate({
+                path: 'replies',
+                populate: {
+                    path: 'replyAuthor',
+                    select: '_id username profileImageUrl'
+                }
+            })
+            .populate({
+                path: 'likes',
+                select: '_id username'
+            })
+            .populate({
+                path: 'reverbs',
+                select: '_id username'
+            })
             .sort({ createdAt: -1 });
         return res.json(echos);
     }
@@ -54,12 +72,12 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
-router.post('/', multipleMulterUpload("images"), requireUser, validateEchoInput, async (req, res, next) => {
-    const imageUrls = await multipleFilesUpload({ files: req.files, isPublic: true });
+router.post('/', singleMulterUpload("recording"), requireUser, validateEchoInput, async (req, res, next) => {
+    const audioUrl = await singleFileUpload({ files: req.files, isPublic: true });
     try {
         const newEcho = new Echo({
-            text: req.body.text,
-            imageUrls,
+            title: req.body.title,
+            audioUrl,
             author: req.user._id
         });
 
