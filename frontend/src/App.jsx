@@ -14,6 +14,9 @@ import EchoCompose from './components/Echos/EchoCompose';
 
 import { getCurrentUser } from './store/session';
 
+import HowlerTest from './components/Audio/EchoPlayer';
+import WaveTest from './components/Audio/WaveSurfer';
+
 const Layout = () => {
   return (
     <>
@@ -38,6 +41,14 @@ const router = createBrowserRouter([
       {
         path: "signup",
         element: <AuthRoute component={SignupForm} />
+      },
+      {
+        path: "/audiotest",
+        element: <HowlerTest />
+      },
+      {
+        path: "/wavetest",
+        element: <WaveTest />
       },
       {
         path: "echos",
