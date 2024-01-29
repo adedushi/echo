@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
-import thunk from 'redux-thunk';
+import { thunk } from 'redux-thunk';
 import session from './session';
 import errors from "./errors";
 import echos from "./echos";
