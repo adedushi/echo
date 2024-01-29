@@ -23,13 +23,13 @@ const Layout = () => {
 };
 
 const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <AuthRoute component={MainPage} />
+    },
   {
     element: <Layout />,
     children: [
-      {
-        path: "/",
-        element: <AuthRoute component={MainPage} />
-      },
       {
         path: "login",
         element: <AuthRoute component={LoginForm} />
