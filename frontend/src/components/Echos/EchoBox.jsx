@@ -1,7 +1,10 @@
 import "./EchoBox.css"
 
-function EchoBox({ echo: { text, author } }) {
+function EchoBox({ echo: { text, author, imageUrls } }) {
     const { username, profileImageUrl } = author;
+    const images = imageUrls?.map((url, index) => {
+        return <img className="echo-image" key={url} src={url} alt={`echoImage${index}`} />
+    });
     return (
         <div className="echo">
             <h3>
@@ -12,6 +15,7 @@ function EchoBox({ echo: { text, author } }) {
                 {username}
             </h3>
             <p>{text}</p>
+            {images}
         </div>
     );
 }

@@ -7,3 +7,12 @@ input[type=textarea] {
 .echo-preview {
     min-height: 150px;
 }
+
+label {
+    display: block;
+    margin-top: 5px;
+}
+
+input[type=file] {
+    margin-left: 5px;
+}

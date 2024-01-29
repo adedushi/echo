@@ -59,11 +59,14 @@ export const fetchUserEchos = id => async dispatch => {
     }
 };
 
-export const composeEcho = data => async dispatch => {
+export const composeEcho = (text, images) => async dispatch => {
+    const formData = new FormData();
+    formData.append("text", text);
+    Array.from(images).forEach(image => formData.append("images", image));    
     try {
         const res = await jwtFetch('/api/echos/', {
             method: 'POST',
-            body: JSON.stringify(data)
+            body: formData
         });
         const echo = await res.json();
         dispatch(receiveNewEcho(echo));

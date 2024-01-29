@@ -5,6 +5,7 @@ const User = mongoose.model('User');
 const Echo = mongoose.model('Echo');
 const { requireUser } = require('../../config/passport');
 const validateEchoInput = require('../../validations/echos');
+const { multipleFilesUpload, multipleMulterUpload } = require("../../awsS3");
 
 router.get('/', async (req, res) => {
     try {
@@ -53,15 +54,17 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
-router.post('/', requireUser, validateEchoInput, async (req, res, next) => {
+router.post('/', multipleMulterUpload("images"), requireUser, validateEchoInput, async (req, res, next) => {
+    const imageUrls = await multipleFilesUpload({ files: req.files, isPublic: true });
     try {
         const newEcho = new Echo({
             text: req.body.text,
+            imageUrls,
             author: req.user._id
         });
 
         let echo = await newEcho.save();
-        echo = await echo.populate('author', '_id username');
+        echo = await echo.populate("author", "_id username profileImageUrl");
         return res.json(echo);
     }
     catch (err) {
