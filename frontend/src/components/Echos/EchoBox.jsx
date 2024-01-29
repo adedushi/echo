@@ -1,22 +1,21 @@
-import "./EchoBox.css"
 import waveform from './waveform.png'
 
-function EchoBox({ echo: { text, author, imageUrls } }) {
+function EchoBox({ echo: { text, author, audioUrl, replies, likes, reverbs } }) {
     const { username, profileImageUrl } = author;
-    const images = imageUrls?.map((url, index) => {
-        return <img className="echo-image" key={url} src={url} alt={`echoImage${index}`} />
-    });
     return (
         <div className="echo-box">
-            {profileImageUrl ?
-                <img className="profile-image" src={profileImageUrl} alt="profile" /> :
-                undefined
-                }
-            {/* <p className="echo-username">{username}</p> */}
-            <img src={waveform} className="echo-waveform"/>
-            
-            {/* <p className="echo-text">{text}</p> */}
-            {/* {images} */}
+            <div className="echo-content">
+                {profileImageUrl ?
+                    <img className="profile-image" src={profileImageUrl} alt="profile" /> :
+                    undefined}
+                <img src={waveform} className="echo-waveform" />
+            </div>
+             
+            <div className="echo-details">
+                <h3><i class="fa-regular fa-comment"></i> {replies.length}</h3>
+                <h3><i class="fa-regular fa-heart"></i> {likes.length} </h3>
+                <h3><i className="fa-solid fa-satellite-dish"></i> {reverbs.length} </h3>
+            </div>
         </div>
     );
 }
