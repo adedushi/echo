@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './SessionForms.css';
-import { signup, clearSessionErrors } from '../../store/session';
+import { login, signup, clearSessionErrors } from '../../store/session';
 
 function SignupForm() {
     const [email, setEmail] = useState('');
@@ -51,6 +51,13 @@ function SignupForm() {
         };
 
         dispatch(signup(user));
+    }
+
+    
+
+    const handleDemoLogin = (e) => {
+        e.preventDefault();
+        dispatch(login({ email: "demo-user@appacademy.io", password: "starwars" }))
     }
 
     const updateFile = e => setImage(e.target.files[0]);
@@ -104,6 +111,11 @@ function SignupForm() {
                 type="submit"
                 value="Sign Up"
                 disabled={!email || !username || !password || password !== password2}
+            />
+            <input
+                type="submit"
+                value="Demo Login"
+                onClick={handleDemoLogin}
             />
         </form>
     );

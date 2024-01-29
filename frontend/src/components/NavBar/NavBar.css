@@ -1,0 +1,25 @@
+.links-nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 150px;
+    padding-left: 0;
+    position: sticky;
+    top: 50px;
+    
+}
+
+.links-nav a {
+    order: 1;
+    margin-top: 20px;
+    color: #333;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    line-height: 30px;
+}
+
+.links-nav button {
+    order: 10;
+}

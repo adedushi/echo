@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearEchoErrors, fetchEchos, selectAllEchosArray } from '../../store/echos';
 import EchoBox from './EchoBox';
+import './Echos.css';
 
 function Echos() {
     const dispatch = useDispatch();
@@ -15,12 +16,14 @@ function Echos() {
     if (echos.length === 0) return <div>There are no Echos</div>;
 
     return (
-        <>
-            <h2>All Echos</h2>
-            {echos.map(echo => (
-                <EchoBox key={echo._id} echo={echo} />
-            ))}
-        </>
+        <div className="echos-container">
+            <div className="echos-list">
+                <h2>Echos Feed</h2>
+                {echos.map(echo => (
+                    <EchoBox key={echo._id} echo={echo} />
+                ))}
+            </div>
+        </div>
     );
 }
 

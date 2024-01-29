@@ -15,11 +15,13 @@ function NavBar() {
     const getLinks = () => {
         if (loggedIn) {
             return (
-                <div className="links-nav">
-                    <Link to={'/echos'}>All Echos</Link>
-                    <Link to={'/profile'}>Profile</Link>
-                    <Link to={'/echos/new'}>Write an Echo</Link>
-                    <button onClick={logoutUser}>Logout</button>
+                <div className="links-nav-bar">
+                    <div className="links-nav">
+                        <Link to={'/echos'}>Home</Link>
+                        <Link to={'/profile'}>Profile</Link>
+                        <Link to={'/echos/new'}>Create</Link> 
+                        <button onClick={logoutUser}>Logout</button>
+                    </div>
                 </div>
             );
         } else {
