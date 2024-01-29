@@ -17,11 +17,11 @@ function NavBar() {
             return (
                 <div className="links-nav-bar">
                     <div className="links-nav">
-                        <Link to={'/echos'}>Home</Link>
                         <Link to={'/profile'}>Profile</Link>
+                        <Link to={'/echos'}>Home</Link>
                         <Link to={'/echos/new'}>Create</Link> 
-                        <button onClick={logoutUser}>Logout</button>
                     </div>
+                    <button onClick={logoutUser} >Logout</button>
                 </div>
             );
         } else {
