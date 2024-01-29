@@ -1,0 +1,45 @@
+.echoCard {
+    width: 800px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.playContainer {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.upperEchoButton {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    margin: 0 5px;
+    background-color: blue;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    cursor: pointer;
+    transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+#playTriangle {
+    margin-left: 5px;
+}
+
+.upperEchoButton:hover {
+    opacity: 0.8;
+    transform: scale(1.03);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+
+#myWaveForm {
+    flex-grow: 1;
+    margin: 0 5px;
+}

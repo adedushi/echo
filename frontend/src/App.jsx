@@ -11,7 +11,6 @@ import SignupForm from './components/SessionForms/SignupForm';
 import Echos from './components/Echos/Echos';
 import Profile from './components/Profile/Profile';
 import EchoCompose from './components/Echos/EchoCompose';
-
 import { getCurrentUser } from './store/session';
 
 const Layout = () => {
