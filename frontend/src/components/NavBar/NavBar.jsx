@@ -34,7 +34,7 @@ function NavBar() {
 
     return (
         <>
-            <h1>MERN Twitter</h1>
+            <h1>Echo</h1>
             {getLinks()}
         </>
     );
