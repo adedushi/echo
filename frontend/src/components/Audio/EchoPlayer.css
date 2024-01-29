@@ -1,14 +1,13 @@
 .echoCard {
     width: 800px;
-    height: 200px;
+    height: 150px;
     display: flex;
     flex-direction: column;
-    background-color: lightgrey;
 }
 
 
-.upperEchoCard {
-    height: 80%;
+.playContainer {
+    height: 100%;
     display: flex;
     align-items: center;
 }
@@ -43,25 +42,4 @@
 #myWaveForm {
     flex-grow: 1;
     margin: 0 5px;
-}
-
-.lowerEchoCard {
-display: flex;
-justify-content: flex-end;
-align-items: center;
-height: 10%;
-}
-
-.lowerEchoButton {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: white;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 10px;
 }
