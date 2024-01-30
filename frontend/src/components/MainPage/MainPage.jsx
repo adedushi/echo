@@ -47,6 +47,20 @@ function MainPage() {
                     <div id='titleContainer'>
                         <h1>Echo</h1>
                         <h3>Listen now. now. now. now.</h3>
+                        <div id='subTitle'>
+                            <div id='barContainer'>
+                                <div className='soundBar'></div>
+                                <div className='soundBar'></div>
+                                <div className='soundBar'></div>
+                                <div className='soundBar'></div>
+                                <div className='soundBar'></div>
+                                <div className='soundBar'></div>
+                                <div className='soundBar'></div>
+                                <div className='soundBar'></div>
+                                <div className='soundBar'></div>
+                                <div className='soundBar'></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -79,6 +93,7 @@ function MainPage() {
                         value="Demo Login"
                         onClick={handleDemoLogin}
                     />
+                    <div id='dividerLine'></div>
                     <input 
                         id="signUpButton"
                         type="submit" 

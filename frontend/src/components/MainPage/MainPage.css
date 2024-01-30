@@ -32,9 +32,59 @@
     font-family: 'rubikBold' sans-serif;
     font-weight: bold;
     font-size: 2vh;
-    margin-left: 65%;
+    margin-left: 52%;
     margin-top: -2%;
 }
+
+#barContainer {
+    width: 4vw;
+    height: 3vh;
+    display: flex;
+    justify-content: left;
+    transform: rotate(180deg);
+    position: fixed;
+    margin-left: 30%;
+    margin-top: -1.65%;
+}
+
+.soundBar {
+    /* background: #000000;
+    bottom: 1px;
+    height: 7px;
+    width: 10px;      
+    animation: sound 0ms -800ms linear infinite alternate; */
+    display: block;
+    width: 4px;
+    margin-right: 4px;
+    height: 23px;
+    border-radius:20px;
+    background: black;
+    animation: sound 0ms -800ms linear infinite alternate;
+    transition: height 0.8s;
+}
+
+@keyframes sound {
+    0% {
+       opacity: .35;
+        height: 3px; 
+    }
+    100% {
+        opacity: 1;       
+        height: 23px;        
+    }
+}
+ 
+ .soundBar:nth-child(1)  { left: 1px; animation-duration: 574ms; }
+ .soundBar:nth-child(2)  { left: 5px; animation-duration: 533ms; }
+ .soundBar:nth-child(3)  { left: 9px; animation-duration: 507ms; }
+ .soundBar:nth-child(4)  { left: 13px; animation-duration: 448ms; }
+ .soundBar:nth-child(5)  { left: 17px; animation-duration: 400ms; }
+ .soundBar:nth-child(6)  { left: 21px; animation-duration: 547ms; }
+ .soundBar:nth-child(7)  { left: 25px; animation-duration: 551ms; }
+ .soundBar:nth-child(8)  { left: 29px; animation-duration: 419ms; }
+ .soundBar:nth-child(9)  { left: 33px; animation-duration: 347ms; }
+ .soundBar:nth-child(10) { left: 37px; animation-duration: 352ms; }​
+
 
 .right-side-welcome {
     width: 50%;
@@ -55,7 +105,7 @@
 }
 
 .session-form {
-    border: 2px solid orange;
+    /* border: 2px solid orange; */
     width: 95%;
     height: 95%;
     display: flex;
@@ -99,8 +149,16 @@
     cursor: pointer;
 }
 
+#dividerLine {
+    width: 500px;
+    border-bottom: 4px solid rgba(128, 128, 128, 0.679);
+    position: absolute;
+    margin-top: 16%;
+}
+
 #signUpButton {
     background-color: rgb(99, 172, 255);
+    margin-top: 10%;
 }
 
 .session-form input[type='submit']:hover {
