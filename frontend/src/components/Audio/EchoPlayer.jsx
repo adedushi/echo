@@ -17,7 +17,7 @@ function WaveTest({ audioUrl, index }) {
             barWidth: 7.5,
             // barHeight: 1,
             cursorColor: "#7a49a5",
-            cursorWidth: 2,
+            cursorWidth: 0,
             dragToSeek: true,
             hideScrollbar: true,
             normalize: true,

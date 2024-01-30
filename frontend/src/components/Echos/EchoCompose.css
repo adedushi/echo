@@ -1,13 +1,19 @@
 .compose-echo {
-    height: 200px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    border: 1px solid black
+}
+
+.compose-echo-form {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.echo-upload-button:hover {
+    cursor: pointer;
 }
 
 .echo-text {
-    width: 100%;
 }
 
 .echo-preview {
