@@ -11,35 +11,8 @@ const NUM_SEED_ECHOS = 30;
 const DEFAULT_PROFILE_IMAGE_URL = 'https://teamlab-echo.s3.amazonaws.com/public/blank-profile-picture.png';
 const DEFAULT_AUDIO_URL = 'https://teamlab-echo.s3.amazonaws.com/public/baby-shark.mp3'
 
-const addLikes = () => {
-    likes = []
-    for (let i = 0; i < 5; i++) {
-        likes.push(users[i]._id)
-    }
-    return likes
-}
-
-const addReplies = () => {
-    replies = []
-    for (let i = 0; i < 2; i++) {
-        replies.push({
-            replyAuthor: users[i]._id,
-            replyAudioUrl: DEFAULT_AUDIO_URL,
-            replyText: undefined
-        })
-    }
-    return replies
-}
-
-const addReverbs = () => {
-    const reverbs = []
-    for (let i = 0; i < 2; i++) {
-        reverbs.push(users[i]._id)
-    }
-    return reverbs
-}
-
 const users = [];
+const echos = [];
 
 users.push(
     new User({
@@ -52,29 +25,89 @@ users.push(
 for (let i = 1; i < NUM_SEED_USERS; i++) {
     const firstName = faker.name.firstName();
     const lastName = faker.name.lastName();
-    users.push(
-        new User({
-            username: faker.internet.userName(firstName, lastName),
-            email: faker.internet.email(firstName, lastName),
-            hashedPassword: bcrypt.hashSync(faker.internet.password(), 10),
-            profileImageUrl: DEFAULT_PROFILE_IMAGE_URL
-        })
-    )
+
+    const newUser = new User({
+        username: faker.internet.userName(firstName, lastName),
+        email: faker.internet.email(firstName, lastName),
+        hashedPassword: bcrypt.hashSync(faker.internet.password(), 10),
+        profileImageUrl: DEFAULT_PROFILE_IMAGE_URL,
+    })
+    users.push(newUser)
 }
 
-const echos = [];
+
+const addEchoLikes = () => {
+    const likes = []
+    while (likes.length < 2) {
+        const id = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+        if (!likes.includes(id)) {
+            likes.push(id)
+        }
+    }
+    return likes
+}
+
+const addEchoReplies = () => {
+    const replies = []
+    for (let i = 0; i < 2; i++) {
+        replies.push({
+            replyAuthor: users[i]._id,
+            replyAudioUrl: DEFAULT_AUDIO_URL,
+            replyText: undefined
+        })
+    }
+    return replies
+}
+
+const addEchoReverbs = () => {
+    const reverbs = []
+    while (reverbs.length < 2) {
+        const id = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+        if (!reverbs.includes(id)) {
+            reverbs.push(id)
+        }
+    }
+    return reverbs
+}
+
 
 for (let i = 0; i < NUM_SEED_ECHOS; i++) {
+    const echoLikes = addEchoLikes()
+    const echoReplies = addEchoReplies()
+    const echoReverbs = addEchoReverbs()
+
     echos.push(
         new Echo({
             title: faker.hacker.phrase(),
             author: users[Math.floor(Math.random() * NUM_SEED_USERS)]._id,
             audioUrl: DEFAULT_AUDIO_URL,
-            replies: addReplies(),
-            likes: addLikes(),
-            reverbs: addReverbs()
+            replies: echoReplies,
+            likes: echoLikes,
+            reverbs: echoReverbs
         })
     )
+}
+
+for (let i = 0; i < users.length; i++) {
+    const user = users[i]
+    const userId = user._id;
+    user.echos = echos.filter(echo => echo.author === userId);
+    user.likes = []
+    for (let i = 0; i < echos.length; i++) {
+        const echo = echos[i]
+        if (echo.likes.includes(userId)) {
+            user.likes.push(echo._id)
+        }
+    }
+    user.reverbs = []
+    for (let i = 0; i < echos.length; i++) {
+        const echo = echos[i]
+        if (echo.reverbs.includes(userId)) {
+            user.reverbs.push(echo._id)
+        }
+    }
+    // user.likes = echos.filter(echo => echo.likes.includes(userId))
+    // user.reverbs = echos.filter(echo => echo.reverbs.includes(userId));
 }
 
 
