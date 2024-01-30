@@ -10,11 +10,12 @@ function WaveTest({ audioUrl, index }) {
     useEffect(() => {
         const mySong = WaveSurfer.create({
             container: `#${waveformId}`,
-            waveColor: '#88cafb',
+            waveColor: ['#88cafb', "#7a49a5"],
             // barHeight: .75,
             barRadius: 100,
             height: 50,
-            barWidth: 1,
+            barWidth: 7.5,
+            // barHeight: 1,
             cursorColor: "#7a49a5",
             cursorWidth: 2,
             dragToSeek: true,

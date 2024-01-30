@@ -11,9 +11,9 @@ function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs } }) {
                 <WaveTest index={_id} audioUrl={audioUrl}/>
             </div>
             <div className="echo-details">
-                <h3><i className="fa-regular fa-comment"></i> {replies.length}</h3>
-                <h3><i className="fa-regular fa-heart"></i> {likes.length} </h3>
-                <h3><i className="fa-solid fa-satellite-dish"></i> {reverbs.length} </h3>
+                {replies === null ? null : <h3><i className="fa-solid fa-comment" id='reply-button'></i> {replies.length}</h3> }
+                {likes === null ? null : <h3><i className="fa-solid fa-heart" background-color='red' id='like-button'></i> {likes.length}</h3>}
+                {reverbs === null ? null : <h3><i className="fas fa-satellite-dish" id='reverb-button'></i> {reverbs.length}</h3>}
             </div>
         </div>
     );
