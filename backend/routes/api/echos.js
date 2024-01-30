@@ -37,44 +37,44 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/user/:userId', async (req, res, next) => {
-    let user;
-    try {
-        user = await User.findById(req.params.userId);
-    } catch (err) {
-        const error = new Error('User not found');
-        error.statusCode = 404;
-        error.errors = { message: "No user found with that id" };
-        return next(error);
-    }
-    try {
-        const echos = await Echo.find({ author: user._id })
-            .sort({ createdAt: -1 })
-            .populate({
-                path: 'author',
-                select: '_id username profileImageUrl'
-            })
-            .populate({
-                path: 'replies',
-                populate: {
-                    path: 'replyAuthor',
-                    select: '_id username profileImageUrl'
-                }
-            })
-            .populate({
-                path: 'likes',
-                select: '_id username'
-            })
-            .populate({
-                path: 'reverbs',
-                select: '_id username'
-            })
-        return res.json(echos);
-    }
-    catch (err) {
-        return res.json([]);
-    }
-})
+// router.get('/user/:userId', async (req, res, next) => {
+//     let user;
+//     try {
+//         user = await User.findById(req.params.userId);
+//     } catch (err) {
+//         const error = new Error('User not found');
+//         error.statusCode = 404;
+//         error.errors = { message: "No user found with that id" };
+//         return next(error);
+//     }
+//     try {
+//         const echos = await Echo.find({ author: user._id })
+//             .sort({ createdAt: -1 })
+//             .populate({
+//                 path: 'author',
+//                 select: '_id username profileImageUrl'
+//             })
+//             .populate({
+//                 path: 'replies',
+//                 populate: {
+//                     path: 'replyAuthor',
+//                     select: '_id username profileImageUrl'
+//                 }
+//             })
+//             .populate({
+//                 path: 'likes',
+//                 select: '_id username'
+//             })
+//             .populate({
+//                 path: 'reverbs',
+//                 select: '_id username'
+//             })
+//         return res.json(echos);
+//     }
+//     catch (err) {
+//         return res.json([]);
+//     }
+// })
 
 router.get('/:id', async (req, res, next) => {
     try {
@@ -100,17 +100,15 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
-router.post('/', singleMulterUpload("audio"), requireUser,  async (req, res, next) => {
-    const audioUrl = await singleFileUpload({ file: req.file, isPublic: true }) 
-    // const audioUrl = "https://teamlab-echo.s3.amazonaws.com/public/baby-shark.mp3"
-    console.log("request:", req);
+router.post('/', singleMulterUpload("audio"), requireUser, validateEchoInput, async (req, res, next) => {
     try {
+        const audioUrl = await singleFileUpload({ file: req.file, isPublic: true }) 
+
         const newEcho = new Echo({
             title: req.body.title,
             audioUrl,
             author: req.user._id
         });
-        console.log("newecho:", newEcho);
 
         let echo = await newEcho.save();
         echo = await echo.populate("author", "_id username profileImageUrl");

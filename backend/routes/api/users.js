@@ -108,7 +108,7 @@ router.get('/:userId', async (req, res) => {
       select: '_id title audioUrl author likes reverbs replies',
       populate: {
         path: 'author',
-        select: '_id author username'
+        select: '_id author username profileImageUrl'
       }
     })
     .populate({
@@ -116,7 +116,7 @@ router.get('/:userId', async (req, res) => {
       select: '_id title audioUrl author likes reverbs replies',
       populate: {
         path: 'author',
-        select: '_id author username'
+        select: '_id author username profileImageUrl'
       }
     })
     .populate({
@@ -125,11 +125,11 @@ router.get('/:userId', async (req, res) => {
     })
     .populate({
       path: 'followers',
-      select: '_id username'
+      select: '_id username profileImageUrl'
     })
     .populate({
       path: 'following',
-      select: '_id username'
+      select: '_id username ProfileImageUrl'
     })
 
   if (!user) {
@@ -152,8 +152,9 @@ router.get('/:userId', async (req, res) => {
     (a, b) => b.createdAt - a.createdAt
   );
 
-  console.log(profileFeed)
   user.profileFeed = profileFeed;
+  await user.save()
+  
   return res.json(user)
 })
 
@@ -185,41 +186,41 @@ router.get('/:userId/feed', async (req, res) => {
     }
 })
 
-router.get('/:userId/profile', async (req, res) => {
-  try {
-    const userId = req.params.userId;
+// router.get('/:userId/profile', async (req, res) => {
+//   try {
+//     const userId = req.params.userId;
 
-    // Retrieve echos and reverbs of the user
-    const userEchos = await Echo.find({ author: userId })
-      .sort({ createdAt: -1 })
-      .populate('author', '_id username profileImageUrl');
+//     // Retrieve echos and reverbs of the user
+//     const userEchos = await Echo.find({ author: userId })
+//       .sort({ createdAt: -1 })
+//       .populate('author', '_id username profileImageUrl');
 
-    // Retrieve reverb echos using the user's reverbs list
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
+//     // Retrieve reverb echos using the user's reverbs list
+//     const user = await User.findById(userId);
+//     if (!user) {
+//       return res.status(404).json({ error: 'User not found' });
+//     }
 
-    const userReverbEchos = await Echo.find({ _id: { $in: user.reverbs } })
-      .sort({ createdAt: -1 })
-      .populate('author', '_id username profileImageUrl');
+//     const userReverbEchos = await Echo.find({ _id: { $in: user.reverbs } })
+//       .sort({ createdAt: -1 })
+//       .populate('author', '_id username profileImageUrl');
 
-    const reverbEchosWithAttribute = userReverbEchos.map((echo) => ({
-      ...echo.toObject(),
-      wasReverb: true,
-    }));
+//     const reverbEchosWithAttribute = userReverbEchos.map((echo) => ({
+//       ...echo.toObject(),
+//       wasReverb: true,
+//     }));
 
-    // Combine echos and reverb echos into a single array
-    const profileFeed = [...userEchos, ...reverbEchosWithAttribute].sort(
-      (a, b) => b.createdAt - a.createdAt
-    );
+//     // Combine echos and reverb echos into a single array
+//     const profileFeed = [...userEchos, ...reverbEchosWithAttribute].sort(
+//       (a, b) => b.createdAt - a.createdAt
+//     );
 
-    return res.json(profileFeed);
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: 'Internal Server Error' });
-  }
-});
+//     return res.json(profileFeed);
+//   } catch (err) {
+//     console.error(err);
+//     return res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
 
 
 

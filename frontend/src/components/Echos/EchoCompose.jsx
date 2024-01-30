@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { clearEchoErrors, composeEcho } from '../../store/echos';
 import EchoBox from './EchoBox';
 import './EchoCompose.css';
+import EchoRecorder from './EchoRecorder';
 
 function EchoCompose() {
     const [title, setTitle] = useState('');
@@ -28,34 +29,15 @@ function EchoCompose() {
 
     const update = e => setTitle(e.currentTarget.value);
 
-    // const updateFiles = async e => {
-    //     const files = e.target.files;
-    //     setAudio(files);
-    //     if (files.length !== 0) {
-    //         let filesLoaded = 0;
-    //         const urls = [];
-    //         Array.from(files).forEach((file, index) => {
-    //             const fileReader = new FileReader();
-    //             fileReader.readAsDataURL(file);
-    //             fileReader.onload = () => {
-    //                 urls[index] = fileReader.result;
-    //                 if (++filesLoaded === files.length)
-    //                     setAudioUrl(urls);
-    //             }
-    //         });
-    //     }
-    //     else setAudioUrl([]);
-    // }
-
-    // const updateFile = e => setAudio(e.target.files[0]);
-
+    
     const updateFile = async e => {
-        const file = e.target.files[0];
-
+        let file = null
+        if (e) {
+            file = e.target.files[0]
+        }
         if (file) {
             const audio = new Audio();
             audio.src = URL.createObjectURL(file);
-
             audio.onloadedmetadata = () => {
                 if (audio.duration <= 30) {
                     setAudio(file);
@@ -70,16 +52,20 @@ function EchoCompose() {
                     setAudioUrl(null);
                 }
             };
-        } else {
-            setAudio(null);
-            setAudioUrl(null);
-        }
+        } else if (audio) {
+            console.log('audio exists')
+        } 
+        // else {
+        //     setAudio(null);
+        //     setAudioUrl(null);
+        // }
     }
 
     
     return (
         <div className="compose-echo">
             <form className="compose-echo-form" onSubmit={handleSubmit}>
+                <div className="errors">{errors?.title}</div>
                 <input
                     type="textarea"
                     value={title}
@@ -88,18 +74,20 @@ function EchoCompose() {
                     required
                     className="echo-text"
                 />
-                <div className="errors">{errors?.title}</div>
-                <input type="submit" value="Submit" />
-                <label>
-                    Audio to Upload
+                <label >
                     <input
                         type="file"
                         ref={fileRef}
                         accept=".wav, .mp3, .mp4, .aac"
                         onChange={updateFile}
-                        className="upload-button" />
+                    />
                 </label>
+                <input type="submit" value="Submit" />
+                <div>
+                    <EchoRecorder setAudio={setAudio} setAudioUrl={setAudioUrl} updateFile={updateFile} />
+                </div>
             </form>
+
             <div className="echo-preview">
                 <h3>Echo Preview</h3>
                 {(title || audioUrl !== null) ?

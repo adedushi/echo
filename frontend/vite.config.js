@@ -18,5 +18,8 @@ export default defineConfig(({ mode }) => ({
     // To automatically open the app in the browser whenever the server starts,
     // uncomment the following line:
     // open: true
+  },
+  optimizeDeps: {
+    exclude: ['react-audio-voice-recorder']
   }
 }));
