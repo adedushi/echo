@@ -1,45 +1,41 @@
-.echoCard {
-    width: 800px;
-    height: 150px;
+.play-container {
+    width: 100%;
     display: flex;
-    flex-direction: column;
-}
-
-
-.playContainer {
-    height: 100%;
-    display: flex;
+    justify-content: center;
     align-items: center;
+    overflow:auto
 }
 
-.upperEchoButton {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
+.audio-buttons {
+    height: 100%;
+    border-radius: 100%;
     border: none;
+    margin: 0;
+    padding: 0;
     outline: none;
-    margin: 0 5px;
     background-color: blue;
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 50px;
+    font-size: 40px;
     cursor: pointer;
     transition: opacity 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 
-#playTriangle {
-    margin-left: 5px;
+#play-button,
+#pause-button {
+    max-width: 100%;
+    max-height: 100%;
 }
 
-.upperEchoButton:hover {
+.audio-buttons:hover {
     opacity: 0.8;
     transform: scale(1.03);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  }
+}
 
-#myWaveForm {
-    flex-grow: 1;
+.myWaveForm {
+    flex-grow: .95;
     margin: 0 5px;
 }
