@@ -45,9 +45,9 @@ function MainPage() {
         <div className="welcome-page">
                 <div className="left-side-welcome">
                     <div id='titleContainer'>
-                        <h1>Echo</h1>
-                        <h3>Listen now. now. now. now.</h3>
+                        <div className='titleWrapper'><h1>Echo</h1></div>
                         <div id='subTitle'>
+                        <h3>Listen now. now. now. now.</h3>
                             <div id='barContainer'>
                                 <div className='soundBar'></div>
                                 <div className='soundBar'></div>
@@ -68,21 +68,22 @@ function MainPage() {
                     <div id='signInContainer'>
                     <form className="session-form" onSubmit={handleSubmit}>
                     <div className="errors">{errors?.email}</div>
-                    <label>
+                    
                         <input type="text"
                             value={email}
                             onChange={update('email')}
                             placeholder="Email"
                         />
-                    </label>
+                
+                    
                     <div className="errors">{errors?.password}</div>
-                    <label>
+                 
                         <input type="password"
                             value={password}
                             onChange={update('password')}
                             placeholder="Password"
                         />
-                    </label>
+                    
                     <input
                         type="submit"
                         value="Log In"

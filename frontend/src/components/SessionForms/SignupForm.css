@@ -24,7 +24,7 @@
 }
 
 .signUpForm {
-    width: 38vw;
+    width: 35vw;
     height: 70vh;
     display: flex;
     flex-direction: column;
@@ -34,18 +34,18 @@
 
 .signUpForm h2 {
     font-size: 36px;
-    margin-right: 39%;
+    margin-right: 43%;
 }
 
 .signUpForm h3 {
     font-size: 20px;
-    margin-right: 58%;
+    margin-right: 63.5%;
     margin-top: 3%;
 }
 
 .signUpInput {
-    width: 600px;
-    height: 50px;
+    width: 90%;
+    height: 5vh;
     font-size: 20px;
     border-radius: 10px;
     border: 1px solid #ccc;
@@ -55,8 +55,8 @@
 
 .signUpForm input[type='submit'] {
     margin-top: 35px;
-    width: 600px;
-    height: 50px;
+    width: 90%;
+    height: 5vh;
     padding: 5px;
     border: none;
     border-radius: 10px;
