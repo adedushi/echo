@@ -6,12 +6,12 @@ import { AuthRoute, ProtectedRoute } from './components/Routes/Routes';
 import NavBar from './components/NavBar/NavBar';
 
 import MainPage from './components/MainPage/MainPage';
-import LoginForm from './components/SessionForms/LoginForm';
 import SignupForm from './components/SessionForms/SignupForm';
 import Echos from './components/Echos/Echos';
 import Profile from './components/Profile/Profile';
 import EchoCompose from './components/Echos/EchoCompose';
 import { getCurrentUser } from './store/session';
+import About from './components/About/About';
 
 const Layout = () => {
   return (
@@ -51,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: "profile",
         element: <ProtectedRoute component={Profile} />
+      },
+      {
+        path: "/about",
+        element: <About />
       }
     ]
   }

@@ -16,14 +16,20 @@ function Echos() {
     if (echos.length === 0) return <div>There are no Echos</div>;
 
     return (
+        <>
+        <div id='mainEchoContainer'>
         <div className="echos-container">
+            <div className='topEchoNav'>
+                    <h1>Your Feed</h1>
+            </div>
             <div className="echos-list">
-                <h2>Echos Feed</h2>
                 {echos.map(echo => (
                     <EchoBox key={echo._id} echo={echo} />
                 ))}
             </div>
         </div>
+        </div>
+        </>
     );
 }
 
