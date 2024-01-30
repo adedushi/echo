@@ -5,7 +5,7 @@ import EchoBox from './EchoBox';
 import './EchoCompose.css';
 
 function EchoCompose() {
-    const [text, setText] = useState('');
+    const [title, setTitle] = useState('');
     const dispatch = useDispatch();
     const author = useSelector(state => state.session.user);
     const errors = useSelector(state => state.errors.echos);
@@ -19,14 +19,14 @@ function EchoCompose() {
 
     const handleSubmit = e => {
         e.preventDefault();
-        dispatch(composeEcho(text, audio));
+        dispatch(composeEcho(title, audio));
         setAudio(null);
         setAudioUrl(null);
-        setText('');
+        setTitle('');
         fileRef.current.value = null;
     };
 
-    const update = e => setText(e.currentTarget.value);
+    const update = e => setTitle(e.currentTarget.value);
 
     // const updateFiles = async e => {
     //     const files = e.target.files;
@@ -82,13 +82,13 @@ function EchoCompose() {
             <form className="compose-echo-form" onSubmit={handleSubmit}>
                 <input
                     type="textarea"
-                    value={text}
+                    value={title}
                     onChange={update}
                     placeholder="Give your echo a title..."
                     required
                     className="echo-text"
                 />
-                <div className="errors">{errors?.text}</div>
+                <div className="errors">{errors?.title}</div>
                 <input type="submit" value="Submit" />
                 <label>
                     Audio to Upload
@@ -102,8 +102,8 @@ function EchoCompose() {
             </form>
             <div className="echo-preview">
                 <h3>Echo Preview</h3>
-                {(text || audioUrl !== null) ?
-                    <EchoBox echo={{ text, author, audioUrl, replies: null, likes: null, reverbs: null }} /> :
+                {(title || audioUrl !== null) ?
+                    <EchoBox echo={{ title, author, audioUrl, replies: null, likes: null, reverbs: null }} /> :
                     undefined}
             </div>
         </div>
