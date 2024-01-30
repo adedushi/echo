@@ -6,7 +6,7 @@ const validateEchoInput = [
         .exists({ checkFalsy: true })
         .isLength({ min: 5, max: 40 })
         .withMessage('Title must be between 5 and 40 characters'),
-    check('audioUrl')
+    check('audio')
         .exists({ checkFalsy: true })
         .withMessage('Recording must be included in an Echo'),
     handleValidationErrors
