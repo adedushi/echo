@@ -8,11 +8,10 @@ function EchoCompose() {
     const [text, setText] = useState('');
     const dispatch = useDispatch();
     const author = useSelector(state => state.session.user);
-    const newEcho = useSelector(state => state.echos.new);
     const errors = useSelector(state => state.errors.echos);
     const fileRef = useRef(null);
-    const [images, setImages] = useState([]);
-    const [imageUrls, setImageUrls] = useState([]);
+    const [audio, setAudio] = useState(null);
+    const [audioUrl, setAudioUrl] = useState(null);
 
     useEffect(() => {
         return () => dispatch(clearEchoErrors());
@@ -20,68 +19,94 @@ function EchoCompose() {
 
     const handleSubmit = e => {
         e.preventDefault();
-        dispatch(composeEcho(text, images));
-        setImages([]);
-        setImageUrls([]);
+        dispatch(composeEcho(text, audio));
+        setAudio(null);
+        setAudioUrl(null);
         setText('');
         fileRef.current.value = null;
     };
 
     const update = e => setText(e.currentTarget.value);
 
-    const updateFiles = async e => {
-        const files = e.target.files;
-        setImages(files);
-        if (files.length !== 0) {
-            let filesLoaded = 0;
-            const urls = [];
-            Array.from(files).forEach((file, index) => {
-                const fileReader = new FileReader();
-                fileReader.readAsDataURL(file);
-                fileReader.onload = () => {
-                    urls[index] = fileReader.result;
-                    if (++filesLoaded === files.length)
-                        setImageUrls(urls);
+    // const updateFiles = async e => {
+    //     const files = e.target.files;
+    //     setAudio(files);
+    //     if (files.length !== 0) {
+    //         let filesLoaded = 0;
+    //         const urls = [];
+    //         Array.from(files).forEach((file, index) => {
+    //             const fileReader = new FileReader();
+    //             fileReader.readAsDataURL(file);
+    //             fileReader.onload = () => {
+    //                 urls[index] = fileReader.result;
+    //                 if (++filesLoaded === files.length)
+    //                     setAudioUrl(urls);
+    //             }
+    //         });
+    //     }
+    //     else setAudioUrl([]);
+    // }
+
+    // const updateFile = e => setAudio(e.target.files[0]);
+
+    const updateFile = async e => {
+        const file = e.target.files[0];
+
+        if (file) {
+            const audio = new Audio();
+            audio.src = URL.createObjectURL(file);
+
+            audio.onloadedmetadata = () => {
+                if (audio.duration <= 30) {
+                    setAudio(file);
+                    const fileReader = new FileReader();
+                    fileReader.readAsDataURL(file);
+                    fileReader.onload = () => {
+                        setAudioUrl(fileReader.result);
+                    };
+                } else {
+                    alert("Please upload an audio file less than 30 seconds long.");
+                    setAudio(null);
+                    setAudioUrl(null);
                 }
-            });
+            };
+        } else {
+            setAudio(null);
+            setAudioUrl(null);
         }
-        else setImageUrls([]);
     }
 
-
+    
     return (
-        <>
-            <form className="compose-echo" onSubmit={handleSubmit}>
+        <div className="compose-echo">
+            <form className="compose-echo-form" onSubmit={handleSubmit}>
                 <input
                     type="textarea"
                     value={text}
                     onChange={update}
-                    placeholder="Write your echo..."
+                    placeholder="Give your echo a title..."
                     required
+                    className="echo-text"
                 />
                 <div className="errors">{errors?.text}</div>
                 <input type="submit" value="Submit" />
                 <label>
-                    Images to Upload
+                    Audio to Upload
                     <input
                         type="file"
                         ref={fileRef}
-                        accept=".jpg, .jpeg, .png"
-                        multiple
-                        onChange={updateFiles} />
+                        accept=".wav, .mp3, .mp4, .aac"
+                        onChange={updateFile}
+                        className="upload-button" />
                 </label>
             </form>
             <div className="echo-preview">
                 <h3>Echo Preview</h3>
-                {(text || imageUrls.length !== 0) ?
-                    <EchoBox echo={{ text, author, imageUrls }} /> :
+                {(text || audioUrl !== null) ?
+                    <EchoBox echo={{ text, author, audioUrl, replies: null, likes: null, reverbs: null }} /> :
                     undefined}
             </div>
-            <div className="previous-echo">
-                <h3>Previous Echo</h3>
-                {newEcho ? <EchoBox echo={newEcho} /> : undefined}
-            </div>
-        </>
+        </div>
     )
 }
 

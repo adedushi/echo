@@ -1,26 +1,32 @@
+.echos-list {
+    display: flex;
+    flex-direction: column;
+}
+
 .echo-box {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    max-height: 100%;
+    /* max-height: 100%; */
     margin: 0px;
     border-radius: 10px;
-    margin-bottom: 5px;
     min-height: 57px;
     width: 512px;
-    height: 140px;
+    height: 180px;
+    gap: 15px;
 }
 
 .echo-content {
     max-height: 100%;
     display: flex;
     align-items: center;
+    gap: 10px;
 }
 
 .echo-details {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    /* justify-content: flex-start; */
     gap: 15px;
 }
 
@@ -41,3 +47,19 @@
     aspect-ratio: 1 / 1;
 }
 
+#reverb-button {
+    color: lightseagreen;
+}
+
+#like-button {
+    color: crimson;
+    opacity: 100%;
+}
+
+#reply-button {
+    color: royalblue;
+}
+
+.upload-button{
+    display: none
+}
