@@ -23,21 +23,17 @@ const Layout = () => {
 };
 
 const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <AuthRoute component={MainPage} />
+    },
+    {
+      path: "signup",
+      element: <AuthRoute component={SignupForm} />
+    },
   {
     element: <Layout />,
     children: [
-      {
-        path: "/",
-        element: <AuthRoute component={MainPage} />
-      },
-      {
-        path: "login",
-        element: <AuthRoute component={LoginForm} />
-      },
-      {
-        path: "signup",
-        element: <AuthRoute component={SignupForm} />
-      },
       {
         path: "echos",
         element: <Outlet />,

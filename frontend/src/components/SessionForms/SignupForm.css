@@ -1,0 +1,105 @@
+@font-face {
+    font-family: 'rubikBold';
+    src: url(../../../assets/fonts/Rubik-Bold.ttf) format('ttf');
+}
+
+#signUpBG {
+    background-color: whitesmoke;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+#signUpContainer {
+    margin-top: 5%;
+    width: 40vw;
+    height: 75vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    border-radius: 5%;
+    box-shadow: 2px 2px 2px 2px rgba(0.2, 0.2, 0.2, 0.2);
+}
+
+.signUpForm {
+    width: 38vw;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'rubikBold', sans-serif;
+}
+
+.signUpForm h2 {
+    font-size: 36px;
+    margin-right: 39%;
+}
+
+.signUpForm h3 {
+    font-size: 20px;
+    margin-right: 58%;
+    margin-top: 3%;
+}
+
+.signUpInput {
+    width: 600px;
+    height: 50px;
+    font-size: 20px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 2px;
+    background-color: #afe1af98;
+}
+
+.signUpForm input[type='submit'] {
+    margin-top: 35px;
+    width: 600px;
+    height: 50px;
+    padding: 5px;
+    border: none;
+    border-radius: 10px;
+    background-color: #AFE1AF;
+    color: black;
+    font-family: 'rubikBold' sans-serif;
+    font-size: 2vh;
+    font-weight: bold;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.signUpForm input[type='submit']:hover {
+    transform: scale(1.02); 
+    opacity: 0.8;
+}
+
+.signUpForm input[type="file"] {
+    width: 100%;
+    opacity: 50%;
+    cursor: pointer;
+}
+
+#fileInputContainer {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    width: 600px;
+    height: 80px;
+}
+
+#uploadProfilePic {
+    font-size: 16px;
+    margin-left: 0;
+    font-weight: bold;
+}
+
+#uploadDivide {
+    width: 600px;
+    border-top: 4px solid rgba(128, 128, 128, 0.667);
+    margin-bottom: 2%;
+    margin-top: 1%;
+}
+
+

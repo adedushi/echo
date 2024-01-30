@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import './SessionForms.css';
+import "./SignupForm.css"
 import { login, signup, clearSessionErrors } from '../../store/session';
 
 function SignupForm() {
@@ -63,50 +63,51 @@ function SignupForm() {
     const updateFile = e => setImage(e.target.files[0]);
 
     return (
-        <form className="session-form" onSubmit={handleSubmit}>
-            <h2>Sign Up Form</h2>
+        <>
+        <div id='signUpBG'>
+        <div id='signUpContainer'>
+        <form className="signUpForm" onSubmit={handleSubmit}>
+            <h2>Create Your Account</h2>
+            <h3>Start listening today!</h3>
             <div className="errors">{errors?.email}</div>
-            <label>
-                <span>Email</span>
-                <input type="text"
+            
+                <input className='signUpInput' type="text"
                     value={email}
                     onChange={update('email')}
-                    placeholder="Email"
+                    placeholder="Enter your email"
                 />
-            </label>
+            
             <div className="errors">{errors?.username}</div>
-            <label>
-                <span>Username</span>
-                <input type="text"
+            
+                <input className='signUpInput' type="text"
                     value={username}
                     onChange={update('username')}
-                    placeholder="Username"
+                    placeholder="Pick a username"
                 />
-            </label>
+            
             <div className="errors">{errors?.password}</div>
-            <label>
-                <span>Password</span>
-                <input type="password"
+            
+                <input className='signUpInput' type="password"
                     value={password}
                     onChange={update('password')}
-                    placeholder="Password"
+                    placeholder="Enter a password"
                 />
-            </label>
+            
             <div className="errors">
                 {password !== password2 && 'Confirm Password field must match'}
             </div>
-            <label>
-                <span>Confirm Password</span>
-                <input type="password"
+            
+                <input className='signUpInput' type="password"
                     value={password2}
                     onChange={update('password2')}
                     placeholder="Confirm Password"
                 />
-            </label>
-            <label>
-                Profile Image
-                <input type="file" accept=".jpg, .jpeg, .png" onChange={updateFile} />
-            </label>
+            
+            <div id='fileInputContainer'>
+            <h3 id='uploadProfilePic'>Upload Profile Picture</h3>
+            <div id='uploadDivide'></div>
+            <div className='fileInputContainer'><input type="file" accept=".jpg, .jpeg, .png" onChange={updateFile} /></div>
+            </div>
             <input
                 type="submit"
                 value="Sign Up"
@@ -118,6 +119,9 @@ function SignupForm() {
                 onClick={handleDemoLogin}
             />
         </form>
+        </div>
+        </div>
+        </>
     );
 }
 
