@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { login, clearSessionErrors } from '../../store/session';
+import { useNavigate } from 'react-router';
 import "./MainPage.css";
 
 function MainPage() {
@@ -8,6 +9,7 @@ function MainPage() {
     const [password, setPassword] = useState('');
     const errors = useSelector(state => state.errors.session);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -31,6 +33,11 @@ function MainPage() {
         dispatch(login({ email: "demo-user@appacademy.io", password: "starwars" }))
     }
 
+    const sendToSignUp = (e) => {
+        e.preventDefault();
+        navigate("/signup");
+    }
+
 
 
 
@@ -39,7 +46,7 @@ function MainPage() {
                 <div className="left-side-welcome">
                     <div id='titleContainer'>
                         <h1>Echo</h1>
-                        <h3>Listen now.</h3>
+                        <h3>Listen now. now. now. now.</h3>
                     </div>
                 </div>
 
@@ -71,6 +78,12 @@ function MainPage() {
                         type="submit"
                         value="Demo Login"
                         onClick={handleDemoLogin}
+                    />
+                    <input 
+                        id="signUpButton"
+                        type="submit" 
+                        value="Sign Up"
+                        onClick={sendToSignUp}
                     />
                     </form>
                     </div>

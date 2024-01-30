@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'rubikBold';
+    src: url('../../../assets/fonts/Rubik-Bold.ttf') format('ttf');
+}
+
 .welcome-page {
     width: 100vw;
     height: 100vh;
@@ -14,6 +19,21 @@
     width: 50%;
     align-items: center;
     justify-content: center;
+}
+
+.left-side-welcome h1 {
+    font-family: 'rubikBold', sans-serif;
+    font-weight: bold;
+    font-size: 30vh;
+    color: #4e844e;
+}
+
+.left-side-welcome h3 {
+    font-family: 'rubikBold' sans-serif;
+    font-weight: bold;
+    font-size: 2vh;
+    margin-left: 65%;
+    margin-top: -2%;
 }
 
 .right-side-welcome {
@@ -50,6 +70,7 @@
     font-size: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
+    background-color: #afe1af99;
 }
 
 .session-form input[type='password'] {
@@ -59,6 +80,7 @@
     font-size: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
+    background-color: #afe1af99;
 }
 
 .session-form input[type='submit'] {
@@ -70,11 +92,18 @@
     border-radius: 10px;
     background-color: #AFE1AF;
     color: black;
+    font-family: 'rubikBold' sans-serif;
+    font-size: 2vh;
     font-weight: bold;
     transition: all 0.3s;
+    cursor: pointer;
+}
+
+#signUpButton {
+    background-color: rgb(99, 172, 255);
 }
 
 .session-form input[type='submit']:hover {
-    transform: scale(1.05); 
+    transform: scale(1.02); 
     opacity: 0.8;
 }
