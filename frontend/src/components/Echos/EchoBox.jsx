@@ -1,6 +1,6 @@
-import waveform from './waveform.png'
+import WaveTest from '../Audio/EchoPlayer';
 
-function EchoBox({ echo: { text, author, audioUrl, replies, likes, reverbs } }) {
+function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs } }) {
     const { username, profileImageUrl } = author;
     return (
         <div className="echo-box">
@@ -8,12 +8,11 @@ function EchoBox({ echo: { text, author, audioUrl, replies, likes, reverbs } }) 
                 {profileImageUrl ?
                     <img className="profile-image" src={profileImageUrl} alt="profile" /> :
                     undefined}
-                <img src={waveform} className="echo-waveform" />
+                <WaveTest index={_id} audioUrl={audioUrl}/>
             </div>
-             
             <div className="echo-details">
-                <h3><i class="fa-regular fa-comment"></i> {replies.length}</h3>
-                <h3><i class="fa-regular fa-heart"></i> {likes.length} </h3>
+                <h3><i className="fa-regular fa-comment"></i> {replies.length}</h3>
+                <h3><i className="fa-regular fa-heart"></i> {likes.length} </h3>
                 <h3><i className="fa-solid fa-satellite-dish"></i> {reverbs.length} </h3>
             </div>
         </div>
