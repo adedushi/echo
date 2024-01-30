@@ -106,6 +106,21 @@ for (let i = 0; i < users.length; i++) {
             user.reverbs.push(echo._id)
         }
     }
+    user.followers = []
+    while (user.followers.length <= 3) {
+        const id = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+        if (!user.followers.includes(id) && id !== userId) {
+            user.followers.push(id)
+        }
+    }
+    user.following = []
+    while (user.following.length <= 3) {
+        const id = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+        if (!user.following.includes(id) && id !== userId) {
+            user.following.push(id)
+        }
+    }
+
     // user.likes = echos.filter(echo => echo.likes.includes(userId))
     // user.reverbs = echos.filter(echo => echo.reverbs.includes(userId));
 }

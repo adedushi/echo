@@ -4,7 +4,8 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
-const { loginUser, restoreUser } = require('../../config/passport');
+const Echo = mongoose.model('Echo');
+const { loginUser, restoreUser, requireUser } = require('../../config/passport');
 const { isProduction } = require('../../config/keys');
 const validateRegisterInput = require('../../validations/register');
 const validateLoginInput = require('../../validations/login');
@@ -122,8 +123,106 @@ router.get('/:userId', async (req, res) => {
       path: 'echos',
       select: '_id title audioUrl likes reverbs replies'
     })
+    .populate({
+      path: 'followers',
+      select: '_id username'
+    })
+    .populate({
+      path: 'following',
+      select: '_id username'
+    })
+
+  if (!user) {
+    return res.status(404).json({ error: 'User not found' });
+  }
+  const userEchos = await Echo.find({ author: req.params.userId })
+    .sort({ createdAt: -1 })
+    .populate('author', '_id username profileImageUrl');
+
+  const userReverbEchos = await Echo.find({ _id: { $in: user.reverbs } })
+    .sort({ createdAt: -1 })
+    .populate('author', '_id username profileImageUrl');
+
+  const reverbEchosWithAttribute = userReverbEchos.map((echo) => ({
+    ...echo.toObject(),
+    wasReverb: true,
+  }));
+
+  const profileFeed = [...userEchos, ...reverbEchosWithAttribute].sort(
+    (a, b) => b.createdAt - a.createdAt
+  );
+
+  console.log(profileFeed)
+  user.profileFeed = profileFeed;
   return res.json(user)
 })
+
+router.get('/:userId/feed', async (req, res) => {
+    try {
+      const userId = req.params.userId
+      const userFollowing = await User.findById(userId).select('following')
+      if (!userFollowing) {
+        return res.status(404).json({ error: 'User is not following anyone' })
+      }
+      const followingIds = userFollowing.following
+      const originalEchos = await Echo.find({ author: { $in: followingIds } })
+        .sort({ createdAt: -1 })
+        .populate('author', '_id username profileImageUrl');
+      const reverbEchos = await Echo.find({ 'reverbs': { $in: followingIds } })
+        .sort({ createdAt: -1 })
+        .populate('author', '_id username profileImageUrl');
+      const reverbEchosWithAttribute = reverbEchos.map((echo) => ({
+        ...echo.toObject(),
+        wasReverb: true,
+      }));
+      const feed = [...originalEchos, ...reverbEchosWithAttribute].sort(
+        (a, b) => b.createdAt - a.createdAt
+      );
+      return res.json(feed)
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+})
+
+router.get('/:userId/profile', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    // Retrieve echos and reverbs of the user
+    const userEchos = await Echo.find({ author: userId })
+      .sort({ createdAt: -1 })
+      .populate('author', '_id username profileImageUrl');
+
+    // Retrieve reverb echos using the user's reverbs list
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const userReverbEchos = await Echo.find({ _id: { $in: user.reverbs } })
+      .sort({ createdAt: -1 })
+      .populate('author', '_id username profileImageUrl');
+
+    const reverbEchosWithAttribute = userReverbEchos.map((echo) => ({
+      ...echo.toObject(),
+      wasReverb: true,
+    }));
+
+    // Combine echos and reverb echos into a single array
+    const profileFeed = [...userEchos, ...reverbEchosWithAttribute].sort(
+      (a, b) => b.createdAt - a.createdAt
+    );
+
+    return res.json(profileFeed);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
 
 // router.update()
 // router.delete()

@@ -112,6 +112,10 @@ router.post('/', singleMulterUpload("recording"), requireUser, validateEchoInput
 
         let echo = await newEcho.save();
         echo = await echo.populate("author", "_id username profileImageUrl");
+        const userUpdateResult = await User.updateOne({ _id: req.user._id }, { $push: { echos: echo._id } });
+        if (userUpdateResult.nModified === 0) {
+            return res.status(404).json({ error: 'User not found or no modifications made' });
+        }
         return res.json(echo);
     }
     catch (err) {
@@ -119,13 +123,13 @@ router.post('/', singleMulterUpload("recording"), requireUser, validateEchoInput
     }
 });
 
-router.delete('/:echoId', async (req, res) => {
+router.delete('/:echoId', requireUser, async (req, res) => {
     try {
         const result = await Echo.deleteOne({ _id: req.params.echoId })
         if (result.deletedCount === 0) {
             return res.status(404).json({ error: 'Echo not found'})
         }
-        const userUpdateResult = await User.updateOne({ _id: req.body.userId }, { $pull: { likes: req.params.echoId } });
+        const userUpdateResult = await User.updateOne({ _id: req.user._id }, { $pull: { echos: req.params.echoId } });
         if (userUpdateResult.nModified === 0) {
             return res.status(404).json({ error: 'User not found or no modifications made' });
         }
@@ -136,7 +140,7 @@ router.delete('/:echoId', async (req, res) => {
     }
 })
 
-router.put('/updateTitle/:echoId', async (req, res) => {
+router.put('/updateTitle/:echoId', requireUser, async (req, res) => {
     try {
         const echoId = req.params.echoId
         const { newTitle } = req.body
@@ -154,10 +158,10 @@ router.put('/updateTitle/:echoId', async (req, res) => {
     }
 })
 
-router.put('/addLike/:echoId', async (req, res) => {
+router.put('/addLike/:echoId', requireUser, async (req, res) => {
     try {
         const echoId = req.params.echoId
-        const userId = req.body.userId
+        const userId = req.user._id
         const result = await Echo.updateOne({ _id: echoId }, { $push: { likes: userId} });
         if (result.nModified === 0) {
             return res.status(404).json({ error: 'Echo not found or no modifications made' });
@@ -175,10 +179,10 @@ router.put('/addLike/:echoId', async (req, res) => {
     }
 })
 
-router.put('/removeLike/:echoId', async (req, res) => {
+router.put('/removeLike/:echoId', requireUser, async (req, res) => {
     try {
         const echoId = req.params.echoId
-        const userId = req.body.userId
+        const userId = req.user._id
         const result = await Echo.updateOne({ _id: echoId }, { $pull: { likes: userId } });
         if (result.nModified === 0) {
             return res.status(404).json({ error: 'Echo not found or no modifications made' });
@@ -189,18 +193,24 @@ router.put('/removeLike/:echoId', async (req, res) => {
             return res.status(404).json({ error: 'User not found or no modifications made' });
         }
 
-        return res.json({ message: 'Likes has been removed' });
+        return res.json({ message: 'Like has been removed' });
     } catch (err) {
         console.error(err);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 })
 
-router.put('/addReply/:echoId', async (req, res) => {
+router.put('/addReply/:echoId', singleMulterUpload("recording"), requireUser, async (req, res) => {
+    // const audioUrl = await singleFileUpload({ files: req.files, isPublic: true }) 
+    const audioUrl = "https://teamlab-echo.s3.amazonaws.com/public/baby-shark.mp3"
     try {
+        const newReply = {
+            replyAuthor: req.user._id,
+            replyAudioUrl: audioUrl,
+            replyText: req.body.text
+        }
         const echoId = req.params.echoId
-        const reply = req.body.reply
-        const result = await Echo.updateOne({ _id: echoId }, { $push: { replies: reply } });
+        const result = await Echo.updateOne({ _id: echoId }, { $push: { replies: newReply } });
         if (result.nModified === 0) {
             return res.status(404).json({ error: 'Echo not found or no modifications made' });
         }
@@ -211,7 +221,7 @@ router.put('/addReply/:echoId', async (req, res) => {
     }
 })
 
-router.put('/removeReply/:echoId', async (req, res) => {
+router.put('/removeReply/:echoId', requireUser, async (req, res) => {
     try {
         const echoId = req.params.echoId
         const replyId = req.body.replyId
@@ -226,10 +236,48 @@ router.put('/removeReply/:echoId', async (req, res) => {
     }
 })
 
-router.put('/addReverb/:echoId', async (req, res) => {
+router.put('/likeReply/:echoId/:replyId', requireUser, async (req, res) => {
     try {
         const echoId = req.params.echoId
-        const userId = req.body.userId
+        const replyId = req.params.replyId
+        const userId = req.user._id
+        const result = await Echo.updateOne(
+            { _id: echoId, 'replies._id': replyId },
+            { $push: { 'replies.$.replyLikes': userId } }
+        );
+        if (result.nModified === 0) {
+            return res.status(404).json({ error: 'Echo not found or no modifications made' });
+        }
+        return res.json({ message: 'Reply has been liked' });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+})
+
+router.put('/unlikeReply/:echoId/:replyId', requireUser, async (req, res) => {
+    try {
+        const echoId = req.params.echoId
+        const replyId = req.params.replyId
+        const userId = req.user._id
+        const result = await Echo.updateOne(
+            { _id: echoId, 'replies._id': replyId },
+            { $pull: { 'replies.$.replyLikes': userId } }
+        );
+        if (result.nModified === 0) {
+            return res.status(404).json({ error: 'Echo not found or no modifications made' });
+        }
+        return res.json({ message: 'Reply like has been removed' });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+})
+
+router.put('/addReverb/:echoId', requireUser, async (req, res) => {
+    try {
+        const echoId = req.params.echoId
+        const userId = req.user._id
         const result = await Echo.updateOne({ _id: echoId }, { $push: { reverbs: userId } });
         if (result.nModified === 0) {
             return res.status(404).json({ error: 'Echo not found or no modifications made' });
@@ -247,10 +295,10 @@ router.put('/addReverb/:echoId', async (req, res) => {
     }
 })
 
-router.put('/removeReverb/:echoId', async (req, res) => {
+router.put('/removeReverb/:echoId', requireUser, async (req, res) => {
     try {
         const echoId = req.params.echoId
-        const userId = req.body.userId
+        const userId = req.user._id
         const result = await Echo.updateOne({ _id: echoId }, { $pull: { reverbs: userId } });
         if (result.nModified === 0) {
             return res.status(404).json({ error: 'Echo not found or no modifications made' });
