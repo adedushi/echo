@@ -30,10 +30,6 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Echo'
     }],
-    replies: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Reply'
-    }]
 }, {
     timestamps: true
 });

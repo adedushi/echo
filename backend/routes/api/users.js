@@ -13,11 +13,21 @@ const { singleFileUpload, singleMulterUpload } = require("../../awsS3");
 const DEFAULT_PROFILE_IMAGE_URL = 'https://teamlab-echo.s3.amazonaws.com/public/blank-profile-picture.png';
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.json({
-    message: "GET /api/users"
-  });
+router.get('/', async function (req, res, next) {
+  try {
+    const users = await User.find().select('-hashedPassword')
+    return res.json(users)
+  } catch (err) {
+    return res.json([])
+  }
 });
+
+
+// router.get('/', function (req, res, next) {
+//   res.json({
+//     message: "GET /api/users"
+//   });
+// });
 
 router.post('/register', singleMulterUpload("image"), validateRegisterInput, async (req, res, next) => {
   const user = await User.findOne({
@@ -89,5 +99,33 @@ router.get('/current', restoreUser, (req, res) => {
     email: req.user.email
   });
 });
+
+router.get('/:userId', async (req, res) => {
+  const user = await User.findById(req.params.userId).select('-hashedPassword')
+    .populate({
+      path: 'likes',
+      select: '_id title audioUrl author likes reverbs replies',
+      populate: {
+        path: 'author',
+        select: '_id author username'
+      }
+    })
+    .populate({
+      path: 'reverbs',
+      select: '_id title audioUrl author likes reverbs replies',
+      populate: {
+        path: 'author',
+        select: '_id author username'
+      }
+    })
+    .populate({
+      path: 'echos',
+      select: '_id title audioUrl likes reverbs replies'
+    })
+  return res.json(user)
+})
+
+// router.update()
+// router.delete()
 
 module.exports = router;
