@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearEchoErrors, fetchEchos, selectAllEchosArray } from '../../store/echos';
-import EchoBox from './EchoBox';
+import { clearEchoErrors, fetchEchos, selectAllEchosArray } from '../../../store/echos';
+import EchoBox from '../EchoBox/EchoBox';
 import './Echos.css';
 
 function Echos() {
@@ -19,9 +19,6 @@ function Echos() {
         <>
         <div id='mainEchoContainer'>
         <div className="echos-container">
-            <div className='topEchoNav'>
-                    <h1>Your Feed Here</h1>
-            </div>
             <div className="echos-list">
                 {echos.map(echo => (
                     <EchoBox key={echo._id} echo={echo} />

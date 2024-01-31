@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import WaveTest from '../Audio/EchoPlayer';
+import WaveTest from '../../Audio/EchoPlayer';
 import { destroyEcho, updateEchoTitle } from '../../store/echos';
+import './EchoBox.css';
 
 function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title } }) {
     const { username, profileImageUrl } = author;
@@ -53,8 +54,9 @@ function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title
                 )}
             </div>
             <div className="echo-details">
-                {replies === null ? null : <h3><i className="fa-solid fa-comment" id='reply-button'></i> {replies.length}</h3>}
-                {likes === null ? null : <h3><i className="fa-solid fa-heart" background-color='red' id='like-button'></i> {likes.length}</h3>}
+
+                {replies === null ? null : <h3><i className="fa-solid fa-comment" id='reply-button'></i> {replies.length}</h3> }
+                {likes === null ? null : <h3><i className="fa-solid fa-heart" id='like-button'></i> {likes.length}</h3>}
                 {reverbs === null ? null : <h3><i className="fas fa-satellite-dish" id='reverb-button'></i> {reverbs.length}</h3>}
                 {currentUser._id === author._id && (
                     <h3 onClick={handleDeleteEcho}><i className="fa-regular fa-trash-can" data-value={_id}></i></h3>

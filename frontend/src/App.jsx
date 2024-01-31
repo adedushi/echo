@@ -7,9 +7,10 @@ import NavBar from './components/NavBar/NavBar';
 
 import MainPage from './components/MainPage/MainPage';
 import SignupForm from './components/SessionForms/SignupForm';
-import Echos from './components/Echos/Echos';
+import Echos from './components/Echos/Echos/Echos'
 import Profile from './components/Profile/Profile';
-import EchoCompose from './components/Echos/EchoCompose';
+import EchoCompose from './components/Echos/EchoCompose/EchoCompose';
+import ReplyCompose from './components/Echos/ReplyCompose/ReplyCompose';
 import { getCurrentUser } from './store/session';
 import About from './components/About/About';
 
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       path: "signup",
       element: <AuthRoute component={SignupForm} />
     },
+    {
+      path: "/about",
+      element: <About />
+    },
   {
     element: <Layout />,
     children: [
@@ -45,12 +50,12 @@ const router = createBrowserRouter([
           {
             path: "new",
             element: <ProtectedRoute component={EchoCompose} />
+          },
+          {
+            path: "reply",
+            element: <ProtectedRoute component={ReplyCompose} />
           }
         ]
-      },
-      {
-          path: "/about",
-          element: <About />
       },
        {
         path: "/profile/:userId",

@@ -1,0 +1,158 @@
+.recording_animation {
+  background: transparent;
+  overflow: hidden;
+  width: 100%;
+  height: 20%;
+}
+.recording_animation .recording-wrapper {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-top: 78%;
+  overflow: hidden;
+}
+.recording_animation .recording-wrapper div {
+  position: absolute;
+  margin-top: -17%;
+  height: 34%;
+  width: 2%;
+  border-radius: 20px;
+  top: 30%;
+}
+
+.recording_animation .recording-wrapper div:nth-of-type(1) {
+  animation: prop 17s 0.000s linear infinite;
+}
+.recording_animation .recording-wrapper div:nth-of-type(2) {
+  animation: prop 17s -16.227s linear infinite;
+}
+.recording_animation .recording-wrapper div:nth-of-type(3) {
+  animation: prop 17s -15.455s linear infinite;
+}
+.recording_animation .recording-wrapper div:nth-of-type(4) {
+  animation: prop 17s -14.682s linear infinite;
+}
+.recording_animation .recording-wrapper div:nth-of-type(5) {
+  animation: prop 17s -13.909s linear infinite;
+}
+.recording_animation .recording-wrapper div:nth-of-type(6) {
+  animation: prop 17s -13.136s linear infinite;
+}
+.recording_animation .recording-wrapper div:nth-of-type(7) {
+  animation: prop 17s -12.364s linear infinite;
+}
+.recording_animation .recording-wrapper div:nth-of-type(9) {
+  animation: prop 17s -11.591s linear infinite;
+}
+.recording_animation .recording-wrapper div:nth-of-type(9) {
+  animation: prop 17s -10.818s linear infinite;
+}
+.recording_animation .recording-wrapper div:nth-of-type(10) {
+  animation: prop 17s -10.045s linear infinite;
+}
+.recording_animation .recording-wrapper div:nth-of-type(11) {
+  animation: prop 17s -9.273s linear infinite;
+}
+.recording_animation .recording-wrapper div:nth-of-type(12) {
+  animation: prop 17s -8.500s linear infinite;
+}
+.recording_animation .recording-wrapper div:nth-of-type(13) {
+  animation: prop 17s -7.727s linear infinite;
+}
+.recording_animation .recording-wrapper div:nth-of-type(14) {
+  animation: prop 17s -6.955s linear infinite;
+}
+.recording_animation .recording-wrapper div:nth-of-type(15) {
+  animation: prop 17s -6.182s linear infinite;
+}
+.recording_animation .recording-wrapper div:nth-of-type(16) {
+  animation: prop 17s -5.409s linear infinite;
+}
+.recording_animation .recording-wrapper div:nth-of-type(17) {
+  animation: prop 17s -4.636s linear infinite;
+}
+.recording_animation .recording-wrapper div:nth-of-type(18) {
+  animation: prop 17s -3.864s linear infinite;
+}
+.recording_animation .recording-wrapper div:nth-of-type(19) {
+  animation: prop 17s -3.091s linear infinite;
+}
+.recording_animation .recording-wrapper div:nth-of-type(20) {
+  animation: prop 17s -2.318s linear infinite;
+}
+.recording_animation .recording-wrapper div:nth-of-type(21) {
+  animation: prop 17s -1.545s linear infinite;
+}
+.recording_animation .recording-wrapper div:nth-of-type(22) {
+  animation: prop 17s -0.773s linear infinite;
+}
+
+@keyframes prop {
+  0% {
+    background: #ffffff;
+    left: 0;
+  }
+  5% {
+    background: #ffffff;
+  }
+  10% {
+    height: 10%;
+    margin-top: -5%;
+    background: #ffffff;
+  }
+  20% {
+    height: 34%;
+    margin-top: -17%;
+    background: #ffffff;
+  }
+  30% {
+    height: 10%;
+    margin-top: -5%;
+    background: #ffffff;
+  }
+  40% {
+    height: 34%;
+    margin-top: -17%;
+    background: #ffffff;
+  }
+  50% {
+    height: 10%;
+    margin-top: -5%;
+    background: #ffffff;
+  }
+  60% {
+    height: 34%;
+    margin-top: -17%;
+    background: #ffffff;
+  }
+  70% {
+    height: 10%;
+    margin-top: -5%;
+    background: #ffffff;
+  }
+  75% {
+    background: #ffffff;
+  } 
+  80% {
+    height: 34%;
+    margin-top: -17%;
+    background: #ffffff;
+  }
+  85% {
+    background: #ffffff;
+  }
+  90% {
+    height: 10%;
+    margin-top: -5%;
+    background: #ffffff;
+  }
+  95% {
+    background: #ffffff;
+  }
+  100% {
+    left: 100%;
+    height: 34%;
+    margin-top: -17%;
+    background: #ffffff;
+  }
+}
