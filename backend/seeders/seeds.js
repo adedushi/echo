@@ -18,7 +18,8 @@ users.push(
     new User({
         username: 'demo-user',
         email: 'demo-user@appacademy.io',
-        hashedPassword: bcrypt.hashSync('starwars', 10)
+        hashedPassword: bcrypt.hashSync('starwars', 10),
+        profileImageUrl: DEFAULT_PROFILE_IMAGE_URL,
     })
 )
 
