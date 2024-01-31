@@ -10,6 +10,7 @@ import SignupForm from './components/SessionForms/SignupForm';
 import Echos from './components/Echos/Echos';
 import Profile from './components/Profile/Profile';
 import EchoCompose from './components/Echos/EchoCompose';
+import ReplyCompose from './components/Echos/ReplyCompose'
 import { getCurrentUser } from './store/session';
 
 const Layout = () => {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
           {
             path: "new",
             element: <ProtectedRoute component={EchoCompose} />
+          },
+          {
+            path: "reply",
+            element: <ProtectedRoute component={ReplyCompose} />
           }
         ]
       },

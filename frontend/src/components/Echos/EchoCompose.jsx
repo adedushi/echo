@@ -6,6 +6,7 @@ import './EchoCompose.css';
 import EchoRecorder from './EchoRecorder';
 
 function EchoCompose() {
+
     const [title, setTitle] = useState('');
     const dispatch = useDispatch();
     const author = useSelector(state => state.session.user);
@@ -16,6 +17,7 @@ function EchoCompose() {
     const [showUpload, setShowUpload] = useState(false)
     const [showRecord, setShowRecord] = useState(true)
     const [showSubmit, setShowSubmit] = useState(false)
+    const [fileName, setFileName] = useState('')
 
     useEffect(() => {
         return () => dispatch(clearEchoErrors());
@@ -30,19 +32,25 @@ function EchoCompose() {
     }, [audio, audioUrl, title])
 
     const handleSubmit = e => {
-        console.log('in handle submit')
+        if (title.length < 5) {
+            alert('Title must be at least 5 character')
+        }
         e.preventDefault();
         dispatch(composeEcho(title, audio));
         clearFile()
         setTitle('');
     };
 
-    const updateTitle = e => setTitle(e.currentTarget.value);
+    const updateTitle = e => {
+        setTitle(e.currentTarget.value)
+        
+    };
 
     const clearFile = () => {
         setAudio(null);
         setAudioUrl(null);
         setShowSubmit(false)
+        setFileName('')
         if (fileRef.current) {
             fileRef.current.value = null
         }
@@ -51,6 +59,7 @@ function EchoCompose() {
     const updateFile = async e => {
         const file = e.target.files[0];
         if (file) {
+            setFileName(file.name)
             const audio = new Audio();
             audio.src = URL.createObjectURL(file);
             audio.onloadedmetadata = () => {
@@ -62,7 +71,6 @@ function EchoCompose() {
                         setAudioUrl(fileReader.result);
                     };
                 } else {
-                    alert("Please upload an audio file less than 30 seconds long.");
                     clearFile()
                 }
             };
@@ -81,43 +89,48 @@ function EchoCompose() {
         setShowUpload(true)
     }
 
+    const handleUploadClick = () => {
+        fileRef.current.click();
+    };
+
     
     return (
-        <div className="">
-            <form className="" onSubmit={handleSubmit}>
+        <div className="create-echo-container">
+            <form className="create-echo-form" onSubmit={handleSubmit}>
                 <div className="errors">{errors?.title}</div>
+               {showUpload && <div className='upload-file' onClick={handleUploadClick}>
+                    <i className="fa-solid fa-file-arrow-up"></i>
+                    <input
+                        type="file"
+                        ref={fileRef}
+                        accept=".wav, .mp3, .mp4, .aac"
+                        onChange={updateFile}
+                        className="file-input" 
+                    />
+                </div>}
+                {showRecord && <EchoRecorder setAudio={setAudio} setAudioUrl={setAudioUrl} />}
+                {fileName ? <p className='file-name'>{fileName}</p> : ""}
                 <input
                     type="text"
                     value={title}
                     onChange={updateTitle}
                     placeholder="Give your echo a title..."
-                    // required
-                    className=""
+                    required
+                    className="title-input"
+                    minLength={5}
                 />
-               {showUpload && <div>
-                     <label>
-                        Upload Echo
-                        <input
-                            type="file"
-                            ref={fileRef}
-                            accept=".wav, .mp3, .mp4, .aac"
-                            onChange={updateFile}
-                            className="" 
-                        />
-                    </label>
-                </div>}
-                {showRecord && <EchoRecorder setAudio={setAudio} setAudioUrl={setAudioUrl} />}
-                <button type="button" onClick={clickUpload}>upload a echo</button>
-                <button  type="button" onClick={clickRecord}>record an echo</button>
-                {showSubmit && <button type="submit">Submit</button>}
-                <button type="button" onClick={clearFile}>Clear</button>
+                <div className='create-buttons'>
+                    <button className="upload-button" type="button" onClick={clickUpload}>upload</button>
+                    <button className="record-button" type="button" onClick={clickRecord}>record</button>
+                    <button className="clear-button" type="button" onClick={clearFile}>Clear</button>
+                </div>
+                <div className="">
+                    {(audioUrl !== null) ?
+                        <EchoBox echo={{ title, author, audioUrl, replies: null, likes: null, reverbs: null }} /> :
+                        undefined}
+                </div>
+                {showSubmit && <button className="submit-button" type="submit">Submit</button>}
             </form>
-            <div className="">
-                <h3>Echo Preview</h3>
-                {(audioUrl !== null) ?
-                    <EchoBox echo={{ title, author, audioUrl, replies: null, likes: null, reverbs: null }} /> :
-                    undefined}
-            </div>
         </div>
     )
 }

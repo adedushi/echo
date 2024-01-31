@@ -12,7 +12,7 @@ function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs } }) {
             </div>
             <div className="echo-details">
                 {replies === null ? null : <h3><i className="fa-solid fa-comment" id='reply-button'></i> {replies.length}</h3> }
-                {likes === null ? null : <h3><i className="fa-solid fa-heart" background-color='red' id='like-button'></i> {likes.length}</h3>}
+                {likes === null ? null : <h3><i className="fa-solid fa-heart" id='like-button'></i> {likes.length}</h3>}
                 {reverbs === null ? null : <h3><i className="fas fa-satellite-dish" id='reverb-button'></i> {reverbs.length}</h3>}
             </div>
         </div>
