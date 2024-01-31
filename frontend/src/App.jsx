@@ -11,6 +11,7 @@ import Echos from './components/Echos/Echos';
 import Profile from './components/Profile/Profile';
 import EchoCompose from './components/Echos/EchoCompose';
 import { getCurrentUser } from './store/session';
+import About from './components/About/About';
 
 const Layout = () => {
   return (
@@ -42,12 +43,16 @@ const router = createBrowserRouter([
             element: <ProtectedRoute component={Echos} />
           },
           {
+            path: "/about",
+            element: <About />
+          },
+          {
             path: "new",
             element: <ProtectedRoute component={EchoCompose} />
           }
         ]
       },
-      {
+       {
         path: "/profile/:userId",
         element: <Profile />,
         children: [

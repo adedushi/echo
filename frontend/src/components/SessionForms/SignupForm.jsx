@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import "./SignupForm.css"
 import { login, signup, clearSessionErrors } from '../../store/session';
+import { useNavigate } from 'react-router';
 
 function SignupForm() {
     const [email, setEmail] = useState('');
@@ -11,6 +12,7 @@ function SignupForm() {
     const [image, setImage] = useState(null);
     const errors = useSelector(state => state.errors.session);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         return () => {
@@ -53,6 +55,11 @@ function SignupForm() {
         dispatch(signup(user));
     }
 
+    const backToHome = (e) => {
+        e.preventDefault();
+        navigate('/')
+    }
+
     
 
     const handleDemoLogin = (e) => {
@@ -69,6 +76,7 @@ function SignupForm() {
         <form className="signUpForm" onSubmit={handleSubmit}>
             <h2>Create Your Account</h2>
             <h3>Start listening today!</h3>
+                <i id='closeButton' className="fa-solid fa-square-xmark" onClick={backToHome}></i>
             <div className="errors">{errors?.email}</div>
             
                 <input className='signUpInput' type="text"

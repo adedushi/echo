@@ -1,6 +1,23 @@
+.echos-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.topEchoNav {
+    width: 41%;
+    height: 8vh;
+    /* border: 2px solid black; */
+}
+
+
 .echos-list {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    width: 40vw;
+    /* border: 2px solid greenyellow; */
 }
 
 .echo-box {
@@ -11,9 +28,10 @@
     margin: 0px;
     border-radius: 10px;
     min-height: 57px;
-    width: 512px;
+    width: 80%;
     height: 180px;
     gap: 15px;
+    /* border: 1px solid black; */
 }
 
 .echo-content {
@@ -39,12 +57,13 @@
     display: inline-block;
     overflow-clip-margin: content-box;
     overflow: clip;
-    border: 0;
+    /* border: 0; */
     box-sizing: border-box;
     width: 80px;
     height: 80px;
     border-radius: 50%;
     aspect-ratio: 1 / 1;
+    margin-left: 2%;
 }
 
 #reverb-button {

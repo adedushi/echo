@@ -139,6 +139,7 @@ form>.errors {
 #root {
     display: flex;
     flex-direction: row;
-    justify-content: center
+    background-color: rgba(253, 248, 248, 0.318);
+    justify-content: center;
 }
 

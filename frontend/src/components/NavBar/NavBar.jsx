@@ -1,44 +1,67 @@
-import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import './NavBar.css';
 import { logout } from '../../store/session';
+import { useNavigate } from 'react-router-dom';
 
 function NavBar() {
-    const loggedIn = useSelector(state => !!state.session.user);
-    const currentUser = useSelector(state => state.session.user);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const logoutUser = e => {
         e.preventDefault();
         dispatch(logout());
+        navigate('/')
     };
+    const navToHome = (e) => {
+        e.preventDefault();
+        navigate('/echos')
+    }
 
-    const getLinks = () => {
-        if (loggedIn) {
-            return (
-                <div className="links-nav-bar">
-                    <div className="links-nav">
-                        <Link to={`/profile/${currentUser._id}`}>Profile</Link>
-                        <Link to={'/echos'}>Home</Link>
-                        <Link to={'/echos/new'}>Create</Link> 
-                    </div>
-                    <button onClick={logoutUser} >Logout</button>
-                </div>
-            );
-        } else {
-            return (
-                <div className="links-auth">
-                    <Link to={'/signup'}>Signup</Link>
-                    <Link to={'/login'}>Login</Link>
-                </div>
-            );
-        }
-    };
+    const navToProfile = (e) => {
+        e.preventDefault();
+        navigate('/profile')
+    }
+
+    const navToCreate = (e) => {
+        e.preventDefault();
+        navigate('/echos/new');
+    }
+
+    const navToAbout = (e) => {
+        e.preventDefault();
+        navigate('/about');
+    }
 
     return (
         <>
-            <h1>Echo</h1>
-            {getLinks()}
+        <div id='navContainer'>
+            <h1 onClick={navToHome}>Echo</h1>
+            {/* {getLinks()} */}
+            <div className="links-nav-bar">
+                        <div className='navButtonWrapper' onClick={navToHome}>
+                            <i id='homeIcon' className="fa-solid fa-house"></i>
+                            <h2 className='navButtonText'>Home</h2>
+                        </div>
+
+                        <div className='navButtonWrapper' onClick={navToProfile}>
+                            <i id='profileIcon' className="fa-regular fa-user"></i>
+                            <h2 className='navButtonText'>Profile</h2>
+                        </div>
+
+                        <div className='navButtonWrapper' onClick={navToCreate}>
+                            <i id='recordIcon' className="fa-solid fa-file-audio"></i>
+                            <h2 className='navButtonText'>Create</h2>
+                        </div>
+
+                        <div className='navButtonWrapper' onClick={navToAbout}>
+                            <h2 id='logoutText' className='navButtonText'>About</h2>
+                        </div>
+            </div>
+            <div className='navButtonWrapper' onClick={logoutUser}>
+                <h2 id='logoutText' className='navButtonText'>Logout</h2>
+                <i id='logoutIcon' className="fa-solid fa-arrow-right-from-bracket"></i>
+            </div>
+        </div>
         </>
     );
 }
