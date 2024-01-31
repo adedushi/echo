@@ -7,6 +7,8 @@ const RECEIVE_USER_ECHOS = "echos/RECEIVE_USER_ECHOS";
 const RECEIVE_NEW_ECHO = "echos/RECEIVE_NEW_ECHO";
 const RECEIVE_ECHO_ERRORS = "echos/RECEIVE_ECHO_ERRORS";
 const CLEAR_ECHO_ERRORS = "echos/CLEAR_ECHO_ERRORS";
+const REMOVE_ECHO = "echos/REMOVE_ECHO";
+const UPDATE_ECHO = "echos/UPDATE_ECHO"
 
 const receiveEchos = echos => ({
     type: RECEIVE_ECHOS,
@@ -22,6 +24,16 @@ const receiveNewEcho = echo => ({
     type: RECEIVE_NEW_ECHO,
     echo
 });
+
+const removeEcho = echoId => ({
+    type: REMOVE_ECHO,
+    echoId
+});
+
+const updateEcho = updatedEcho => ({
+    type: UPDATE_ECHO,
+    updatedEcho
+})
 
 const receiveErrors = errors => ({
     type: RECEIVE_ECHO_ERRORS,
@@ -45,6 +57,8 @@ export const fetchEchos = () => async dispatch => {
         }
     }
 };
+
+
 
 export const fetchUserEchos = (id, feed) => async dispatch => {
     try {
@@ -78,6 +92,38 @@ export const composeEcho = (title, audio) => async dispatch => {
     }
 };
 
+export const destroyEcho = (echoId) => async dispatch => {
+    try {
+        const res = await jwtFetch(`/api/echos/${echoId}`, {
+            method: 'DELETE',
+        });
+        const echo = await res.json();
+        dispatch(removeEcho(echoId)) 
+    } catch (err) {
+        const resBody = await err.json();
+        if (resBody.statusCode === 400) {
+            return dispatch(receiveErrors(resBody.errors));
+        }
+    }
+};
+
+export const updateEchoTitle = (echoId, newTitle) => async dispatch => {
+    try {
+        const res = await jwtFetch(`/api/echos/updateTitle/${echoId}`, {
+            method: 'PUT',
+            body: JSON.stringify({newTitle: newTitle})
+        });
+        const updatedEcho = await res.json();
+        console.log("updated:",updatedEcho);
+        dispatch(updateEcho(updatedEcho));
+    } catch (err) {
+        const resBody = await err.json();
+        if (resBody.statusCode === 400) {
+            return dispatch(receiveErrors(resBody.errors));
+        }
+    }
+};
+
 const selectEchos = state => state.echos.all;
 const selectUserEchos = state => state.echos.user;
 export const selectAllEchosArray = createSelector(selectEchos,
@@ -102,7 +148,8 @@ export const echoErrorsReducer = (state = nullErrors, action) => {
 };
 
 const echosReducer = (state = { all: {}, user: {}, new: undefined }, action) => {
-    switch (action.type) {
+    const newState = { ...state }
+    switch (action.type) { 
         case RECEIVE_ECHOS:
             return { ...state, all: action.echos, new: undefined };
         case RECEIVE_USER_ECHOS:
@@ -111,6 +158,33 @@ const echosReducer = (state = { all: {}, user: {}, new: undefined }, action) => 
             return { ...state, new: action.echo };
         case RECEIVE_USER_LOGOUT:
             return { ...state, user: {}, new: undefined }
+        case REMOVE_ECHO:{
+            const updatedEchosAll = Array.isArray(state.all)
+                ? state.all.filter(echo => echo._id !== action.echoId)
+                : state.all;
+            const updatedEchosUser = Array.isArray(state.user)
+                ? state.user.filter(echo => echo._id !== action.echoId)
+                : state.user;
+            return {
+                ...state,
+                all: updatedEchosAll,
+                user: updatedEchosUser
+            }
+        }
+        case UPDATE_ECHO:{
+            const updatedEchosAll = Array.isArray(state.all)
+                ? state.all.map(echo => echo._id === action.updatedEcho._id ? action.updatedEcho : echo)
+                : state.all;
+
+            const updatedEchosUser = Array.isArray(state.user)
+                ? state.user.map(echo => echo._id === action.updatedEcho._id ? action.updatedEcho : echo)
+                : state.user;
+            return {
+                ...state,
+                all: updatedEchosAll,
+                user: updatedEchosUser
+            }
+        }
         default:
             return state;
     }
