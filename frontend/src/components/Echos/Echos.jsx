@@ -19,9 +19,6 @@ function Echos() {
         <>
         <div id='mainEchoContainer'>
         <div className="echos-container">
-            <div className='topEchoNav'>
-                    <h1>Your Feed Here</h1>
-            </div>
             <div className="echos-list">
                 {echos.map(echo => (
                     <EchoBox key={echo._id} echo={echo} />

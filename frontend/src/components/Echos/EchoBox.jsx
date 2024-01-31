@@ -1,4 +1,5 @@
 import WaveTest from '../Audio/EchoPlayer';
+import './EchoBox.css';
 
 function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs } }) {
     const { username, profileImageUrl } = author;
