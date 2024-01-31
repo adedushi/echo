@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserEchos, clearEchoErrors, selectUserEchosArray } from '../../store/echos';
-import EchoBox from '../Echos/EchoBox';
+import EchoBox from '../Echos/EchoBox/EchoBox';
 import "./Profile.css"
 import { useParams } from 'react-router-dom';
 
