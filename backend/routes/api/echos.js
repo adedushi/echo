@@ -63,11 +63,11 @@ router.get('/user/:userId', async (req, res, next) => {
             })
             .populate({
                 path: 'likes',
-                select: '_id username'
+                select: '_id username profileImageeUrl'
             })
             .populate({
                 path: 'reverbs',
-                select: '_id username'
+                select: '_id username profileImageeUrl'
             })
         return res.json(echos);
     }
@@ -100,17 +100,16 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
-router.post('/', singleMulterUpload("audio"), requireUser,  async (req, res, next) => {
-    const audioUrl = await singleFileUpload({ file: req.file, isPublic: true }) 
-    // const audioUrl = "https://teamlab-echo.s3.amazonaws.com/public/baby-shark.mp3"
-    console.log("request:", req);
+
+router.post('/', singleMulterUpload("audio"), requireUser, validateEchoInput, async (req, res, next) => {
     try {
+        const audioUrl = await singleFileUpload({ file: req.file, isPublic: true }) 
+
         const newEcho = new Echo({
             title: req.body.title,
             audioUrl,
             author: req.user._id
         });
-        console.log("newecho:", newEcho);
 
         let echo = await newEcho.save();
         echo = await echo.populate("author", "_id username profileImageUrl");

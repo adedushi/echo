@@ -4,7 +4,6 @@ import { logout } from '../../store/session';
 import { useNavigate } from 'react-router-dom';
 
 function NavBar() {
-    // const loggedIn = useSelector(state => !!state.session.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -13,7 +12,6 @@ function NavBar() {
         dispatch(logout());
         navigate('/')
     };
-
     const navToHome = (e) => {
         e.preventDefault();
         navigate('/echos')
@@ -33,9 +31,6 @@ function NavBar() {
         e.preventDefault();
         navigate('/about');
     }
-
-
-
 
     return (
         <>

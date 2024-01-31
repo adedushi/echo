@@ -1,0 +1,31 @@
+.profile-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px
+}
+
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-image-large{
+    vertical-align: middle;
+    display: inline-block;
+    overflow-clip-margin: content-box;
+    overflow: clip;
+    border: 0;
+    box-sizing: border-box;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;
+}
+
+.profile-feed-links {
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+}
