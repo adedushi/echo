@@ -1,0 +1,117 @@
+.create-reply-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    width: 600px;
+    height: 600px;
+    margin-top: 100px;
+}
+
+.create-reply-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+
+.reply-comment {
+    display: flex;
+    position: relative
+}
+
+.reply-comment::before {
+  content: '';
+  position: absolute;
+  top: 49%;
+  right: 50px; /* Adjust the distance between the line and the text */
+  transform: translateY(-50%);
+  height: 93%;
+  width: 1px; /* Adjust the thickness of the line */
+  background-color: #929292; /* Adjust the color of the line */
+}
+
+.reply-input {
+    padding-left: 20px;
+    padding-right: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border: 2px solid rgb(252, 151, 255);
+    border-radius: 15px;
+    word-wrap: break-word;
+    resize: none;
+    font-size: 16px;
+}
+
+
+.reply-icon {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%) scale(1.5);
+    cursor: pointer;
+}
+
+.reply-icon:hover {
+    transform: translateY(-50%) scale(1.3);
+}
+
+
+.reply-container {
+    display: flex;
+    align-items: center;
+}
+
+.record-icon-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    align-items: center;
+    border: 2px solid rgb(255, 0, 0);
+    border-radius: 50px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.record-icon-container:hover {
+    background-color: rgb(255, 0, 0);
+}
+
+.record-icon {
+    transform: scale(2);
+}
+
+.record-options {
+    margin-top: 25px;
+    width: 90%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.record-options > i {
+    transform: scale(2);
+    padding: 15px;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.record-options > i:hover {
+    transform: scale(1.8);
+}
+
+.reply-instructions {
+    width: 60%;
+    font-size: 12px;
+    color: #b3b3b3;
+    text-align: right;
+    margin-top: 5px;
+}
+
+
+
+
+
+

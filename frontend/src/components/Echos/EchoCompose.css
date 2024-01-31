@@ -1,25 +1,72 @@
-.compose-echo {
-    /* height: 200px; */
-    /* display: flex; */
-    /* flex-direction: column; */
-    /* gap: 15px; */
-    /* border: 1px solid black */
+.create-echo-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    width: 600px;
+    height: 600px;
 }
 
-.echo-text {
-    /* width: 100%; */
-
+.create-echo-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
 }
 
-.echo-preview {
-    /* min-height: 150px; */
+.title-input {
+    height: 25px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    border: 2px solid rgb(252, 151, 255);
+    border-radius: 15px;
 }
 
-label {
-    display: block;
-    margin-top: 5px;
+.create-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
 
-/* input[type=file] {
+.create-buttons > button {
+    width: 100px;
+    height: 40px;
+    cursor: pointer;
+    border: 0;
+    border-radius: 25px;
+    margin-right: 10px;
+}
+
+.upload-button {
+    background-color: rgb(48, 200, 255);
+}
+
+.record-button {
+    background-color: rgb(255, 109, 109);
+}
+
+.clear-button {
+    background-color: rgb(143, 143, 143);
+}
+
+.submit-button {
+    width: 100px;
+    height: 40px;
+    cursor: pointer;
+    border: 0;
+    border-radius: 25px;
+    margin-right: 10px;
+    background-color: black;
+    color: white;
+}
+
+
+input[type=file] {
     margin-left: 5px;
-} */
+}
+
