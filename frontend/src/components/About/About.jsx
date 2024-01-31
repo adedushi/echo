@@ -47,7 +47,9 @@ function About() {
            
             <div className='devCardHolder'>
                 <div className='devWrapper'>
-                    <div className='profilePhoto'></div>
+                    <div className='profilePhoto'>
+                        <img id="leviPic" src="../../../assets/images/headshotLS.jpg" />
+                    </div>
                     <div className='devNameWrapper'>
                         <h1><span className='firstLetter'>L</span>evi Sherman</h1>
                     </div>
@@ -63,7 +65,9 @@ function About() {
 
                 </div>
                 <div className='devWrapper'>
-                    <div className='profilePhoto'></div>
+                    <div className='profilePhoto'>
+                        <img className="aboutPicture" src="../../../assets/images/headshotAD.jpg" />
+                    </div>
                     <div className='devNameWrapper'>
                         <h1><span className='firstLetter'>A</span>lbert Dedushi</h1>
                     </div>
@@ -79,7 +83,9 @@ function About() {
                 </div>
                 
                 <div className='devWrapper'>
-                    <div className='profilePhoto'></div>
+                    <div className='profilePhoto'>
+                        <img className="aboutPicture" src="../../../assets/images/headshotBR.jpg" />
+                    </div>
                     <div className='devNameWrapper'>
                         <h1> <span className='firstLetter'>B</span>illy Remsen</h1>
                     </div>

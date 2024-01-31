@@ -74,7 +74,19 @@
     height: 30vh;
     width: 30vh;
     border-radius: 50%;
-    border: 1px solid black;
+}
+
+.aboutPicture {
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+#leviPic {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 .devNameWrapper {

@@ -39,10 +39,11 @@
     align-items: center;
     justify-content: center;
     width: 80%;
-    height: 7%;
-    border-radius: 10px;
+    height: 10%;
+    border-radius: 20px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    padding: 7%;
 }
 
 
@@ -51,10 +52,30 @@
 }
 
 .navButtonText {
-    font-size: 175%;
+    font-size: 1.5em;
     font-family: 'rubikBold', sans-serif;
     font-weight: bold;
     margin-left: 8.5%;
+}
+
+#createButton {
+    padding: 7%;
+    margin-top: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    cursor: pointer;
+    width: 90%;
+    height: 9%;
+    background-color: #4e844e;
+    color: white;
+    box-shadow: 0, 4px, 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.5s ease;
+}
+
+#createButton:hover {
+    transform: scale(1.08);
 }
 
 #logoutText {
@@ -78,4 +99,8 @@
 
 #logoutIcon {
     font-size: 150%;
+}
+
+#logoutButton {
+    margin-bottom: 25%;
 }
