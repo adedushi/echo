@@ -37,44 +37,44 @@ router.get('/', async (req, res) => {
     }
 });
 
-// router.get('/user/:userId', async (req, res, next) => {
-//     let user;
-//     try {
-//         user = await User.findById(req.params.userId);
-//     } catch (err) {
-//         const error = new Error('User not found');
-//         error.statusCode = 404;
-//         error.errors = { message: "No user found with that id" };
-//         return next(error);
-//     }
-//     try {
-//         const echos = await Echo.find({ author: user._id })
-//             .sort({ createdAt: -1 })
-//             .populate({
-//                 path: 'author',
-//                 select: '_id username profileImageUrl'
-//             })
-//             .populate({
-//                 path: 'replies',
-//                 populate: {
-//                     path: 'replyAuthor',
-//                     select: '_id username profileImageUrl'
-//                 }
-//             })
-//             .populate({
-//                 path: 'likes',
-//                 select: '_id username'
-//             })
-//             .populate({
-//                 path: 'reverbs',
-//                 select: '_id username'
-//             })
-//         return res.json(echos);
-//     }
-//     catch (err) {
-//         return res.json([]);
-//     }
-// })
+router.get('/user/:userId', async (req, res, next) => {
+    let user;
+    try {
+        user = await User.findById(req.params.userId);
+    } catch (err) {
+        const error = new Error('User not found');
+        error.statusCode = 404;
+        error.errors = { message: "No user found with that id" };
+        return next(error);
+    }
+    try {
+        const echos = await Echo.find({ author: user._id })
+            .sort({ createdAt: -1 })
+            .populate({
+                path: 'author',
+                select: '_id username profileImageUrl'
+            })
+            .populate({
+                path: 'replies',
+                populate: {
+                    path: 'replyAuthor',
+                    select: '_id username profileImageUrl'
+                }
+            })
+            .populate({
+                path: 'likes',
+                select: '_id username profileImageeUrl'
+            })
+            .populate({
+                path: 'reverbs',
+                select: '_id username profileImageeUrl'
+            })
+        return res.json(echos);
+    }
+    catch (err) {
+        return res.json([]);
+    }
+})
 
 router.get('/:id', async (req, res, next) => {
     try {
@@ -99,6 +99,7 @@ router.get('/:id', async (req, res, next) => {
         return next(error);
     }
 });
+
 
 router.post('/', singleMulterUpload("audio"), requireUser, validateEchoInput, async (req, res, next) => {
     try {

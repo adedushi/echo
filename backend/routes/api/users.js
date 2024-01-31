@@ -138,15 +138,19 @@ router.get('/:userId', async (req, res) => {
   const userEchos = await Echo.find({ author: req.params.userId })
     .sort({ createdAt: -1 })
     .populate('author', '_id username profileImageUrl');
-
+  const userEchosIds = userEchos.map(echo => echo._id)
   const userReverbEchos = await Echo.find({ _id: { $in: user.reverbs } })
     .sort({ createdAt: -1 })
     .populate('author', '_id username profileImageUrl');
 
-  const reverbEchosWithAttribute = userReverbEchos.map((echo) => ({
-    ...echo.toObject(),
-    wasReverb: true,
-  }));
+  const reverbEchosWithAttribute = userReverbEchos.map(echo => {
+    if (!userEchosIds.includes(echo._id)) {
+     return {
+        ...echo.toObject(),
+        wasReverb: true
+      }
+    }
+  })
 
   const profileFeed = [...userEchos, ...reverbEchosWithAttribute].sort(
     (a, b) => b.createdAt - a.createdAt
@@ -166,16 +170,24 @@ router.get('/:userId/feed', async (req, res) => {
         return res.status(404).json({ error: 'User is not following anyone' })
       }
       const followingIds = userFollowing.following
+      
       const originalEchos = await Echo.find({ author: { $in: followingIds } })
         .sort({ createdAt: -1 })
         .populate('author', '_id username profileImageUrl');
       const reverbEchos = await Echo.find({ 'reverbs': { $in: followingIds } })
         .sort({ createdAt: -1 })
         .populate('author', '_id username profileImageUrl');
+        
       const reverbEchosWithAttribute = reverbEchos.map((echo) => ({
         ...echo.toObject(),
         wasReverb: true,
-      }));
+      })).filter((reverbEcho) => {
+        if (followingIds.includes(reverbEcho._id.toString())) {
+          return false
+        } else {
+          return true
+        }
+      });
       const feed = [...originalEchos, ...reverbEchosWithAttribute].sort(
         (a, b) => b.createdAt - a.createdAt
       );
