@@ -43,14 +43,14 @@ const router = createBrowserRouter([
             element: <ProtectedRoute component={Echos} />
           },
           {
-            path: "/about",
-            element: <About />
-          },
-          {
             path: "new",
             element: <ProtectedRoute component={EchoCompose} />
           }
         ]
+      },
+      {
+          path: "/about",
+          element: <About />
       },
        {
         path: "/profile/:userId",

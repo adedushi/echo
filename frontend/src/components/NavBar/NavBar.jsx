@@ -1,11 +1,15 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './NavBar.css';
 import { logout } from '../../store/session';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
+
 
 function NavBar() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const currentUser = useSelector(state => state.session.user);
+
+    console.log(currentUser._id);
 
     const logoutUser = e => {
         e.preventDefault();
@@ -19,7 +23,7 @@ function NavBar() {
 
     const navToProfile = (e) => {
         e.preventDefault();
-        navigate('/profile')
+        navigate(`/profile/${currentUser._id}`)
     }
 
     const navToCreate = (e) => {
