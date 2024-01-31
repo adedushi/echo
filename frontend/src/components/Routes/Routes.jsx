@@ -17,6 +17,6 @@ export const ProtectedRoute = ({ component: Component, ...props }) => {
     return (
         loggedIn ?
             <Component {...props} /> :
-            <Navigate to="/login" replace={true} />
+            <Navigate to="/" replace={true} />
     );
 };

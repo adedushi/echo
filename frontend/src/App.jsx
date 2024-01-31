@@ -6,7 +6,6 @@ import { AuthRoute, ProtectedRoute } from './components/Routes/Routes';
 import NavBar from './components/NavBar/NavBar';
 
 import MainPage from './components/MainPage/MainPage';
-import LoginForm from './components/SessionForms/LoginForm';
 import SignupForm from './components/SessionForms/SignupForm';
 import Echos from './components/Echos/Echos';
 import Profile from './components/Profile/Profile';
@@ -49,8 +48,22 @@ const router = createBrowserRouter([
         ]
       },
       {
-        path: "profile",
-        element: <ProtectedRoute component={Profile} />
+        path: "/profile/:userId",
+        element: <Profile />,
+        children: [
+          {
+            path: "echos",
+            element: <Echos />,
+          }
+          // {
+          //   path: "likes",
+          //   element: <Likes />,
+          // },
+          // {
+          //   path: "reverbs",
+          //   element: <Reverbs />,
+          // }
+        ]
       }
     ]
   }
