@@ -1,6 +1,144 @@
+@font-face {
+    font-family: 'rubikBold';
+    src: url('../../../assets/fonts/Rubik-Bold.ttf') format('ttf');
+}
+
 #aboutContainer {
-    width: 68vw;
+    width: 100vw;
     height: 100vh;
-    border: 2px solid black;
-    margin-left: 29%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.titleCard {
+    width: 40vw;
+    height: 15%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.titleCard h1 {
+    font-family: 'rubikBold', sans-serif;
+    font-size: 600%;
+    font-weight: bold;
+}
+
+#labtext {
+    color: #4e844e;
+}
+
+#backButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 300%;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin-left: 3%;
+}
+
+#backButton:hover {
+    transform: scale(1.2);
+}
+
+.devCardHolder {
+    margin-top: 2vh;
+    width: 80vw;
+    height: 70%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.devWrapper {
+    width: 25%;
+    height: 98%;
+    margin-left: 3%;
+    margin-right: 3%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #afe1af98;
+    border-radius: 50px;
+}
+
+.profilePhoto {
+    height: 30vh;
+    width: 30vh;
+    border-radius: 50%;
+    border: 1px solid black;
+}
+
+.devNameWrapper {
+    margin-top: 4%;
+    height: 5vh;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.devNameWrapper h1 {
+    font-family: 'rubikBold', sans-serif;
+    font-size: 150%;
+}
+
+.firstLetter {
+    font-weight: bold;
+    font-size: 200%;
+}
+
+.devSummaryWrapper {
+    width: 80%;
+    height: 15vh;
+    background-color: white;
+    margin-top: 4%;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.devSummaryWrapper p {
+    font-size: 1.6vh;
+    padding: 2%;
+    font-family: 'rubikBold', sans-serif;
+    line-height: 1.1;
+    text-indent: 1em;
+}
+
+.iconLinksWrapper {
+    margin-top: 5%;
+    height: 5vh;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.iconButtons {
+    font-size: 4vh;
+    cursor: pointer;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+#liButton {
+    color: #0a66c2;
+}
+
+#wellfoundButton {
+    color: #ffa34b;
+}
+
+#githubButton {
+    color: rgb(83, 78, 78);
 }

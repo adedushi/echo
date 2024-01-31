@@ -31,6 +31,10 @@ const router = createBrowserRouter([
       path: "signup",
       element: <AuthRoute component={SignupForm} />
     },
+    {
+      path: "/about",
+      element: <About />
+    },
   {
     element: <Layout />,
     children: [
@@ -47,10 +51,6 @@ const router = createBrowserRouter([
             element: <ProtectedRoute component={EchoCompose} />
           }
         ]
-      },
-      {
-          path: "/about",
-          element: <About />
       },
        {
         path: "/profile/:userId",
