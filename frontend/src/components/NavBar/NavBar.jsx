@@ -5,6 +5,7 @@ import { logout } from '../../store/session';
 
 function NavBar() {
     const loggedIn = useSelector(state => !!state.session.user);
+    const currentUser = useSelector(state => state.session.user);
     const dispatch = useDispatch();
 
     const logoutUser = e => {
@@ -17,7 +18,7 @@ function NavBar() {
             return (
                 <div className="links-nav-bar">
                     <div className="links-nav">
-                        <Link to={'/profile'}>Profile</Link>
+                        <Link to={`/profile/${currentUser._id}`}>Profile</Link>
                         <Link to={'/echos'}>Home</Link>
                         <Link to={'/echos/new'}>Create</Link> 
                     </div>

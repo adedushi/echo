@@ -46,11 +46,11 @@ export const fetchEchos = () => async dispatch => {
     }
 };
 
-export const fetchUserEchos = id => async dispatch => {
+export const fetchUserEchos = (id, feed) => async dispatch => {
     try {
-        const res = await jwtFetch(`/api/echos/user/${id}`);
+        const res = await jwtFetch(`/api/users/${id}`);
         const echos = await res.json();
-        dispatch(receiveUserEchos(echos));
+        dispatch(receiveUserEchos(echos[feed]));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
