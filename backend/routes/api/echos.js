@@ -79,6 +79,7 @@ router.get('/user/:userId', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
     try {
         const echo = await Echo.findById(req.params.id)
+            .sort({ createdAt: -1 })
             .populate({
                 path: 'author',
                 select: '_id username profileImageUrl'
@@ -89,6 +90,14 @@ router.get('/:id', async (req, res, next) => {
                     path: 'replyAuthor',
                     select: '_id username profileImageUrl'
                 }
+            })
+            .populate({
+                path: 'likes',
+                select: '_id username profileImageeUrl'
+            })
+            .populate({
+                path: 'reverbs',
+                select: '_id username profileImageeUrl'
             })
         return res.json(echo);
     }
@@ -143,21 +152,48 @@ router.delete('/:echoId', requireUser, async (req, res) => {
 
 router.put('/updateTitle/:echoId', requireUser, async (req, res) => {
     try {
-        const echoId = req.params.echoId
-        const { newTitle } = req.body
+        const echoId = req.params.echoId;
+        const { newTitle } = req.body;
 
-        const result = await Echo.updateOne({ _id: echoId }, { $set: { title: newTitle } })
+        const result = await Echo.findOneAndUpdate(
+            { _id: echoId },
+            { $set: { title: newTitle } },
+            { new: true }
+        );
 
-        if (result.nModified === 0) {
+        if (!result) {
             return res.status(404).json({ error: 'Echo not found or no modifications made' });
         }
 
-        return res.json({ message: 'Title updated successfully' })
+        // Fetch the updated document with all necessary population
+        const updatedEcho = await Echo.findById(echoId)
+            .populate({
+                path: 'author',
+                select: '_id username profileImageUrl'
+            })
+            .populate({
+                path: 'replies',
+                populate: {
+                    path: 'replyAuthor',
+                    select: '_id username profileImageUrl'
+                }
+            })
+            .populate({
+                path: 'likes',
+                select: '_id username profileImageeUrl'
+            })
+            .populate({
+                path: 'reverbs',
+                select: '_id username profileImageeUrl'
+            });
+
+        return res.json(updatedEcho);
     } catch (err) {
         console.error(err);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
-})
+});
+
 
 router.put('/addLike/:echoId', requireUser, async (req, res) => {
     try {
