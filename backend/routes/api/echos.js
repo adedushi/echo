@@ -100,10 +100,11 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
-router.post('/', singleMulterUpload("audio"), requireUser,  async (req, res, next) => {
-    const audioUrl = await singleFileUpload({ file: req.file, isPublic: true }) 
-    // const audioUrl = "https://teamlab-echo.s3.amazonaws.com/public/baby-shark.mp3"
+
+router.post('/', singleMulterUpload("audio"), requireUser, validateEchoInput, async (req, res, next) => {
     try {
+        const audioUrl = await singleFileUpload({ file: req.file, isPublic: true }) 
+
         const newEcho = new Echo({
             title: req.body.title,
             audioUrl,

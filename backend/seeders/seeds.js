@@ -9,7 +9,7 @@ const NUM_SEED_USERS = 10;
 const NUM_SEED_ECHOS = 30;
 
 const DEFAULT_PROFILE_IMAGE_URL = 'https://teamlab-echo.s3.amazonaws.com/public/blank-profile-picture.png';
-const DEFAULT_AUDIO_URL = 'https://teamlab-echo.s3.amazonaws.com/public/baby-shark.mp3'
+const DEFAULT_AUDIO_URL = 'https://teamlab-echo.s3.amazonaws.com/public/stomps.mp3'
 
 const users = [];
 const echos = [];
@@ -51,11 +51,21 @@ const addEchoLikes = () => {
 const addEchoReplies = () => {
     const replies = []
     for (let i = 0; i < 2; i++) {
-        replies.push({
+        const newReply = {
             replyAuthor: users[i]._id,
             replyAudioUrl: DEFAULT_AUDIO_URL,
-            replyText: undefined
-        })
+            replyText: undefined,
+            replyLikes: [],
+        }
+
+        while (newReply.replyLikes.length < 3) {
+            const id = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
+            if (!newReply.replyLikes.includes(id)) {
+                newReply.replyLikes.push(id)
+            }
+        }
+
+        replies.push(newReply)
     }
     return replies
 }
