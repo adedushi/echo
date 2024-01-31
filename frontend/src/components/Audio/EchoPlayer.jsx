@@ -2,10 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
 import "./EchoPlayer.css";
 
+let currentlyPlayingInstance = null;
+
 function WaveTest({ audioUrl, index }) { 
     const waveformId = `myWaveForm-${index}`;
     const mySongRef = useRef(null);
     const [songPlaying, setSongPlaying] = useState(false);
+    // const [currentlyPlaying, setCurrentlyPlaying] = useState(null);
 
     useEffect(() => {
         const mySong = WaveSurfer.create({
@@ -26,6 +29,11 @@ function WaveTest({ audioUrl, index }) {
 
         mySongRef.current = mySong;
 
+        mySong.on('finish', () => {
+            setSongPlaying(false); // Reset the play state
+            mySong.seekTo(0); // Move the playback position to the beginning
+        });
+
         return () => {
             mySong.destroy();
         };
@@ -33,8 +41,18 @@ function WaveTest({ audioUrl, index }) {
 
     const handlePlay = () => {
         if (mySongRef.current) {
-            mySongRef.current.playPause();
-            setSongPlaying(!songPlaying);
+            if (currentlyPlayingInstance && currentlyPlayingInstance !== mySongRef.current) {
+                currentlyPlayingInstance.stop()
+                currentlyPlayingInstance.seekTo(0)
+            }
+                mySongRef.current.playPause();
+                setSongPlaying(!songPlaying);
+
+                if (!songPlaying) {
+                    currentlyPlayingInstance = mySongRef.current; // Update the currently playing instance
+                } else {
+                    currentlyPlayingInstance = null; // Reset the currently playing instance
+                }
         }
     };
 
