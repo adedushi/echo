@@ -9,8 +9,6 @@ function NavBar() {
     const navigate = useNavigate();
     const currentUser = useSelector(state => state.session.user);
 
-    console.log(currentUser._id);
-
     const logoutUser = e => {
         e.preventDefault();
         dispatch(logout());

@@ -1,4 +1,4 @@
-import WaveTest from '../Audio/EchoPlayer';
+import WaveTest from '../../../Audio/EchoPlayer';
 import "./ReplyPreview.css"
 
 function ReplyPreview({ audioUrl }) {

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import "./EchoRecorder.css"
 import { useAudioRecorder } from 'react-audio-voice-recorder';
-import RecordingAnimation from "./RecordingAnimation";
+import RecordingAnimation from "./RecordingAnimation/RecordingAnimation";
 
 const EchoRecorder = ({ setAudio, setAudioUrl }) => {
     const {

@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { clearEchoErrors, composeEcho } from '../../store/echos';
-import EchoBox from './EchoBox';
+import { clearEchoErrors, composeEcho } from '../../../store/echos';
+import EchoBox from '../EchoBox/EchoBox';
 import './EchoCompose.css';
-import EchoRecorder from './EchoRecorder';
+import EchoRecorder from '../EchoRecorder/EchoRecorder';
+import ReplyPreview from '../ReplyCompose/ReplyPreview/ReplyPreview';
 
 function EchoCompose() {
 
@@ -41,21 +42,6 @@ function EchoCompose() {
         setTitle('');
     };
 
-    const updateTitle = e => {
-        setTitle(e.currentTarget.value)
-        
-    };
-
-    const clearFile = () => {
-        setAudio(null);
-        setAudioUrl(null);
-        setShowSubmit(false)
-        setFileName('')
-        if (fileRef.current) {
-            fileRef.current.value = null
-        }
-    }
-
     const updateFile = async e => {
         const file = e.target.files[0];
         if (file) {
@@ -79,12 +65,12 @@ function EchoCompose() {
         }
     }
 
-    const clickRecord = () => {
+    const handleShowRecord = () => {
         setShowRecord(true)
         setShowUpload(false)
     }
 
-    const clickUpload = () => {
+    const handleShowUpload = () => {
         setShowRecord(false)
         setShowUpload(true)
     }
@@ -92,6 +78,26 @@ function EchoCompose() {
     const handleUploadClick = () => {
         fileRef.current.click();
     };
+
+    const clearAudio = () => {
+        setAudio(null)
+        setAudioUrl(null)
+    }
+
+    const updateTitle = e => {
+        setTitle(e.currentTarget.value)
+        
+    };
+
+    const clearFile = () => {
+        setAudio(null);
+        setAudioUrl(null);
+        setShowSubmit(false)
+        setFileName('')
+        if (fileRef.current) {
+            fileRef.current.value = null
+        }
+    }
 
     
     return (
@@ -119,17 +125,20 @@ function EchoCompose() {
                     className="title-input"
                     minLength={5}
                 />
-                <div className='create-buttons'>
-                    <button className="upload-button" type="button" onClick={clickUpload}>upload</button>
-                    <button className="record-button" type="button" onClick={clickRecord}>record</button>
-                    <button className="clear-button" type="button" onClick={clearFile}>Clear</button>
-                </div>
+                {showRecord && <div className='record-options'>
+                    <i className="fa-solid fa-trash trash-icon" onClick={clearAudio}></i>
+                    <i className="fa-solid fa-paper-plane send-icon" onClick={handleSubmit}></i>
+                    <i className="fa-solid fa-file-arrow-up" onClick={handleShowUpload}></i>
+                </div>}
+                {showUpload && <div className='record-options'>
+                    <i className="fa-solid fa-trash trash-icon" onClick={clearAudio}></i>
+                    <i className="fa-solid fa-paper-plane send-icon" onClick={handleSubmit}></i>
+                    <i className="fa-solid fa-microphone" onClick={handleShowRecord}></i>
+                </div>}
+                
                 <div className="">
-                    {(audioUrl !== null) ?
-                        <EchoBox echo={{ title, author, audioUrl, replies: null, likes: null, reverbs: null }} /> :
-                        undefined}
+                    {(audioUrl !== null) && <ReplyPreview audioUrl={audioUrl} /> }
                 </div>
-                {showSubmit && <button className="submit-button" type="submit">Submit</button>}
             </form>
         </div>
     )
