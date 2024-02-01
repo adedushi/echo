@@ -9,7 +9,6 @@ import MainPage from './components/MainPage/MainPage';
 import SignupForm from './components/SessionForms/SignupForm';
 import Echos from './components/Echos/Echos/Echos'
 import Profile from './components/Profile/Profile';
-import EchoCompose from './components/Echos/EchoCompose/EchoCompose';
 import ReplyCompose from './components/Echos/ReplyCompose/ReplyCompose';
 import { getCurrentUser } from './store/session';
 import About from './components/About/About';
@@ -46,10 +45,6 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <ProtectedRoute component={Echos} />
-          },
-          {
-            path: "new",
-            element: <ProtectedRoute component={EchoCompose} />
           },
           {
             path: "reply",
