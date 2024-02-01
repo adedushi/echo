@@ -2,12 +2,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import './NavBar.css';
 import { logout } from '../../store/session';
 import { useNavigate } from 'react-router';
+import { useState } from 'react';
+import EchoCompose from '../Echos/EchoCompose/EchoCompose';
 
 
 function NavBar() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const currentUser = useSelector(state => state.session.user);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
 
     const logoutUser = e => {
         e.preventDefault();
@@ -24,10 +36,10 @@ function NavBar() {
         navigate(`/profile/${currentUser._id}`)
     }
 
-    const navToCreate = (e) => {
-        e.preventDefault();
-        navigate('/echos/new');
-    }
+    // const navToCreate = (e) => {
+    //     e.preventDefault();
+    //     navigate('/echos/new');
+    // }
 
     const navToAbout = (e) => {
         e.preventDefault();
@@ -36,6 +48,7 @@ function NavBar() {
 
     return (
         <>
+       {isModalOpen && <EchoCompose onClose={closeModal} />}
         <div id='navContainer'>
             <h1 onClick={navToHome}>Echo</h1>
             {/* {getLinks()} */}
@@ -50,7 +63,7 @@ function NavBar() {
                             <h2 className='navButtonText'>Profile</h2>
                         </div>
 
-                        <div className='navButtonWrapper' onClick={navToCreate}>
+                        <div className='navButtonWrapper' onClick={openModal}>
                             <i id='recordIcon' className="fa-solid fa-file-audio"></i>
                             <h2 className='navButtonText'>Create</h2>
                         </div>
