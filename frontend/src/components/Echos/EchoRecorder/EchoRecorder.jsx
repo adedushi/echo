@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import "./EchoRecorder.css"
 import { useAudioRecorder } from 'react-audio-voice-recorder';
 import RecordingAnimation from "./RecordingAnimation/RecordingAnimation";
@@ -11,18 +11,18 @@ const EchoRecorder = ({ setAudio, setAudioUrl }) => {
         isRecording,
         recordingTime,
     } = useAudioRecorder();
-    const addAudioElement = (blob) => {
+    const addAudioElement = useCallback((blob) => {
         const url = URL.createObjectURL(blob);
         const audio = new Audio()
         audio.src = url;
         setAudio(blob)
         setAudioUrl(audio.src)
-    };
+    }, [setAudio, setAudioUrl]);
 
     useEffect(() => {
         if (!recordingBlob) return;
         addAudioElement(recordingBlob)
-    }, [recordingBlob])
+    }, [addAudioElement, recordingBlob])
 
     // useEffect(() => {
     //     if (recordingTime >= 30) {
