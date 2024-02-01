@@ -1,52 +1,89 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserEchos, clearEchoErrors, selectUserEchosArray } from '../../store/echos';
 import EchoBox from '../Echos/EchoBox/EchoBox';
 import "./Profile.css"
-import { useParams } from 'react-router-dom';
+import { NavLink, Outlet, useParams } from 'react-router-dom';
+import { fetchUser } from '../../store/users';
 
-function Profile() {
+export const Feed = ({ feedType }) => {
     const dispatch = useDispatch();
-    const currentUser = useSelector(state => state.session.user);
-    let {profileUserId} = useParams();
+    const { userId } = useParams(); 
     const userEchos = useSelector(selectUserEchosArray);
-    const [feed, setFeed] = useState("profileFeed")
 
     useEffect(() => {
-        dispatch(fetchUserEchos(currentUser._id, feed));
+        if (userId) {
+            dispatch(fetchUserEchos(userId, feedType));
+        }
         return () => dispatch(clearEchoErrors());
-    }, [currentUser, feed, dispatch]);
+    }, [userId, feedType, dispatch]);
 
-    const handleMenuClick = e => {
-        e.preventDefault()
-        setFeed(e.target.getAttribute('data-value'))
+    if (!userEchos.length) {
+        return <div>No content available.</div>;
     }
 
-    if (userEchos.length === 0) {
-        return <div>{currentUser.username} has no Echos</div>;
-        
-    } else {
-        return (
-            <div className="profile-page">
-                <div className="profile-header">
-                    <img src={currentUser.profileImageUrl} className="profile-image-large"/>
-                    <h1>{currentUser.username}</h1>
-                </div>
-                <menu className="profile-feed-links">
-                    <h1 onClick={handleMenuClick} data-value="profileFeed">Echos</h1>
-                    <h1 onClick={handleMenuClick} data-value="likes">Likes</h1>
-                    <h1 onClick={handleMenuClick} data-value="reverbs">Reverbs</h1>
-                </menu>
-                {userEchos.map((echo, index) => (
-                    <EchoBox
-                        key={`${echo._id}-${feed}-${index}-${echo.wasReverb}`}
-                        echo={echo}
-                        feed={feed}
-                    />
-                ))}
+    return (
+        <div>
+            {userEchos.map((echo, index) => (
+                <EchoBox
+                    key={`${echo._id}-${index}-${echo.wasReverb}`}
+                    echo={echo}
+                />
+            ))}
+        </div>
+    );
+}
+
+
+const Profile = () => {
+    const currentUser = useSelector(state => state.session.user);
+    const profileUser = useSelector(state => state.users.user);
+    const { userId } = useParams(); 
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (userId) {
+            dispatch(fetchUser(userId));
+        }
+    }, [userId, dispatch]);
+
+    return (
+        <div className="profile-page">
+            <div className="profile-header">
+                {profileUser? <img src={profileUser.profileImageUrl} className="profile-image-large"/> : null}
+                {profileUser? <h1>{profileUser.username}</h1> : null}
             </div>
-        );
-    }
+            <div className="profile-nav">
+                <NavLink
+                    to={`echos`}
+                    className={({ isActive }) =>
+                        isActive ? "active" : ""
+                    }
+                >
+                    Echos
+                </NavLink>
+
+                <NavLink
+                    to={`likes`}
+                    className={({ isActive }) =>
+                        isActive ? "active" : ""
+                    }
+                >
+                    Likes
+                </NavLink>
+
+                <NavLink
+                    to={`reverbs`}
+                    className={({ isActive }) =>
+                        isActive ? "active" : ""
+                    }
+                >
+                    Reverbs
+                </NavLink>
+            </div>
+            <Outlet />
+        </div>
+    );
 }
 
 export default Profile;
