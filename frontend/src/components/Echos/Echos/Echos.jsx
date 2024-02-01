@@ -27,7 +27,7 @@ function Echos() {
         return () => clearTimeout(delayTimeID);
     })
 
-    const current = useSelector(state => state.users.currentUser);
+    // const currentUser = useSelector(state => state.users.currentUser);
     useEffect(() => {
         if (userId) {
             dispatch(fetchCurrentUser(userId));

@@ -36,7 +36,7 @@ export const Feed = ({ feedType }) => {
 
 
 const Profile = () => {
-    const currentUser = useSelector(state => state.session.user);
+    // const currentUser = useSelector(state => state.session.user);
     const profileUser = useSelector(state => state.users.profileUser);
     const { userId } = useParams(); 
     const dispatch = useDispatch();

@@ -5,7 +5,7 @@ import WaveTest from '../../Audio/EchoPlayer';
 import './EchoBox.css';
 import { addEchoLike, addReverb, destroyEcho, removeEchoLike, removeReverb, updateEchoTitle } from '../../../store/echos';
 
-function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title } }) {
+function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title, wasReverb = false } }) {
     const { username, profileImageUrl } = author;
     const currentUser = useSelector(state => state.session.user);
     const dispatch = useDispatch();
@@ -36,7 +36,7 @@ function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title
             }
         }
         // for (const )
-    }, [])
+    }, [currentUser._id, likes, reverbs] )
 
 
 
@@ -118,7 +118,7 @@ function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title
                 {profileImageUrl ?
                     <img className="profile-image" src={profileImageUrl} alt="profile" onClick={() => navigate(`/profile/${_id}/echos`)} onMouseEnter={() => setShowFollow(true)} onMouseLeave={() => setShowFollow(false)}/> :
                     undefined}
-                <WaveTest index={_id} audioUrl={audioUrl} />
+                <WaveTest index={`${_id}-${wasReverb}`} audioUrl={audioUrl} />
             </div>
             
             <div className="echo-details">
