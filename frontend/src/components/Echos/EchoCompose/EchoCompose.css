@@ -31,7 +31,6 @@
     animation: fadeIn 0.3s ease forwards;
 }
 
-
 .create-echo-container {
     display: flex;
     flex-direction: column;

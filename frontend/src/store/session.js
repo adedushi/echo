@@ -42,18 +42,20 @@ const startSession = (userInfo, route) => async dispatch => {
         });
         const { user, token } = await res.json();
         localStorage.setItem('jwtToken', token);
+        // const mongoUser = await jwtFetch(`/api/users/${user._id}`)
+        // console.log(mongoUser)
         return dispatch(receiveCurrentUser(user));
     } catch (err) {
         const res = await err.json();
-        if (res.statusCode === 400) {
-            return dispatch(receiveErrors(res.errors));
-        }
+        return dispatch(receiveErrors(res.errors));
+
     }
 };
 
 export const getCurrentUser = () => async dispatch => {
     const res = await jwtFetch('/api/users/current');
     const user = await res.json();
+    // const user = await jwtFetch(`/api/users/${data._id}`)
     return dispatch(receiveCurrentUser(user));
 };
 
