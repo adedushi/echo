@@ -59,20 +59,23 @@ function NavBar() {
                         </div>
 
                         <div className='navButtonWrapper' onClick={navToProfile}>
-                            <i id='profileIcon' className="fa-regular fa-user"></i>
+                            <i id='profileIcon' className="fa-solid fa-user"></i>
                             <h2 className='navButtonText'>Profile</h2>
                         </div>
 
-                        <div className='navButtonWrapper' onClick={openModal}>
+                        <div id='createButton' onClick={openModal}>
                             <i id='recordIcon' className="fa-solid fa-file-audio"></i>
                             <h2 className='navButtonText'>Create</h2>
                         </div>
 
-                        <div className='navButtonWrapper' onClick={navToAbout}>
-                            <h2 id='logoutText' className='navButtonText'>About</h2>
-                        </div>
+            
             </div>
-            <div className='navButtonWrapper' onClick={logoutUser}>
+
+            <div className='navButtonWrapper' onClick={navToAbout}>
+                <h2 id='logoutText' className='navButtonText'>About</h2>
+                <i id='profileIcon' className="fa-solid fa-circle-info"></i>
+            </div>
+            <div id='logoutButton' className='navButtonWrapper' onClick={logoutUser}>
                 <h2 id='logoutText' className='navButtonText'>Logout</h2>
                 <i id='logoutIcon' className="fa-solid fa-arrow-right-from-bracket"></i>
             </div>
