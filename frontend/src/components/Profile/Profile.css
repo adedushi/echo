@@ -33,3 +33,22 @@
     width: 90%;
     justify-content: space-between;
 }
+
+.profile-nav a {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 16px;
+    background-color: white;
+    color: black;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.profile-nav a.active {
+    color: white;
+    background-color: #0077cc;
+    border-bottom: 3px solid blue;
+}

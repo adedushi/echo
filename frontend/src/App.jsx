@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Outlet, Navigate } from 'react-router-dom';
 
 import { AuthRoute, ProtectedRoute } from './components/Routes/Routes';
 import NavBar from './components/NavBar/NavBar';
@@ -8,7 +8,7 @@ import NavBar from './components/NavBar/NavBar';
 import MainPage from './components/MainPage/MainPage';
 import SignupForm from './components/SessionForms/SignupForm';
 import Echos from './components/Echos/Echos/Echos'
-import Profile from './components/Profile/Profile';
+import Profile, { Feed } from './components/Profile/Profile';
 import ReplyCompose from './components/Echos/ReplyCompose/ReplyCompose';
 import { getCurrentUser } from './store/session';
 import About from './components/About/About';
@@ -52,22 +52,26 @@ const router = createBrowserRouter([
           }
         ]
       },
-       {
+      {
         path: "/profile/:userId",
         element: <Profile />,
         children: [
           {
+            index: true,
+            element: <Navigate to="./echos" replace />
+          },
+          {
             path: "echos",
-            element: <Echos />,
-          }
-          // {
-          //   path: "likes",
-          //   element: <Likes />,
-          // },
-          // {
-          //   path: "reverbs",
-          //   element: <Reverbs />,
-          // }
+            element: <Feed feedType={"profileFeed"} />
+          },
+          {
+            path: "likes",
+            element: <Feed feedType={"likes"} />
+          },
+          {
+            path: "reverbs",
+            element: <Feed feedType={"reverbs"} />
+          },
         ]
       }
     ]
