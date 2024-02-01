@@ -1,10 +1,16 @@
 import jwtFetch from "./jwt";
 
-const RECEIVE_USER = "echos/RECEIVE_USER";
+const RECEIVE_PROFILE_USER = "echos/RECEIVE_PROFILE_USER";
+const RECEIVE_CURRENT_USER = "echos/RECEIVE_CURRENT_USER";
 const RECEIVE_USER_ERRORS = "echos/RECEIVE_USER_ERRORS";
 
-const receiveUser = user => ({
-    type: RECEIVE_USER,
+const receiveProfileUser = user => ({
+    type: RECEIVE_PROFILE_USER,
+    user
+});
+
+const receiveCurrentUser = user => ({
+    type: RECEIVE_CURRENT_USER,
     user
 });
 
@@ -13,11 +19,24 @@ const receiveErrors = errors => ({
     errors
 });
 
-export const fetchUser = (userId) => async dispatch => {
+export const fetchProfileUser = (userId) => async dispatch => {
     try {
         const res = await jwtFetch(`/api/users/${userId}`);
         const user = await res.json();
-        dispatch(receiveUser(user));
+        dispatch(receiveProfileUser(user));
+    } catch (err) {
+        const resBody = await err.json();
+        if (resBody.statusCode === 400) {
+            dispatch(receiveErrors(resBody.errors));
+        }
+    }
+};
+
+export const fetchCurrentUser = (userId) => async dispatch => {
+    try {
+        const res = await jwtFetch(`/api/users/${userId}`);
+        const user = await res.json();
+        dispatch(receiveCurrentUser(user));
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -27,13 +46,17 @@ export const fetchUser = (userId) => async dispatch => {
 };
 
 const initialState = {
-    user: undefined
+    profileUser: undefined,
+    currentUser: undefined
 };
 
 const usersReducer = (state = initialState, action) => {
+    const newState = { ...state }
     switch (action.type) {
-        case RECEIVE_USER:
-            return { user: action.user };
+        case RECEIVE_PROFILE_USER:
+            return { ...newState, profileUser: action.user };
+        case RECEIVE_CURRENT_USER:
+            return { ...newState, currentUser: action.user };
         default:
             return state;
     }

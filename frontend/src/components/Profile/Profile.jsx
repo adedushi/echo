@@ -4,7 +4,7 @@ import { fetchUserEchos, clearEchoErrors, selectUserEchosArray } from '../../sto
 import EchoBox from '../Echos/EchoBox/EchoBox';
 import "./Profile.css"
 import { NavLink, Outlet, useParams } from 'react-router-dom';
-import { fetchUser } from '../../store/users';
+import { fetchProfileUser } from '../../store/users';
 
 export const Feed = ({ feedType }) => {
     const dispatch = useDispatch();
@@ -37,13 +37,13 @@ export const Feed = ({ feedType }) => {
 
 const Profile = () => {
     const currentUser = useSelector(state => state.session.user);
-    const profileUser = useSelector(state => state.users.user);
+    const profileUser = useSelector(state => state.users.profileUser);
     const { userId } = useParams(); 
     const dispatch = useDispatch();
 
     useEffect(() => {
         if (userId) {
-            dispatch(fetchUser(userId));
+            dispatch(fetchProfileUser(userId));
         }
     }, [userId, dispatch]);
 
