@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import WaveTest from '../../Audio/EchoPlayer';
-import { destroyEcho, updateEchoTitle } from '../../store/echos';
+import { destroyEcho, updateEchoTitle } from '../../../store/echos';
 import './EchoBox.css';
 
 function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title } }) {
