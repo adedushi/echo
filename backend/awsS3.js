@@ -1,5 +1,6 @@
 const { S3Client } = require("@aws-sdk/client-s3");
 const { Upload } = require("@aws-sdk/lib-storage");
+const e = require("express");
 const multer = require("multer");
 const NAME_OF_BUCKET = "teamlab-echo";
 
@@ -25,6 +26,7 @@ const singleFileUpload = async ({ file, isPublic = false }) => {
         return isPublic ? result.Location : result.Key;
     } catch (err) {
         console.log(err);
+        return null
     }
 };
 
@@ -47,8 +49,14 @@ const storage = multer.memoryStorage({
     },
 });
 
-const singleMulterUpload = (nameOfKey) =>
-    multer({ storage: storage }).single(nameOfKey);
+const singleMulterUpload = (nameOfKey) => {
+    const file = multer({ storage: storage }).single(nameOfKey);
+    if (file) {
+        return file
+    }
+}
+
+
 // const multipleMulterUpload = (nameOfKey) =>
 //     multer({ storage: storage }).array(nameOfKey);
 

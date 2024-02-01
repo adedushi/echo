@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { clearEchoErrors } from '../../../store/echos';
+import { addEchoReply, clearEchoErrors } from '../../../store/echos';
 import './ReplyCompose.css';
 import EchoRecorder from '../EchoRecorder/EchoRecorder';
 import ReplyPreview from './ReplyPreview/ReplyPreview';
 
 function ReplyCompose() {
-    const echoId = '65ba730da50d777ab5531d43'
+    // const echoId = '65ba730da50d777ab5531d43'
     const [comment, setComment] = useState('');
     const dispatch = useDispatch();
     const [audio, setAudio] = useState(null);
@@ -25,10 +25,8 @@ function ReplyCompose() {
 
     const handleSubmit = () => {
         if (comment) {
-            // dispatch(addReply(echoId, comment))
-        } else {
-            // dispatch(addReply(echoId, audio))
-        }
+            // dispatch(addEchoReply(echoId, comment, audio))
+        } 
         setComment('');
         clearAudio()
     };

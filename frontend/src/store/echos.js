@@ -73,6 +73,7 @@ export const fetchUserEchos = (id, feed) => async dispatch => {
     }
 };
 
+
 export const composeEcho = (title, audio) => async dispatch => {
     const formData = new FormData();
     formData.append("title", title);
@@ -94,10 +95,11 @@ export const composeEcho = (title, audio) => async dispatch => {
 
 export const destroyEcho = (echoId) => async dispatch => {
     try {
+        // eslint-disable-next-line no-unused-vars
         const res = await jwtFetch(`/api/echos/${echoId}`, {
             method: 'DELETE',
         });
-        const echo = await res.json();
+        // const echo = await res.json();
         dispatch(removeEcho(echoId)) 
     } catch (err) {
         const resBody = await err.json();
@@ -123,12 +125,142 @@ export const updateEchoTitle = (echoId, newTitle) => async dispatch => {
     }
 };
 
-const selectEchos = state => state.echos.all;
-const selectUserEchos = state => state.echos.user;
-export const selectAllEchosArray = createSelector(selectEchos,
+export const addEchoLike = echoId => async dispatch => {
+    try {
+        const res = await jwtFetch(`/api/echos/addLike/${echoId}`, {
+            method: 'PUT'
+        })
+        const updatedEcho = await res.json()
+        dispatch(updateEcho(updatedEcho))
+    } catch (err) {
+        const resBody = await err.json()
+        if (resBody.statusCode === 400) {
+            return dispatch(receiveErrors(resBody.errors))
+        }
+    }
+}
+
+export const removeEchoLike = echoId => async dispatch => {
+    try {
+        const res = await jwtFetch(`/api/echos/removeLike/${echoId}`, {
+            method: 'PUT'
+        })
+        const updatedEcho = await res.json()
+        dispatch(updateEcho(updatedEcho))
+    } catch (err) {
+        const resBody = await err.json()
+        if (resBody.statusCode === 400) {
+            return dispatch(receiveErrors(resBody.errors))
+        }
+    }
+}
+
+export const addEchoReply = ( echoId, replyText, replyAudio ) => async dispatch => {
+    let body = null
+    if (replyAudio) {
+        const formData = new FormData();
+        formData.append("replyAudio", replyAudio)
+        body = formData
+    } else {
+        body = JSON.stringify({text: replyText})
+    }
+    try {
+        const res = await jwtFetch(`/api/echos/addReply/${echoId}`, {
+            method: 'PUT',
+            body: body
+        })
+        const updatedEcho = await res.json()
+        dispatch(updateEcho(updatedEcho))
+    } catch (err) {
+        const resBody = await err.json()
+        if (resBody.statusCode === 400) {
+            return dispatch(receiveErrors(resBody.errors))
+        }
+    }
+}
+
+export const removeEchoReply = (echoId, replyId) => async dispatch => {
+    try {
+        const res = await jwtFetch(`/api/echos/removeReply/${echoId}`, {
+            method: 'PUT',
+            body: JSON.stringify({replyId: replyId})
+        })
+        const updatedEcho = await res.json()
+        dispatch(updateEcho(updatedEcho))
+    } catch (err) {
+        const resBody = await err.json()
+        if (resBody.statusCode === 400) {
+            return dispatch(receiveErrors(resBody.errors))
+        }
+    }
+}
+
+export const addReplyLike = (echoId, replyId) => async dispatch => {
+    try {
+        const res = await jwtFetch(`/api/echos/likeReply/${echoId}/${replyId}`, {
+            method: 'PUT'
+        })
+        const updatedEcho = await res.json()
+        dispatch(updateEcho(updatedEcho))
+    } catch (err) {
+        const resBody = await err.json()
+        if (resBody.statusCode === 400) {
+            return dispatch(receiveErrors(resBody.errors))
+        }
+    }
+}
+
+export const removeReplyLike = (echoId, replyId) => async dispatch => {
+    try {
+        const res = await jwtFetch(`/api/echos/unlikeReply/${echoId}/${replyId}`, {
+            method: 'PUT'
+        })
+        const updatedEcho = await res.json()
+        dispatch(updateEcho(updatedEcho))
+    } catch (err) {
+        const resBody = await err.json()
+        if (resBody.statusCode === 400) {
+            return dispatch(receiveErrors(resBody.errors))
+        }
+    }
+}
+
+export const addReverb = echoId => async dispatch => {
+    try {
+        const res = await jwtFetch(`/api/echos/addReverb/${echoId}`, {
+            method: 'PUT'
+        })
+        const updatedEcho = await res.json()
+        dispatch(updateEcho(updatedEcho))
+    } catch (err) {
+        const resBody = await err.json()
+        if (resBody.statusCode === 400) {
+            return dispatch(receiveErrors(resBody.errors))
+        }
+    }
+}
+
+export const removeReverb = echoId => async dispatch => {
+    try {
+        const res = await jwtFetch(`/api/echos/removeReverb/${echoId}`, {
+            method: 'PUT'
+        })
+        const updatedEcho = await res.json()
+        dispatch(updateEcho(updatedEcho))
+    } catch (err) {
+        const resBody = await err.json()
+        if (resBody.statusCode === 400) {
+            return dispatch(receiveErrors(resBody.errors))
+        }
+    }
+}
+
+
+
+export const selectAllEchosArray = createSelector(state => state.echos.all,
     (echos) => Object.values(echos)
 );
-export const selectUserEchosArray = createSelector(selectUserEchos,
+export const selectUserEchosArray = createSelector(state => state.echos.user,
     (echos) => Object.values(echos)
 );
 
@@ -146,17 +278,20 @@ export const echoErrorsReducer = (state = nullErrors, action) => {
     }
 };
 
-const echosReducer = (state = { all: {}, user: {}, new: undefined }, action) => {
+const echosReducer = (state = { all: {}, user: {}}, action) => {
+    // eslint-disable-next-line no-unused-vars
     const newState = { ...state }
     switch (action.type) { 
         case RECEIVE_ECHOS:
-            return { ...state, all: action.echos, new: undefined };
+            return { ...state, all: action.echos };
         case RECEIVE_USER_ECHOS:
-            return { ...state, user: action.echos, new: undefined };
-        case RECEIVE_NEW_ECHO:
-            return { ...state, new: action.echo };
+            return { ...state, user: action.echos };
+        case RECEIVE_NEW_ECHO:{
+            const updatedAll = [action.echo, ...state.all];
+            return { ...state, all: updatedAll};
+        }
         case RECEIVE_USER_LOGOUT:
-            return { ...state, user: {}, new: undefined }
+            return { ...state, user: {}}
         case REMOVE_ECHO:{
             const updatedEchosAll = Array.isArray(state.all)
                 ? state.all.filter(echo => echo._id !== action.echoId)

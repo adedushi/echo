@@ -1,19 +1,90 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom"
 import WaveTest from '../../Audio/EchoPlayer';
 import './EchoBox.css';
-import { destroyEcho, updateEchoTitle } from '../../../store/echos';
+import { addEchoLike, addReverb, destroyEcho, removeEchoLike, removeReverb, updateEchoTitle } from '../../../store/echos';
 
 function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title } }) {
     const { username, profileImageUrl } = author;
     const currentUser = useSelector(state => state.session.user);
     const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     const [isEditing, setIsEditing] = useState(false);
     const [editedTitle, setEditedTitle] = useState(title);
+    const [isLiked, setIsLiked] = useState(false)
+    const [isReverbed, setIsReverbed] = useState(false)
+    const [isLikeHovered, setIsLikeHovered] = useState(false);
+    const [isReverbHovered, setIsReverbHovered] = useState(false)
+    const [showReplies, setShowReplies] = useState(false)
+    const [closingModal, setClosingModal] = useState(false)
+    const [confirmDelete, setConfirmDelete] = useState(false)
+    const [showFollow, setShowFollow] = useState(false)
+    // const [isFollowing, setIsFollowing] = useState(false)
+
+    useEffect(() => {
+        const currentUserId = currentUser._id
+        for (const like of likes) {
+            if (currentUserId === like._id) {
+                setIsLiked(true)
+            }
+        }
+        for (const reverb of reverbs) {
+            if (currentUserId === reverb._id) {
+                setIsReverbed(true)
+            }
+        }
+        // for (const )
+    }, [])
+
+
+
+    const handleMouseEnter = (e) => {
+        if (e.target.id === 'like-button') {
+            setIsLikeHovered(true);
+        } 
+        if (e.target.id === 'reverb-button') {
+            setIsReverbHovered(true)
+        }
+    };
+
+    const handleMouseLeave = (e) => {
+        if (e.target.id === 'like-button') {
+            setIsLikeHovered(false);
+        } 
+        if (e.target.id === 'reverb-button') {
+            setIsReverbHovered(false)
+        }
+    };
+
+    const handleReply = () => {
+        // open replies
+    }
+
+    const handleLike = () => {
+        if (!isLiked) {
+            dispatch(addEchoLike(_id))
+            setIsLiked(true)
+        } else {
+            dispatch(removeEchoLike(_id))
+            setIsLiked(false)
+        }
+    }
+
+    const handleReverb = () => {
+        if (isReverbed) {
+            dispatch(removeReverb(_id))
+            setIsReverbed(false)
+        } else {
+            dispatch(addReverb(_id))
+            setIsReverbed(true)
+        }
+    }
 
     const handleDeleteEcho = (e) => {
         e.preventDefault();
+        setConfirmDelete(false)
         dispatch(destroyEcho(_id));
     };
 
@@ -25,43 +96,60 @@ function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title
         setEditedTitle(e.target.value);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmitNewTitle = (e) => {
         e.preventDefault();
         dispatch(updateEchoTitle(_id, editedTitle));
         setIsEditing(false);
     };
 
+    const handleCloseModal = () => {
+        setClosingModal(true)
+        setConfirmDelete(false)
+        setTimeout(() => {
+            setIsEditing(false)
+            setClosingModal(false)
+        }, 300)
+    }
+
     return (
-        <div className="echo-box">
+        <div className="echo-box" onClick={() => setShowReplies(true)}>
+            <h2 className='echo-title'>{title}</h2>
             <div className="echo-content">
                 {profileImageUrl ?
-                    <img className="profile-image" src={profileImageUrl} alt="profile" /> :
+                    <img className="profile-image" src={profileImageUrl} alt="profile" onClick={() => navigate(`/profile/${_id}/echos`)} onMouseEnter={() => setShowFollow(true)} onMouseLeave={() => setShowFollow(false)}/> :
                     undefined}
                 <WaveTest index={_id} audioUrl={audioUrl} />
-                {isEditing ? (
-                    <form onSubmit={handleSubmit}>
-                        <input type="text" value={editedTitle} onChange={handleTitleChange} autoFocus />
-                        <button type="submit">Save</button>
-                        <button onClick={() => setIsEditing(false)}>Cancel</button>
-                    </form>
-                ) : (
-                    <div>
-                        <span>{title}</span>
-                        {currentUser._id === author._id && (
-                            <button onClick={handleEditEcho}><i className="fa-regular fa-pen-to-square"></i></button>
-                        )}
-                    </div>
-                )}
             </div>
+            
             <div className="echo-details">
-
-                {replies === null ? null : <h3><i className="fa-solid fa-comment" id='reply-button'></i> {replies.length}</h3> }
-                {likes === null ? null : <h3><i className="fa-solid fa-heart" id='like-button'></i> {likes.length}</h3>}
-                {reverbs === null ? null : <h3><i className="fas fa-satellite-dish" id='reverb-button'></i> {reverbs.length}</h3>}
-                {currentUser._id === author._id && (
-                    <h3 onClick={handleDeleteEcho}><i className="fa-regular fa-trash-can" data-value={_id}></i></h3>
-                )}
+                <p className='echo-username' onClick={() => navigate(`/profile/${_id}/echos`)}>{username}</p>
+                <h3><i className="fa-solid fa-comment" id='reply-button' onClick={handleReply}></i> {replies.length}</h3>
+                <h3><i className={`${isLiked ? 'fa-solid' : (isLikeHovered ? 'fa-solid' : 'fa-regular')} fa-heart`} id='like-button' onClick={handleLike} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{ opacity: isLikeHovered && isLiked ? 0.7 : 1 }}></i> {likes.length}</h3>
+                <h3><i className={`${isReverbed ? (isReverbHovered ? 'reverb-button-half' : 'reverb-button-full') : (isReverbHovered ? 'reverb-button-full' : 'reverb-button-half')} fas fa-satellite-dish`} id='reverb-button' onClick={handleReverb} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}></i> {reverbs.length}</h3>
+                {currentUser._id === author._id && <button onClick={handleEditEcho}><i className="fa-regular fa-pen-to-square"></i></button>}
             </div>
+            {showFollow && 
+                <div> 
+                
+                </div>}
+            {isEditing &&
+                    <div className={`edit-echo-title-modal ${closingModal ? 'edit-title-leave' : ''}`} onClick={handleCloseModal}>
+                        <div className={`edit-echo-title-container ${closingModal ? 'edit-title-leave' : ''}`} onClick={(e) => e.stopPropagation()}>
+                            <form  className='edit-echo-title-form'>
+                                <input type="text" value={editedTitle} onChange={handleTitleChange} autoFocus className='edit-title-input'/>
+                                <div className='echo-edit-actions'>
+                                    {!confirmDelete ? <i className="fa-regular fa-trash-can edit-trash-can" onClick={() => setConfirmDelete(true)}></i> : <i className="fa-solid fa-check edit-confirm" data-value={_id} onClick={handleDeleteEcho}></i>}
+                                    <button type="submit" className='edit-title-submit' onClick={handleSubmitNewTitle}><i className="fa-solid fa-floppy-disk"></i></button>
+                                    <i className="fa-solid fa-xmark cancel-edit-title" onClick={handleCloseModal}></i>
+                                </div>
+                            </form>
+                        </div>
+                    </div>}
+            {showReplies && 
+                <div>
+                    <p>Follow</p>
+                
+                </div>}
         </div>
     );
 }

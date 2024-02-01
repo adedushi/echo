@@ -143,6 +143,25 @@ router.delete('/:echoId', requireUser, async (req, res) => {
         if (userUpdateResult.nModified === 0) {
             return res.status(404).json({ error: 'User not found or no modifications made' });
         }
+        const updateUsersResult = await User.updateMany(
+            {
+                $or: [
+                    { likes: req.params.echoId },
+                    { reverbs: req.params.echoId },
+                    { profileFeed: req.params.echoId }
+                ]
+            },
+            {
+                $pull: {
+                    likes: req.params.echoId,
+                    reverbs: req.params.echoId,
+                    profileFeed: req.params.echoId
+                }
+            }
+        );
+        if (updateUsersResult.nModified === 0) {
+            return res.status(404).json({ error: 'No modifications made to users' });
+        }
         return res.json({message: 'Echo deleted successfully'})
     } catch (err) {
         console.error(err)
@@ -155,7 +174,7 @@ router.put('/updateTitle/:echoId', requireUser, async (req, res) => {
         const echoId = req.params.echoId;
         const { newTitle } = req.body;
 
-        const result = await Echo.findOneAndUpdate(
+        const result = await Echo.updateOne(
             { _id: echoId },
             { $set: { title: newTitle } },
             { new: true }
@@ -203,13 +222,31 @@ router.put('/addLike/:echoId', requireUser, async (req, res) => {
         if (result.nModified === 0) {
             return res.status(404).json({ error: 'Echo not found or no modifications made' });
         }
-
         const userUpdateResult = await User.updateOne( { _id: userId }, { $push: { likes: echoId } } );
         if (userUpdateResult.nModified === 0) {
             return res.status(404).json({ error: 'User not found or no modifications made' });
         }
-
-        return res.json({ message: 'Like has been added' });
+        const updatedEcho = await Echo.findById(echoId)
+            .populate({
+                path: 'author',
+                select: '_id username profileImageUrl'
+            })
+            .populate({
+                path: 'replies',
+                populate: {
+                    path: 'replyAuthor',
+                    select: '_id username profileImageUrl'
+                }
+            })
+            .populate({
+                path: 'likes',
+                select: '_id username profileImageeUrl'
+            })
+            .populate({
+                path: 'reverbs',
+                select: '_id username profileImageeUrl'
+            });
+        return res.json(updatedEcho);
     } catch (err) {
         console.error(err);
         return res.status(500).json({ error: 'Internal Server Error' });
@@ -229,18 +266,39 @@ router.put('/removeLike/:echoId', requireUser, async (req, res) => {
         if (userUpdateResult.nModified === 0) {
             return res.status(404).json({ error: 'User not found or no modifications made' });
         }
-
-        return res.json({ message: 'Like has been removed' });
+        const updatedEcho = await Echo.findById(echoId)
+            .populate({
+                path: 'author',
+                select: '_id username profileImageUrl'
+            })
+            .populate({
+                path: 'replies',
+                populate: {
+                    path: 'replyAuthor',
+                    select: '_id username profileImageUrl'
+                }
+            })
+            .populate({
+                path: 'likes',
+                select: '_id username profileImageeUrl'
+            })
+            .populate({
+                path: 'reverbs',
+                select: '_id username profileImageeUrl'
+            });
+        return res.json(updatedEcho);
+       
+        
     } catch (err) {
         console.error(err);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 })
 
-router.put('/addReply/:echoId', singleMulterUpload("recording"), requireUser, async (req, res) => {
-    // const audioUrl = await singleFileUpload({ files: req.files, isPublic: true }) 
-    const audioUrl = "https://teamlab-echo.s3.amazonaws.com/public/baby-shark.mp3"
+router.put('/addReply/:echoId', singleMulterUpload("replyAudio"), requireUser, validateEchoInput, async (req, res) => {
+    // const audioUrl = "https://teamlab-echo.s3.amazonaws.com/public/baby-shark.mp3"
     try {
+        const audioUrl = await singleFileUpload({ files: req.files, isPublic: true }) 
         const newReply = {
             replyAuthor: req.user._id,
             replyAudioUrl: audioUrl,
@@ -251,7 +309,27 @@ router.put('/addReply/:echoId', singleMulterUpload("recording"), requireUser, as
         if (result.nModified === 0) {
             return res.status(404).json({ error: 'Echo not found or no modifications made' });
         }
-        return res.json({ message: 'Reply has been added' });
+        const updatedEcho = await Echo.findById(echoId)
+            .populate({
+                path: 'author',
+                select: '_id username profileImageUrl'
+            })
+            .populate({
+                path: 'replies',
+                populate: {
+                    path: 'replyAuthor',
+                    select: '_id username profileImageUrl'
+                }
+            })
+            .populate({
+                path: 'likes',
+                select: '_id username profileImageeUrl'
+            })
+            .populate({
+                path: 'reverbs',
+                select: '_id username profileImageeUrl'
+            });
+        return res.json(updatedEcho);
     } catch (err) {
         console.error(err);
         return res.status(500).json({ error: 'Internal Server Error' });
@@ -266,7 +344,27 @@ router.put('/removeReply/:echoId', requireUser, async (req, res) => {
         if (result.nModified === 0) {
             return res.status(404).json({ error: 'Echo not found or no modifications made' });
         }
-        return res.json({ message: 'Reply has been removed' });
+        const updatedEcho = await Echo.findById(echoId)
+            .populate({
+                path: 'author',
+                select: '_id username profileImageUrl'
+            })
+            .populate({
+                path: 'replies',
+                populate: {
+                    path: 'replyAuthor',
+                    select: '_id username profileImageUrl'
+                }
+            })
+            .populate({
+                path: 'likes',
+                select: '_id username profileImageeUrl'
+            })
+            .populate({
+                path: 'reverbs',
+                select: '_id username profileImageeUrl'
+            });
+        return res.json(updatedEcho);
     } catch (err) {
         console.error(err);
         return res.status(500).json({ error: 'Internal Server Error' });
@@ -285,7 +383,27 @@ router.put('/likeReply/:echoId/:replyId', requireUser, async (req, res) => {
         if (result.nModified === 0) {
             return res.status(404).json({ error: 'Echo not found or no modifications made' });
         }
-        return res.json({ message: 'Reply has been liked' });
+        const updatedEcho = await Echo.findById(echoId)
+            .populate({
+                path: 'author',
+                select: '_id username profileImageUrl'
+            })
+            .populate({
+                path: 'replies',
+                populate: {
+                    path: 'replyAuthor',
+                    select: '_id username profileImageUrl'
+                }
+            })
+            .populate({
+                path: 'likes',
+                select: '_id username profileImageeUrl'
+            })
+            .populate({
+                path: 'reverbs',
+                select: '_id username profileImageeUrl'
+            });
+        return res.json(updatedEcho);
     } catch (err) {
         console.error(err);
         return res.status(500).json({ error: 'Internal Server Error' });
@@ -304,7 +422,27 @@ router.put('/unlikeReply/:echoId/:replyId', requireUser, async (req, res) => {
         if (result.nModified === 0) {
             return res.status(404).json({ error: 'Echo not found or no modifications made' });
         }
-        return res.json({ message: 'Reply like has been removed' });
+        const updatedEcho = await Echo.findById(echoId)
+            .populate({
+                path: 'author',
+                select: '_id username profileImageUrl'
+            })
+            .populate({
+                path: 'replies',
+                populate: {
+                    path: 'replyAuthor',
+                    select: '_id username profileImageUrl'
+                }
+            })
+            .populate({
+                path: 'likes',
+                select: '_id username profileImageeUrl'
+            })
+            .populate({
+                path: 'reverbs',
+                select: '_id username profileImageeUrl'
+            });
+        return res.json(updatedEcho);
     } catch (err) {
         console.error(err);
         return res.status(500).json({ error: 'Internal Server Error' });
@@ -325,7 +463,27 @@ router.put('/addReverb/:echoId', requireUser, async (req, res) => {
             return res.status(404).json({ error: 'User not found or no modifications made' });
         }
 
-        return res.json({ message: 'Reverb has been added' });
+        const updatedEcho = await Echo.findById(echoId)
+            .populate({
+                path: 'author',
+                select: '_id username profileImageUrl'
+            })
+            .populate({
+                path: 'replies',
+                populate: {
+                    path: 'replyAuthor',
+                    select: '_id username profileImageUrl'
+                }
+            })
+            .populate({
+                path: 'likes',
+                select: '_id username profileImageeUrl'
+            })
+            .populate({
+                path: 'reverbs',
+                select: '_id username profileImageeUrl'
+            });
+        return res.json(updatedEcho);
     } catch (err) {
         console.error(err);
         return res.status(500).json({ error: 'Internal Server Error' });
@@ -346,7 +504,27 @@ router.put('/removeReverb/:echoId', requireUser, async (req, res) => {
             return res.status(404).json({ error: 'User not found or no modifications made' });
         }
 
-        return res.json({ message: 'Reverb has been removed' });
+        const updatedEcho = await Echo.findById(echoId)
+            .populate({
+                path: 'author',
+                select: '_id username profileImageUrl'
+            })
+            .populate({
+                path: 'replies',
+                populate: {
+                    path: 'replyAuthor',
+                    select: '_id username profileImageUrl'
+                }
+            })
+            .populate({
+                path: 'likes',
+                select: '_id username profileImageeUrl'
+            })
+            .populate({
+                path: 'reverbs',
+                select: '_id username profileImageeUrl'
+            });
+        return res.json(updatedEcho);
     } catch (err) {
         console.error(err);
         return res.status(500).json({ error: 'Internal Server Error' });

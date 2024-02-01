@@ -36,10 +36,14 @@ function EchoCompose({ onClose }) {
             alert('Title must be at least 5 character')
             return
         }
+        if (!audio) {
+            alert('Record or upload an echo')
+            return
+        }
         e.preventDefault();
         dispatch(composeEcho(title, audio));
+        handleClose()
         clearFile()
-        setTitle('');
     };
 
     const updateFile = async e => {
@@ -82,6 +86,7 @@ function EchoCompose({ onClose }) {
     const clearAudio = () => {
         setAudio(null)
         setAudioUrl(null)
+        setTitle('')
     }
 
     const updateTitle = e => {
@@ -93,6 +98,7 @@ function EchoCompose({ onClose }) {
         setAudio(null);
         setAudioUrl(null);
         setFileName('')
+        setTitle('')
         if (fileRef.current) {
             fileRef.current.value = null
         }
