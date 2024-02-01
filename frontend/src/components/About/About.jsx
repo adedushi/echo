@@ -1,5 +1,8 @@
 import "./About.css"
 import { useNavigate } from 'react-router';
+import levi from '../../../assets/images/headshotLS.jpg'
+import albert from '../../../assets/images/headshotAD.jpg'
+import billy from '../../../assets/images/headshotBR.jpg'
 
 
 function About() {
@@ -48,7 +51,7 @@ function About() {
             <div className='devCardHolder'>
                 <div className='devWrapper'>
                     <div className='profilePhoto'>
-                        <img id="leviPic" src="../../../assets/images/headshotLS.jpg" />
+                        <img id="leviPic" src={levi} />
                     </div>
                     <div className='devNameWrapper'>
                         <h1><span className='firstLetter'>L</span>evi Sherman</h1>
@@ -66,7 +69,7 @@ function About() {
                 </div>
                 <div className='devWrapper'>
                     <div className='profilePhoto'>
-                        <img className="aboutPicture" src="../../../assets/images/headshotAD.jpg" />
+                        <img className="aboutPicture" src={albert} />
                     </div>
                     <div className='devNameWrapper'>
                         <h1><span className='firstLetter'>A</span>lbert Dedushi</h1>
@@ -84,7 +87,7 @@ function About() {
                 
                 <div className='devWrapper'>
                     <div className='profilePhoto'>
-                        <img className="aboutPicture" src="../../../assets/images/headshotBR.jpg" />
+                        <img className="aboutPicture" src={billy} />
                     </div>
                     <div className='devNameWrapper'>
                         <h1> <span className='firstLetter'>B</span>illy Remsen</h1>
