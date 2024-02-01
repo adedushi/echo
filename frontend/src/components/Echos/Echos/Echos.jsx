@@ -13,11 +13,24 @@ function Echos() {
         return () => dispatch(clearEchoErrors());
     }, [dispatch])
 
+    useEffect(() => {
+        const showMyTheEchos = () => {
+            let mainEchos = document.getElementById('mainEchoContainer')
+            mainEchos.style.visibility = 'visible';
+        }
+
+        const delayTime =   1000;
+        const delayTimeID = setTimeout(showMyTheEchos, delayTime);
+
+        return () => clearTimeout(delayTimeID);
+    })
+
+
     if (echos.length === 0) return <div>There are no Echos</div>;
 
     return (
         <>
-        <div id='mainEchoContainer'>
+        <div id='mainEchoContainer' style={{ visibility: 'hidden' }}>
         <div className="echos-container">
             <div className="echos-list">
                 {echos.map(echo => (
