@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import WaveTest from '../../Audio/EchoPlayer';
-import { destroyEcho, updateEchoTitle } from '../../../store/echos';
 import './EchoBox.css';
+import { destroyEcho, updateEchoTitle } from '../../../store/echos';
 
 function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title } }) {
     const { username, profileImageUrl } = author;
@@ -47,7 +47,7 @@ function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title
                 ) : (
                     <div>
                         <span>{title}</span>
-                        { (
+                        {currentUser._id === author._id && (
                             <button onClick={handleEditEcho}><i className="fa-regular fa-pen-to-square"></i></button>
                         )}
                     </div>
