@@ -156,9 +156,14 @@ router.get('/:userId', async (req, res) => {
     (a, b) => b.createdAt - a.createdAt
   );
 
-  user.profileFeed = profileFeed;
-  await user.save()
+  await User.updateOne(
+    { _id: req.params.userId },
+    { $push: { profileFeed: profileFeed } },
+    { returnNewDocument: true }
+    )
   
+  user.profileFeed = profileFeed
+  // await user.save()
   return res.json(user)
 })
 
@@ -196,6 +201,54 @@ router.get('/:userId/feed', async (req, res) => {
       console.error(err);
       return res.status(500).json({ error: 'Internal Server Error' });
     }
+})
+
+router.put ('/follow/:userId', requireUser, async (req, res) => {
+  try {
+    const userToFollow = req.params.userId
+    const loggedInUser = req.user._id
+
+    await User.updateOne(
+      {_id: userToFollow }, 
+      {$push: {followers: loggedInUser}}
+    )
+
+    const result = await User.findOneAndUpdate(
+      { _id: loggedInUser},
+      { $push: { following: userToFollow } },
+      {returnNewDocument: true}
+    )
+
+    return res.json(result)
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+})
+
+router.put('/unfollow/:userId', requireUser, async (req, res) => {
+  try {
+    const userToUnFollow = req.params.userId
+    const loggedInUser = req.user._id
+
+    await User.updateOne(
+      { _id: userToUnFollow },
+      { $pull: { followers: loggedInUser } }
+    )
+
+    const result = await User.findOneAndUpdate(
+      { _id: loggedInUser },
+      { $pull: { following: userToUnFollow } },
+      { returnNewDocument: true }
+    )
+
+    return res.json(result)
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
 })
 
 // router.get('/:userId/profile', async (req, res) => {
