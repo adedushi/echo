@@ -114,7 +114,6 @@ export const updateEchoTitle = (echoId, newTitle) => async dispatch => {
             body: JSON.stringify({newTitle: newTitle})
         });
         const updatedEcho = await res.json();
-        console.log("updated:",updatedEcho);
         dispatch(updateEcho(updatedEcho));
     } catch (err) {
         const resBody = await err.json();
