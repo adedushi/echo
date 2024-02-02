@@ -45,6 +45,37 @@ export const fetchCurrentUser = (userId) => async dispatch => {
     }
 };
 
+export const follow = (userId) => async dispatch => {
+    try {
+        const res = await jwtFetch(`/api/users/follow/${userId}`, {
+            method: 'PUT'
+        })
+        const user = await res.json()
+        console.log(user)
+        dispatch(receiveCurrentUser(user))
+    } catch (err) {
+        const resBody = await err.json()
+        if (resBody.statusCode === 400) {
+            dispatch(receiveErrors(resBody.errors))
+        }
+    }
+}
+
+export const unFollow = (userId) => async dispatch => {
+    try {
+        const res = await jwtFetch(`/api/users/unfollow/${userId}`, {
+            method: 'PUT'
+        })
+        const user = await res.json()
+        dispatch(receiveCurrentUser(user))
+    } catch (err) {
+        const resBody = await err.json()
+        if (resBody.statusCode === 400) {
+            dispatch(receiveErrors(resBody.errors))
+        }
+    }
+}
+
 const initialState = {
     profileUser: undefined,
     currentUser: undefined

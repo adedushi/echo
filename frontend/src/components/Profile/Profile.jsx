@@ -36,7 +36,8 @@ export const Feed = ({ feedType }) => {
 
 
 const Profile = () => {
-    // const currentUser = useSelector(state => state.session.user);
+    // eslint-disable-next-line no-unused-vars
+    const currentUser = useSelector(state => state.session.user);
     const profileUser = useSelector(state => state.users.profileUser);
     const { userId } = useParams(); 
     const dispatch = useDispatch();
