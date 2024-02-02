@@ -4,12 +4,19 @@ import { useNavigate } from "react-router-dom"
 import WaveTest from '../../Audio/EchoPlayer';
 import './EchoBox.css';
 import { addEchoLike, addReverb, destroyEcho, removeEchoLike, removeReverb, updateEchoTitle } from '../../../store/echos';
+import { follow, unFollow } from '../../../store/users';
 
 function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title } }) {
     const { username, profileImageUrl } = author;
-    const currentUser = useSelector(state => state.session.user);
+    const sessionUser = useSelector(state => state.session.user);
     const dispatch = useDispatch();
     const navigate = useNavigate()
+    const followedUsers = useSelector(state => {
+        if (state.users.currentUser) {
+            return state.users.currentUser.following
+        }
+    })
+
 
     const [isEditing, setIsEditing] = useState(false);
     const [editedTitle, setEditedTitle] = useState(title);
@@ -21,10 +28,10 @@ function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title
     const [closingModal, setClosingModal] = useState(false)
     const [confirmDelete, setConfirmDelete] = useState(false)
     const [showFollow, setShowFollow] = useState(false)
-    // const [isFollowing, setIsFollowing] = useState(false)
+    const [isFollowing, setIsFollowing] = useState(false)
 
     useEffect(() => {
-        const currentUserId = currentUser._id
+        const currentUserId = sessionUser._id
         for (const like of likes) {
             if (currentUserId === like._id) {
                 setIsLiked(true)
@@ -35,8 +42,14 @@ function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title
                 setIsReverbed(true)
             }
         }
-        // for (const )
-    }, [])
+        if (followedUsers) {
+            for (const user of followedUsers) {
+                if (user._id === author._id) {
+                    setIsFollowing(true)
+                }
+            }
+        }
+    }, [followedUsers])
 
 
 
@@ -111,27 +124,37 @@ function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title
         }, 300)
     }
 
+    const handleFollow = () => {
+        if (!isFollowing) {
+           dispatch(follow(author._id)) 
+           setIsFollowing(true)
+        } else {
+            dispatch(unFollow(author._id))
+            setIsFollowing(false)
+        }
+    }
+
     return (
-        <div className="echo-box" onClick={() => setShowReplies(true)}>
+        <div className="echo-box" onClick={() => setShowReplies(true)} onMouseEnter={() => setShowFollow(true)} onMouseLeave={() => setShowFollow(false)}>
+            <p className='echo-username' onClick={() => navigate(`/profile/${_id}/echos`)}>@{username}</p>
             <h2 className='echo-title'>{title}</h2>
-            <div className="echo-content">
-                {profileImageUrl ?
-                    <img className="profile-image" src={profileImageUrl} alt="profile" onClick={() => navigate(`/profile/${_id}/echos`)} onMouseEnter={() => setShowFollow(true)} onMouseLeave={() => setShowFollow(false)}/> :
-                    undefined}
+            <div className="echo-content" >
+                    {profileImageUrl && <img className="profile-image" src={profileImageUrl} alt="profile" onClick={() => navigate(`/profile/${_id}/echos`)} /> }
+                    {showFollow && 
+                    <div className='follow-modal' onClick={handleFollow} >
+                        {isFollowing ? 'Unfollow' : 'Follow'}
+                    </div>
+                    }
                 <WaveTest index={_id} audioUrl={audioUrl} />
             </div>
             
             <div className="echo-details">
-                <p className='echo-username' onClick={() => navigate(`/profile/${_id}/echos`)}>{username}</p>
                 <h3><i className="fa-solid fa-comment" id='reply-button' onClick={handleReply}></i> {replies.length}</h3>
                 <h3><i className={`${isLiked ? 'fa-solid' : (isLikeHovered ? 'fa-solid' : 'fa-regular')} fa-heart`} id='like-button' onClick={handleLike} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{ opacity: isLikeHovered && isLiked ? 0.7 : 1 }}></i> {likes.length}</h3>
                 <h3><i className={`${isReverbed ? (isReverbHovered ? 'reverb-button-half' : 'reverb-button-full') : (isReverbHovered ? 'reverb-button-full' : 'reverb-button-half')} fas fa-satellite-dish`} id='reverb-button' onClick={handleReverb} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}></i> {reverbs.length}</h3>
-                {currentUser._id === author._id && <button onClick={handleEditEcho}><i className="fa-regular fa-pen-to-square"></i></button>}
+                {sessionUser._id === author._id && <button onClick={handleEditEcho}><i className="fa-regular fa-pen-to-square"></i></button>}
             </div>
-            {showFollow && 
-                <div> 
-                
-                </div>}
+           
             {isEditing &&
                     <div className={`edit-echo-title-modal ${closingModal ? 'edit-title-leave' : ''}`} onClick={handleCloseModal}>
                         <div className={`edit-echo-title-container ${closingModal ? 'edit-title-leave' : ''}`} onClick={(e) => e.stopPropagation()}>
@@ -147,7 +170,7 @@ function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title
                     </div>}
             {showReplies && 
                 <div>
-                    <p>Follow</p>
+                    
                 
                 </div>}
         </div>

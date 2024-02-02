@@ -213,11 +213,40 @@ router.put ('/follow/:userId', requireUser, async (req, res) => {
       {$push: {followers: loggedInUser}}
     )
 
-    const result = await User.findOneAndUpdate(
+   await User.updateOne(
       { _id: loggedInUser},
-      { $push: { following: userToFollow } },
-      {returnNewDocument: true}
+      { $push: { following: userToFollow } }
     )
+
+    const result = await User.findById(loggedInUser)
+      .populate({
+          path: 'likes',
+          select: '_id title audioUrl author likes reverbs replies',
+          populate: {
+            path: 'author',
+            select: '_id author username profileImageUrl'
+          }
+        })
+        .populate({
+          path: 'reverbs',
+          select: '_id title audioUrl author likes reverbs replies',
+          populate: {
+            path: 'author',
+            select: '_id author username profileImageUrl'
+          }
+        })
+        .populate({
+          path: 'echos',
+          select: '_id title audioUrl likes reverbs replies'
+        })
+        .populate({
+          path: 'followers',
+          select: '_id username profileImageUrl'
+        })
+        .populate({
+          path: 'following',
+          select: '_id username ProfileImageUrl'
+        })
 
     return res.json(result)
 
@@ -237,11 +266,39 @@ router.put('/unfollow/:userId', requireUser, async (req, res) => {
       { $pull: { followers: loggedInUser } }
     )
 
-    const result = await User.findOneAndUpdate(
+    await User.updateOne(
       { _id: loggedInUser },
-      { $pull: { following: userToUnFollow } },
-      { returnNewDocument: true }
-    )
+      { $pull: { following: userToUnFollow } })
+
+    const result = await User.findById(loggedInUser)
+      .populate({
+        path: 'likes',
+        select: '_id title audioUrl author likes reverbs replies',
+        populate: {
+          path: 'author',
+          select: '_id author username profileImageUrl'
+        }
+      })
+      .populate({
+          path: 'reverbs',
+          select: '_id title audioUrl author likes reverbs replies',
+          populate: {
+            path: 'author',
+            select: '_id author username profileImageUrl'
+          }
+        })
+      .populate({
+          path: 'echos',
+          select: '_id title audioUrl likes reverbs replies'
+        })
+      .populate({
+          path: 'followers',
+          select: '_id username profileImageUrl'
+        })
+      .populate({
+          path: 'following',
+          select: '_id username ProfileImageUrl'
+        })
 
     return res.json(result)
 
