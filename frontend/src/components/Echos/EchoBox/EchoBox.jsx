@@ -6,7 +6,7 @@ import './EchoBox.css';
 import { addEchoLike, addReverb, destroyEcho, removeEchoLike, removeReverb, updateEchoTitle } from '../../../store/echos';
 import { follow, unFollow } from '../../../store/users';
 
-function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title } }) {
+function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title, wasReverb = false } }) {
     const { username, profileImageUrl } = author;
     const sessionUser = useSelector(state => state.session.user);
     const dispatch = useDispatch();
@@ -49,8 +49,7 @@ function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title
                 }
             }
         }
-    }, [followedUsers])
-
+    }, [followedUsers, currentUser._id, likes, reverbs])
 
 
     const handleMouseEnter = (e) => {
@@ -145,7 +144,8 @@ function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title
                         {isFollowing ? 'Unfollow' : 'Follow'}
                     </div>
                     }
-                <WaveTest index={_id} audioUrl={audioUrl} />
+                <WaveTest index={`${_id}-${wasReverb}`} audioUrl={audioUrl} />
+
             </div>
             
             <div className="echo-details">
