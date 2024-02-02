@@ -1,14 +1,16 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearEchoErrors, fetchEchos, selectAllEchosArray } from '../../../store/echos';
 import EchoBox from '../EchoBox/EchoBox';
 import './Echos.css';
 import { fetchCurrentUser } from '../../../store/users';
+import EchoReplies from '../EchoReplies/EchoReplies';
 
 function Echos() {
     const dispatch = useDispatch();
     const echos = useSelector(selectAllEchosArray);
     const userId = useSelector(state => state.session.user._id)
+    const [showReplies, setShowReplies] = useState(false)
 
     useEffect(() => {
         dispatch(fetchEchos());
@@ -43,7 +45,12 @@ function Echos() {
         <div className="echos-container">
             <div className="echos-list">
                 {echos.map(echo => (
-                    <EchoBox key={echo._id} echo={echo} />
+                    <>
+                        <EchoBox key={echo._id} echo={echo} setShowFollow={setShowReplies}/>
+                        {/* <div className='echo-replies'>
+                            {showReplies && <EchoReplies echo={echo} />}
+                        </div>  */}
+                    </>
                 ))}
             </div>
         </div>

@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import WaveTest from '../../Audio/EchoPlayer';
 import './EchoBox.css';
 import { addEchoLike, addReverb, destroyEcho, removeEchoLike, removeReverb, updateEchoTitle } from '../../../store/echos';
 import { follow, unFollow } from '../../../store/users';
 
-function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title, wasReverb = false } }) {
+function EchoBox({ echo, setShowReplies }) {
+    const { _id, author, audioUrl, replies, likes, reverbs, title, wasReverb = false } = echo
     const { username, profileImageUrl } = author;
     const sessionUser = useSelector(state => state.session.user);
     const dispatch = useDispatch();
@@ -17,18 +18,26 @@ function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title
         }
     })
 
-
     const [isEditing, setIsEditing] = useState(false);
     const [editedTitle, setEditedTitle] = useState(title);
     const [isLiked, setIsLiked] = useState(false)
     const [isReverbed, setIsReverbed] = useState(false)
     const [isLikeHovered, setIsLikeHovered] = useState(false);
     const [isReverbHovered, setIsReverbHovered] = useState(false)
-    const [showReplies, setShowReplies] = useState(false)
     const [closingModal, setClosingModal] = useState(false)
     const [confirmDelete, setConfirmDelete] = useState(false)
     const [showFollow, setShowFollow] = useState(false)
     const [isFollowing, setIsFollowing] = useState(false)
+    const [page, setPage] = useState(null)
+    const location = useLocation();
+
+    
+    useEffect(() => {
+        const pathnameParts = location.pathname.split('/');
+        const lastPart = pathnameParts[pathnameParts.length - 1];
+        setPage(lastPart)
+    }, [location])
+
 
     useEffect(() => {
         const currentUserId = sessionUser._id
@@ -79,14 +88,14 @@ function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title
             dispatch(addEchoLike(_id))
             setIsLiked(true)
         } else {
-            dispatch(removeEchoLike(_id))
+            dispatch(removeEchoLike(_id, page))
             setIsLiked(false)
         }
     }
 
     const handleReverb = () => {
         if (isReverbed) {
-            dispatch(removeReverb(_id))
+            dispatch(removeReverb(_id, page))
             setIsReverbed(false)
         } else {
             dispatch(addReverb(_id))
@@ -133,6 +142,16 @@ function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title
         }
     }
 
+    // const replyProps = {
+    //     showFollow,
+    //     handleFollow,
+    //     isFollowing,
+    //     isLiked,
+    //     isLikeHovered,
+    //     handleMouseEnter,
+    //     handleMouseLeave,
+    // };
+
     return (
         <div className="echo-box" onClick={() => setShowReplies(true)} onMouseEnter={() => setShowFollow(true)} onMouseLeave={() => setShowFollow(false)}>
             <p className='echo-username' onClick={() => navigate(`/profile/${_id}/echos`)}>@{username}</p>
@@ -168,11 +187,6 @@ function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title
                             </form>
                         </div>
                     </div>}
-            {showReplies && 
-                <div>
-                    
-                
-                </div>}
         </div>
     );
 }

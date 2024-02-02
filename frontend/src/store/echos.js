@@ -9,6 +9,7 @@ const RECEIVE_ECHO_ERRORS = "echos/RECEIVE_ECHO_ERRORS";
 const CLEAR_ECHO_ERRORS = "echos/CLEAR_ECHO_ERRORS";
 const REMOVE_ECHO = "echos/REMOVE_ECHO";
 const UPDATE_ECHO = "echos/UPDATE_ECHO"
+const UPDATE_LIKE_REVERB = "echos/UPDATE_LIKE_REVERB"
 
 const receiveEchos = echos => ({
     type: RECEIVE_ECHOS,
@@ -44,6 +45,11 @@ export const clearEchoErrors = errors => ({
     type: CLEAR_ECHO_ERRORS,
     errors
 });
+
+const updateLikeReverbEcho = updatedEcho => ({
+    type: UPDATE_LIKE_REVERB,
+    updatedEcho
+})
 
 export const fetchEchos = () => async dispatch => {
     try {
@@ -140,13 +146,17 @@ export const addEchoLike = echoId => async dispatch => {
     }
 }
 
-export const removeEchoLike = echoId => async dispatch => {
+export const removeEchoLike = (echoId, page=null) => async dispatch => {
     try {
         const res = await jwtFetch(`/api/echos/removeLike/${echoId}`, {
             method: 'PUT'
         })
         const updatedEcho = await res.json()
-        dispatch(updateEcho(updatedEcho))
+        if (page === 'likes') {
+            dispatch(updateLikeReverbEcho(updatedEcho))
+        } else {
+            dispatch(updateEcho(updatedEcho))
+        }
     } catch (err) {
         const resBody = await err.json()
         if (resBody.statusCode === 400) {
@@ -240,13 +250,17 @@ export const addReverb = echoId => async dispatch => {
     }
 }
 
-export const removeReverb = echoId => async dispatch => {
+export const removeReverb = (echoId, page=null) => async dispatch => {
     try {
         const res = await jwtFetch(`/api/echos/removeReverb/${echoId}`, {
             method: 'PUT'
         })
         const updatedEcho = await res.json()
-        dispatch(updateEcho(updatedEcho))
+        if (page === 'reverbs') {
+            dispatch(updateLikeReverbEcho(updatedEcho))
+        } else {
+            dispatch(updateEcho(updatedEcho))
+        }
     } catch (err) {
         const resBody = await err.json()
         if (resBody.statusCode === 400) {
@@ -312,6 +326,20 @@ const echosReducer = (state = { all: {}, user: {}}, action) => {
 
             const updatedEchosUser = Array.isArray(state.user)
                 ? state.user.map(echo => echo._id === action.updatedEcho._id ? action.updatedEcho : echo)
+                : state.user;
+            return {
+                ...state,
+                all: updatedEchosAll,
+                user: updatedEchosUser
+            }
+        }
+        case UPDATE_LIKE_REVERB: {
+            const updatedEchosAll = Array.isArray(state.all)
+                ? state.all.map(echo => echo._id === action.updatedEcho._id ? action.updatedEcho : echo)
+                : state.all;
+
+            const updatedEchosUser = Array.isArray(state.user)
+                ? state.user.filter(echo => echo._id !== action.updatedEcho._id)
                 : state.user;
             return {
                 ...state,

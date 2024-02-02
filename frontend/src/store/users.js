@@ -51,7 +51,6 @@ export const follow = (userId) => async dispatch => {
             method: 'PUT'
         })
         const user = await res.json()
-        console.log(user)
         dispatch(receiveCurrentUser(user))
     } catch (err) {
         const resBody = await err.json()
