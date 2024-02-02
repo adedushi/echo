@@ -49,7 +49,7 @@ function EchoBox({ echo: { _id, author, audioUrl, replies, likes, reverbs, title
                 }
             }
         }
-    }, [followedUsers, currentUser._id, likes, reverbs])
+    }, [followedUsers, author._id, likes, reverbs, sessionUser._id])
 
 
     const handleMouseEnter = (e) => {
