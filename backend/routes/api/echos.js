@@ -151,9 +151,8 @@ router.delete('/:echoId', requireUser, async (req, res) => {
 
         try {
             const res = await client.send(deleteCommand);
-            console.log(res)
         } catch (err) {
-            console.log(err)
+            return err.json()
         }
 
 

@@ -106,18 +106,36 @@ router.get('/:userId', async (req, res) => {
     .populate({
       path: 'likes',
       select: '_id title audioUrl author likes reverbs replies',
-      populate: {
+      populate: [
+        {
         path: 'author',
-        select: '_id author username profileImageUrl'
-      }
+        select: '_id username profileImageUrl'
+      },
+      {
+        path: 'reverbs',
+        select: '_id username'
+      },
+      {
+        path: 'likes',
+        select: '_id username'
+      }]
     })
     .populate({
       path: 'reverbs',
-      select: '_id title audioUrl author likes reverbs replies',
-      populate: {
-        path: 'author',
-        select: '_id author username profileImageUrl'
-      }
+      select: '_id title audioUrl likes reverbs replies',
+      populate: [
+        {
+          path: 'author',
+          select: '_id username profileImageUrl'
+        },
+        {
+          path: 'reverbs',
+          select: '_id username'
+        },
+        {
+          path: 'likes',
+          select: '_id username'
+        }]
     })
     .populate({
       path: 'echos',
@@ -137,11 +155,15 @@ router.get('/:userId', async (req, res) => {
   }
   const userEchos = await Echo.find({ author: req.params.userId })
     .sort({ createdAt: -1 })
-    .populate('author', '_id username profileImageUrl');
+    .populate('author', '_id username profileImageUrl')
+    .populate('likes', '_id username')
+    .populate('reverbs', '_id username')
   const userEchosIds = userEchos.map(echo => echo._id)
   const userReverbEchos = await Echo.find({ _id: { $in: user.reverbs } })
     .sort({ createdAt: -1 })
-    .populate('author', '_id username profileImageUrl');
+    .populate('author', '_id username profileImageUrl')
+    .populate('likes', '_id username')
+    .populate('reverbs', '_id username')
 
   const reverbEchosWithAttribute = userReverbEchos.map(echo => {
     if (!userEchosIds.includes(echo._id)) {
@@ -158,8 +180,7 @@ router.get('/:userId', async (req, res) => {
 
   await User.updateOne(
     { _id: req.params.userId },
-    { $push: { profileFeed: profileFeed } },
-    { returnNewDocument: true }
+    { $push: { profileFeed: profileFeed } }
     )
   
   user.profileFeed = profileFeed
