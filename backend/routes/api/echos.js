@@ -6,7 +6,7 @@ const Echo = mongoose.model('Echo');
 const { requireUser } = require('../../config/passport');
 const validateEchoInput = require('../../validations/echos');
 const { singleFileUpload, singleMulterUpload } = require("../../awsS3");
-
+const { DeleteObjectCommand, S3Client } = require("@aws-sdk/client-s3");
 
 router.get('/', async (req, res) => {
     try {
@@ -136,6 +136,27 @@ router.post('/', singleMulterUpload("audio"), requireUser, validateEchoInput, as
 
 router.delete('/:echoId', requireUser, async (req, res) => {
     try {
+        const client = new S3Client({})
+        const echo = await Echo.findById(req.params.echoId);
+
+        if (!echo) {
+            return res.status(404).json({ error: 'Echo not found' });
+        }
+
+        const audioKey = echo.audioUrl.split('/').pop(); // Assuming audioUrl is a full S3 URL
+        const deleteCommand = new DeleteObjectCommand({
+            Bucket: 'teamlab-echo',
+            Key: audioKey,
+        });
+
+        try {
+            const res = await client.send(deleteCommand);
+            console.log(res)
+        } catch (err) {
+            console.log(err)
+        }
+
+
         const result = await Echo.deleteOne({ _id: req.params.echoId })
         if (result.deletedCount === 0) {
             return res.status(404).json({ error: 'Echo not found'})
