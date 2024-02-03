@@ -1,12 +1,19 @@
-.reply-echo-container {
-    display: flex;
-}
-
 .echos-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
     justify-content: center;
+    width: 40vw;
+}
+
+.echos-container-with-replies {
+    position: relative;
+    right: -20vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 70vw;
+    margin-left: -20vw;
+    /* margin-right: 25px; */
 }
 
 .echos-list {
@@ -18,5 +25,34 @@
     /* border: 2px solid greenyellow; */
 }
 
+.echo-list-with-replies {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40vw;
+    margin-top: 3vh;
+    /* margin-right: 50px; */
+}
+
+.reply-list {
+    position: sticky;
+    top: 0px;
+    width: 30vw;
+    height: 100vh;
+    border-left: 10px solid rgba(191, 191, 191, 0.248);
+    border-right: 10px solid rgba(191, 191, 191, 0.248);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    /* padding-left: 20px; */
+}
+
+.replies-container {
+    margin-top: 10px;
+    max-height: 85%;
+    overflow: auto;
+    scroll-behavior: smooth;
+}
 
 

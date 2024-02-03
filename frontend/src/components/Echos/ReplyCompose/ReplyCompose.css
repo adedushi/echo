@@ -3,9 +3,11 @@
     flex-direction: column;
     justify-content: start;
     align-items: center;
-    width: 600px;
-    height: 600px;
-    margin-top: 100px;
+    justify-self: end;
+    padding-top: 25px;
+    border-top: 5px solid rgba(191, 191, 191, 0.248);
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 .create-reply-form {
@@ -13,12 +15,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 50%;
+    width: 100%;
 }
 
 .reply-comment {
     display: flex;
-    position: relative
+    position: relative;
 }
 
 .reply-comment::before {
@@ -61,6 +63,8 @@
 .reply-container {
     display: flex;
     align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
 .record-icon-container {

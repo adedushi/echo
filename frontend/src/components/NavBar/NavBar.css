@@ -7,11 +7,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: sticky;
+    top: 0px;
     /* border: 2px solid gold; */
     width: 10vw;
-    height: 100%;
-    position: fixed;
-    margin-right: 53%;
+    height: 100vh;
+    /* margin-left: 10vw; */
+    /* position: fixed; */
+    /* margin-right: 53%; */
 }
 
 #navContainer h1 {

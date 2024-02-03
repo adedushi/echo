@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { clearEchoErrors } from '../../../store/echos';
+import { addEchoReply, clearEchoErrors } from '../../../store/echos';
 import './ReplyCompose.css';
 import EchoRecorder from '../EchoRecorder/EchoRecorder';
 import ReplyPreview from './ReplyPreview/ReplyPreview';
 
-function ReplyCompose() {
+function ReplyCompose({ echoId, scrollToBottom}) {
     // const echoId = '65ba730da50d777ab5531d43'
     const [comment, setComment] = useState('');
     const dispatch = useDispatch();
-    const [, setAudio] = useState(null);
+    const [audio, setAudio] = useState(null);
     const [audioUrl, setAudioUrl] = useState(null);
     const [showRecord, setShowRecord] = useState(false)
     const [showComment, setShowComment] = useState(true)
@@ -24,11 +24,12 @@ function ReplyCompose() {
     }
 
     const handleSubmit = () => {
-        if (comment) {
-            // dispatch(addEchoReply(echoId, comment, audio))
+        if (comment || audio) {
+            dispatch(addEchoReply(echoId, comment, audio))
         } 
         setComment('');
-        clearAudio()
+        clearAudio();
+        setTimeout(() => scrollToBottom(), 500)
     };
 
     const updateComment = e => {

@@ -114,7 +114,6 @@ router.get('/:id', async (req, res, next) => {
 router.post('/', singleMulterUpload("audio"), requireUser, validateEchoInput, async (req, res, next) => {
     try {
         const audioUrl = await singleFileUpload({ file: req.file, isPublic: true }) 
-
         const newEcho = new Echo({
             title: req.body.title,
             audioUrl,
@@ -220,11 +219,11 @@ router.put('/updateTitle/:echoId', requireUser, async (req, res) => {
             })
             .populate({
                 path: 'likes',
-                select: '_id username profileImageeUrl'
+                select: '_id username'
             })
             .populate({
                 path: 'reverbs',
-                select: '_id username profileImageeUrl'
+                select: '_id username'
             });
 
         return res.json(updatedEcho);
@@ -316,10 +315,10 @@ router.put('/removeLike/:echoId', requireUser, async (req, res) => {
     }
 })
 
-router.put('/addReply/:echoId', singleMulterUpload("replyAudio"), requireUser, validateEchoInput, async (req, res) => {
+router.put('/addReply/:echoId', singleMulterUpload("replyAudio"), requireUser, async (req, res, next) => {
     // const audioUrl = "https://teamlab-echo.s3.amazonaws.com/public/baby-shark.mp3"
     try {
-        const audioUrl = await singleFileUpload({ files: req.files, isPublic: true }) 
+        const audioUrl = await singleFileUpload({ file: req.file, isPublic: true })
         const newReply = {
             replyAuthor: req.user._id,
             replyAudioUrl: audioUrl,
@@ -337,6 +336,7 @@ router.put('/addReply/:echoId', singleMulterUpload("replyAudio"), requireUser, v
             })
             .populate({
                 path: 'replies',
+                select: 'replyAudioUrl',
                 populate: {
                     path: 'replyAuthor',
                     select: '_id username profileImageUrl'
@@ -352,8 +352,7 @@ router.put('/addReply/:echoId', singleMulterUpload("replyAudio"), requireUser, v
             });
         return res.json(updatedEcho);
     } catch (err) {
-        console.error(err);
-        return res.status(500).json({ error: 'Internal Server Error' });
+        next(err)
     }
 })
 
