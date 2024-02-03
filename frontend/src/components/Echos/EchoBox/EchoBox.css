@@ -190,11 +190,16 @@
 }
 
 .echo-username {
+    width: 0;
+    display: inline-block;
     color: rgb(97, 97, 97);
-    padding-right: 50px;
     margin-left: 10px;
     font-size: 14px;
     margin-bottom: 2px;
+}
+
+.echo-username:hover {
+    color: green;
 }
 
 .follow-modal {

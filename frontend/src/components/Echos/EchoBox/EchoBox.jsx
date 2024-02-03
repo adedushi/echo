@@ -6,7 +6,8 @@ import './EchoBox.css';
 import { addEchoLike, addReverb, destroyEcho, removeEchoLike, removeReverb, updateEchoTitle } from '../../../store/echos';
 import { follow, unFollow } from '../../../store/users';
 
-function EchoBox({ echo, setShowReplies }) {
+function EchoBox({ echo, echoBoxProps }) {
+    const {setSelectedEcho, setShowReplies} = echoBoxProps
     const { _id, author, audioUrl, replies, likes, reverbs, title, wasReverb = false } = echo
     const { username, profileImageUrl } = author;
     const sessionUser = useSelector(state => state.session.user);
@@ -26,8 +27,8 @@ function EchoBox({ echo, setShowReplies }) {
     const [isReverbHovered, setIsReverbHovered] = useState(false)
     const [closingModal, setClosingModal] = useState(false)
     const [confirmDelete, setConfirmDelete] = useState(false)
-    const [showFollow, setShowFollow] = useState(false)
     const [isFollowing, setIsFollowing] = useState(false)
+    const [showFollow, setShowFollow] = useState(false)
     const [page, setPage] = useState(null)
     const location = useLocation();
 
@@ -78,10 +79,6 @@ function EchoBox({ echo, setShowReplies }) {
             setIsReverbHovered(false)
         }
     };
-
-    const handleReply = () => {
-        // open replies
-    }
 
     const handleLike = () => {
         if (!isLiked) {
@@ -142,18 +139,18 @@ function EchoBox({ echo, setShowReplies }) {
         }
     }
 
-    // const replyProps = {
-    //     showFollow,
-    //     handleFollow,
-    //     isFollowing,
-    //     isLiked,
-    //     isLikeHovered,
-    //     handleMouseEnter,
-    //     handleMouseLeave,
-    // };
+    const handleShowReplies = () => {
+        setSelectedEcho(echo)
+        setShowReplies(true)
+    }
+
+    // useEffect(() => {
+    //     setSelectedEcho(echo)
+    // }, [echo, setSelectedEcho])
+
 
     return (
-        <div className="echo-box" onClick={() => setShowReplies(true)} onMouseEnter={() => setShowFollow(true)} onMouseLeave={() => setShowFollow(false)}>
+        <div className="echo-box" onClick={handleShowReplies}  onMouseEnter={() => setShowFollow(true)} onMouseLeave={() => setShowFollow(false)}>
             <p className='echo-username' onClick={() => navigate(`/profile/${_id}/echos`)}>@{username}</p>
             <h2 className='echo-title'>{title}</h2>
             <div className="echo-content" >
@@ -168,7 +165,7 @@ function EchoBox({ echo, setShowReplies }) {
             </div>
             
             <div className="echo-details">
-                <h3><i className="fa-solid fa-comment" id='reply-button' onClick={handleReply}></i> {replies.length}</h3>
+                <h3><i className="fa-solid fa-comment" id='reply-button' ></i> {replies.length}</h3>
                 <h3><i className={`${isLiked ? 'fa-solid' : (isLikeHovered ? 'fa-solid' : 'fa-regular')} fa-heart`} id='like-button' onClick={handleLike} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{ opacity: isLikeHovered && isLiked ? 0.7 : 1 }}></i> {likes.length}</h3>
                 <h3><i className={`${isReverbed ? (isReverbHovered ? 'reverb-button-half' : 'reverb-button-full') : (isReverbHovered ? 'reverb-button-full' : 'reverb-button-half')} fas fa-satellite-dish`} id='reverb-button' onClick={handleReverb} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}></i> {reverbs.length}</h3>
                 {sessionUser._id === author._id && <button onClick={handleEditEcho}><i className="fa-regular fa-pen-to-square"></i></button>}

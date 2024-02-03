@@ -11,52 +11,52 @@ function Echos() {
     const echos = useSelector(selectAllEchosArray);
     const userId = useSelector(state => state.session.user._id)
     const [showReplies, setShowReplies] = useState(false)
+    const [selectedEcho, setSelectedEcho] = useState()
 
     useEffect(() => {
         dispatch(fetchEchos());
         return () => dispatch(clearEchoErrors());
     }, [dispatch])
 
-    useEffect(() => {
-        const showMyTheEchos = () => {
-            let mainEchos = document.getElementById('mainEchoContainer')
-            mainEchos.style.visibility = 'visible';
-        }
-
-        const delayTime =   1000;
-        const delayTimeID = setTimeout(showMyTheEchos, delayTime);
-
-        return () => clearTimeout(delayTimeID);
-    })
-
+    // useEffect(() => {
+    //     const showMyTheEchos = () => {
+    //         let mainEchos = document.getElementById('mainEchoContainer')
+    //         mainEchos.style.visibility = 'visible';
+    //     }
+    //     const delayTime =   1000;
+    //     const delayTimeID = setTimeout(showMyTheEchos, delayTime);
+    //     return () => clearTimeout(delayTimeID);
+    // })
     // const currentUser = useSelector(state => state.users.currentUser);
     useEffect(() => {
         if (userId) {
             dispatch(fetchCurrentUser(userId));
         }
     }, [userId, dispatch]);
-
-
     if (echos.length === 0) return <div>There are no Echos</div>;
 
+    const echoBoxProps = {
+        setSelectedEcho,
+        setShowReplies
+    }
+    
     return (
         <>
-        <div id='mainEchoContainer' style={{ visibility: 'hidden' }}>
-        <div className="echos-container">
-            <div className="echos-list">
+        {/* <div id='mainEchoContainer' style={{ visibility: 'hidden' }}> */}
+        <div className={showReplies ? 'echos-container-with-replies' : 'echo-container'}>
+            <div className={showReplies ? 'echo-list-with-replies' : 'echo-list'}>
                 {echos.map(echo => (
-                    <>
-                        <EchoBox key={echo._id} echo={echo} setShowFollow={setShowReplies}/>
-                        {/* <div className='echo-replies'>
-                            {showReplies && <EchoReplies echo={echo} />}
-                        </div>  */}
-                    </>
+                    <EchoBox key={echo._id} echo={echo} echoBoxProps={echoBoxProps} />
                 ))}
             </div>
+            {showReplies && <EchoReplies echo={selectedEcho} setShowReplies={setShowReplies}/>}
         </div>
-        </div>
+        {/* </div> */}
         </>
     );
 }
+
+
+ 
 
 export default Echos;

@@ -5,6 +5,9 @@ const multer = require("multer");
 const NAME_OF_BUCKET = "teamlab-echo";
 
 const singleFileUpload = async ({ file, isPublic = false }) => {
+    if (!file) {
+        return
+    }
     const { originalname, buffer } = file;
     const path = require("path");
 
@@ -53,7 +56,7 @@ const singleMulterUpload = (nameOfKey) => {
     const file = multer({ storage: storage }).single(nameOfKey);
     if (file) {
         return file
-    }
+    } 
 }
 
 

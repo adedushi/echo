@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserEchos, clearEchoErrors, selectUserEchosArray } from '../../store/echos';
 import EchoBox from '../Echos/EchoBox/EchoBox';
@@ -10,6 +10,15 @@ export const Feed = ({ feedType }) => {
     const dispatch = useDispatch();
     const { userId } = useParams(); 
     const userEchos = useSelector(selectUserEchosArray);
+    // eslint-disable-next-line no-unused-vars
+    const [showReplies, setShowReplies] = useState(false)
+    // eslint-disable-next-line no-unused-vars
+    const [selectedEcho, setSelectedEcho] = useState()
+
+    const echoBoxProps = {
+        setSelectedEcho,
+        setShowReplies
+    }
 
     useEffect(() => {
         if (userId) {
@@ -28,6 +37,7 @@ export const Feed = ({ feedType }) => {
                 <EchoBox
                     key={`${echo._id}-${index}-${echo.wasReverb}`}
                     echo={echo}
+                    echoBoxProps={echoBoxProps}
                 />
             ))}
         </div>
