@@ -30,12 +30,12 @@ const EchoReplies = ({echo, setShowReplies}) => {
     return (
         <div className="reply-list" >
             <div className="replies-container" ref={containerRef} >
-                <div onClick={() => setShowReplies(false)}>
-                    hide replies
-                </div>
                 {replies.map(reply => (
                     <EchoReply key={reply._id} reply={reply} deleteReply={deleteReply} echoId={echo._id} />
                 ))}
+            </div>
+            <div className="hide-replies">
+                <i className="fa-solid fa-arrow-left" onClick={() => setShowReplies(false)}></i>
             </div>
             <ReplyCompose echoId={echo._id} scrollToBottom={scrollToBottom} />
         </div>

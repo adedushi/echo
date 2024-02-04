@@ -3,22 +3,25 @@
     src: url(../../../assets/fonts/Rubik-Bold.ttf) format('ttf');
 }
 
-#navContainer {
+.nav-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     position: sticky;
     top: 0px;
-    /* border: 2px solid gold; */
-    width: 10vw;
+    justify-content: space-between;
     height: 100vh;
+    /* width: 10vw; */
+    /* top: 0px; */
+    /* border: 2px solid gold; */
     /* margin-left: 10vw; */
     /* position: fixed; */
-    /* margin-right: 53%; */
+    margin-right: 2%;
 }
 
-#navContainer h1 {
+.nav-header {
     margin-top: 25%;
+    margin-bottom: 25%;
     font-size: 58px;
     font-family: 'rubikBold', sans-serif;
     font-weight: bold;
@@ -31,22 +34,28 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 85%;
-    height: 75%;
+    /* width: 85%; */
+    /* height: 75%; */
 }
 
 
 .navButtonWrapper {
-    margin-top: 20%;
+    /* margin-top: 20%; */
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 80%;
-    height: 10%;
+    /* width: 80%; */
+    /* height: 10%; */
     border-radius: 20px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    padding: 7%;
+    padding-top: 7%;
+    padding-bottom: 7%;
+    padding-left: 15%;
+    padding-right: 15%;
+    margin-bottom: 10%;
+    
+    
 }
 
 
@@ -61,49 +70,45 @@
     margin-left: 8.5%;
 }
 
-#createButton {
-    padding: 7%;
-    margin-top: 20%;
+.create-button {
+    padding-top: 7%;
+    padding-bottom: 7%;
+    padding-left: 15%;
+    padding-right: 15%;
+    /* margin-top: 20%; */
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 20px;
     cursor: pointer;
-    width: 90%;
-    height: 9%;
+    /* width: 90%; */
+    /* height: 9%; */
     background-color: #4e844e;
     color: white;
     box-shadow: 0, 4px, 8px rgba(0, 0, 0, 0.1);
     transition: all 0.5s ease;
 }
 
-#createButton:hover {
+.create-button:hover {
+    background-color: #4e844e;
     transform: scale(1.08);
 }
 
-#logoutText {
+.secondary-nav-links {
+    margin-bottom: 25%;
+}
+
+.logout-text {
     font-size: 175%;
     font-family: 'rubikBold', sans-serif;
     font-weight: bold;
     margin-right: 8.5%;
 }
 
-#homeIcon {
-    font-size: 150%;
+.nav-icon {
+    font-size: 125%;
 }
 
-#profileIcon {
-    font-size: 150%;
-}
 
-#recordIcon {
-    font-size: 150%;
-}
 
-#logoutIcon {
-    font-size: 150%;
-}
 
-#logoutButton {
-    margin-bottom: 25%;
-}
