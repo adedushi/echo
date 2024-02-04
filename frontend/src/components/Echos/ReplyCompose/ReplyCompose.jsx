@@ -62,7 +62,7 @@ function ReplyCompose({ echoId, scrollToBottom}) {
                 {showRecord && <div className='record-options'>
                     <i className="fa-solid fa-trash trash-icon" onClick={clearAudio}></i>
                     <i className="fa-solid fa-paper-plane send-icon" onClick={handleSubmit}></i>
-                    <i className="fa-solid fa-reply" onClick={handleShowComment}></i>
+                    <i className="fa-solid fa-comment" onClick={handleShowComment}></i>
                 </div>}
                 {showComment && <div className='reply-container'>
                     <div className='record-icon-container' onClick={handleShowRecord}>

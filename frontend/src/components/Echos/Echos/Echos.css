@@ -55,4 +55,33 @@
     scroll-behavior: smooth;
 }
 
+.hide-replies {
+    position: fixed;
+    /* top: 45%; */
+    /* right: 25%; */
+    opacity: 0;
+    height: 100vh;
+    width: 5vw;
+    padding-left: 70px;
+    right: 22%;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.hide-replies:hover {
+    opacity: 1;
+}
+
+.hide-replies > i {
+    position: relative;
+    top: 45%;
+    transform: scale(5);
+    color: rgba(0, 0, 0, 0.15);
+    transition: color 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.hide-replies > i:hover {
+    color: rgba(0, 0, 0, 0.409);
+}
+
 

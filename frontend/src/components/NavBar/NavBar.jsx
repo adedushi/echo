@@ -49,35 +49,34 @@ function NavBar() {
     return (
         <>
        {isModalOpen && <EchoCompose onClose={closeModal} />}
-        <div id='navContainer'>
-            <h1 onClick={navToHome}>Echo</h1>
+        <div className='nav-container'>
             {/* {getLinks()} */}
             <div className="links-nav-bar">
-                        <div className='navButtonWrapper' onClick={navToHome}>
-                            <i id='homeIcon' className="fa-solid fa-house"></i>
-                            <h2 className='navButtonText'>Home</h2>
-                        </div>
+                <h1 className="nav-header" onClick={navToHome}>Echo</h1>
+                <div className='navButtonWrapper' onClick={navToHome}>
+                    <i className="fa-solid fa-house nav-icon"></i>
+                    <h2 className='navButtonText'>Home</h2>
+                </div>
 
-                        <div className='navButtonWrapper' onClick={navToProfile}>
-                            <i id='profileIcon' className="fa-solid fa-user"></i>
-                            <h2 className='navButtonText'>Profile</h2>
-                        </div>
+                <div className='navButtonWrapper' onClick={navToProfile}>
+                    <i className="fa-solid fa-user nav-icon"></i>
+                    <h2 className='navButtonText'>Profile</h2>
+                </div>
 
-                        <div id='createButton' onClick={openModal}>
-                            <i id='recordIcon' className="fa-solid fa-file-audio"></i>
-                            <h2 className='navButtonText'>Create</h2>
-                        </div>
-
-            
+                <div className='navButtonWrapper create-button' onClick={openModal}>
+                    <i className="fa-solid fa-file-audio nav-icon"></i>
+                    <h2 className='navButtonText'>Create</h2>
+                </div>
             </div>
-
-            <div className='navButtonWrapper' onClick={navToAbout}>
-                <h2 id='logoutText' className='navButtonText'>About</h2>
-                <i id='profileIcon' className="fa-solid fa-circle-info"></i>
-            </div>
-            <div id='logoutButton' className='navButtonWrapper' onClick={logoutUser}>
-                <h2 id='logoutText' className='navButtonText'>Logout</h2>
-                <i id='logoutIcon' className="fa-solid fa-arrow-right-from-bracket"></i>
+            <div className='links-nav-bar secondary-nav-links'>
+                <div className='navButtonWrapper' onClick={navToAbout}>
+                    <i className="fa-solid fa-circle-info nav-icon"></i>
+                    <h2 className='navButtonText logout-text'>About</h2>
+                </div>
+                <div className='navButtonWrapper' onClick={logoutUser}>
+                    <i className="fa-solid fa-arrow-right-from-bracket nav-icon"></i>
+                    <h2 className='navButtonText logout-text'>Logout</h2>
+                </div>
             </div>
         </div>
         </>

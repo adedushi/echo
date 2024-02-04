@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom"
 import WaveTest from '../../../Audio/EchoPlayer';
 import './EchoReply.css';
-// import { follow, unFollow } from '../../../../store/users';
+import { follow, unFollow } from '../../../../store/users';
 import { addReplyLike, removeReplyLike } from '../../../../store/echos';
 
 
@@ -13,7 +13,7 @@ const EchoReply = ({ reply, deleteReply, echoId }) => {
     const sessionUser = useSelector(state => state.session.user);
     const [confirmDelete, setConfirmDelete] = useState(false)
     const [isOwner, setIsOwner] = useState(false)
-    // const [isFollowing, setIsFollowing] = useState(false)
+    const [isFollowing, setIsFollowing] = useState(false)
     const [isLikeHovered, setIsLikeHovered] = useState(false);
     // eslint-disable-next-line no-unused-vars
     const [showFollow, setShowFollow] = useState(false)
@@ -46,13 +46,13 @@ const EchoReply = ({ reply, deleteReply, echoId }) => {
                 setIsLiked(true)
             }
         }
-        // if (followedUsers) {
-        //     for (const user of followedUsers) {
-        //         if (user._id === replyAuthor._id) {
-        //             setIsFollowing(true)
-        //         }
-        //     }
-        // }
+        if (followedUsers) {
+            for (const user of followedUsers) {
+                if (user._id === replyAuthor._id) {
+                    setIsFollowing(true)
+                }
+            }
+        }
     }, [followedUsers, replyAuthor._id, replyLikes, currentUserId])
     
 
@@ -84,29 +84,29 @@ const EchoReply = ({ reply, deleteReply, echoId }) => {
         } 
     }
 
-    // const handleFollow = () => {
-    //     if (!isFollowing) {
-    //        dispatch(follow(replyAuthor._id)) 
-    //        setIsFollowing(true)
-    //     } else {
-    //         dispatch(unFollow(replyAuthor._id))
-    //         setIsFollowing(false)
-    //     }
-    // }
+    const handleFollow = () => {
+        if (!isFollowing) {
+           dispatch(follow(replyAuthor._id)) 
+           setIsFollowing(true)
+        } else {
+            dispatch(unFollow(replyAuthor._id))
+            setIsFollowing(false)
+        }
+    }
 
     if (!isComment) {
         return (
             <div className='reply-root-parent'>
             <div className="reply-box" >
                 <div className="reply-content" >
-                        {profileImageUrl && <img className="reply-profile-image" src={profileImageUrl} alt="profile" onClick={() => navigate(`/profile/${authorId}/echos`)} onMouseEnter={() => setShowFollow(true)} /> }
-                        {/* {showFollow && 
+                        {!showFollow && profileImageUrl && <img className="reply-profile-image" src={profileImageUrl} alt="profile" onClick={() => navigate(`/profile/${authorId}/echos`)} onMouseEnter={() => setShowFollow(true)} /> }
+                        {showFollow && 
                         <div className='reply-follow-modal' onClick={handleFollow} onMouseLeave={() => setShowFollow(false)}>
                             {isFollowing ? 'Unfollow' : 'Follow'}
                         </div>
-                        } */}
+                        }
                     <WaveTest index={_id} audioUrl={replyAudioUrl} />
-                    <h3><i className={`${isLiked ? 'fa-solid' : (isLikeHovered ? 'fa-solid' : 'fa-regular')} fa-heart`} id='like-button' onClick={handleLike} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{ opacity: isLikeHovered && isLiked ? 0.7 : 1 }}></i>{replyLikes.length}</h3>
+                    <div className='reply-likes'><i className={`${isLiked ? 'fa-solid' : (isLikeHovered ? 'fa-solid' : 'fa-regular')} fa-heart`} id='like-button' onClick={handleLike} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{ opacity: isLikeHovered && isLiked ? 0.7 : 1 }}></i>{replyLikes.length}</div>
                 </div>
             </div>
            <div className="reply-details">
@@ -123,14 +123,14 @@ const EchoReply = ({ reply, deleteReply, echoId }) => {
             <div className='reply-root-parent'>
             <div className="reply-comment-box" onMouseEnter={() => setShowFollow(true)} onMouseLeave={() => setShowFollow(false)}>
                 <div className="reply-content" >
-                        {profileImageUrl && <img className="reply-profile-image" src={profileImageUrl} alt="profile" onClick={() => navigate(`/profile/${authorId}/echos`)} /> }
-                        {/* {showFollow && 
-                        <div className='reply-follow-modal' onClick={handleFollow} >
+                        {!showFollow && profileImageUrl && <img className="reply-profile-image" src={profileImageUrl} alt="profile" onClick={() => navigate(`/profile/${authorId}/echos`)} /> }
+                        {showFollow && 
+                        <div className='reply-follow-modal-comments' onClick={handleFollow} >
                             {isFollowing ? 'Unfollow' : 'Follow'}
                         </div>
-                        } */}
+                        }
                      {isComment && <p className='reply-list-comment'>{reply.replyText}</p>}
-                    <h3><i className={`${isLiked ? 'fa-solid' : (isLikeHovered ? 'fa-solid' : 'fa-regular')} fa-heart`} id='like-button' onClick={handleLike} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{ opacity: isLikeHovered && isLiked ? 0.7 : 1 }}></i> {replyLikes.length}</h3>
+                    <div className='reply-likes'><i className={`${isLiked ? 'fa-solid' : (isLikeHovered ? 'fa-solid' : 'fa-regular')} fa-heart`} id='like-button' onClick={handleLike} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{ opacity: isLikeHovered && isLiked ? 0.7 : 1 }}></i>{replyLikes.length}</div>
                 </div>
             </div>
            <div className="reply-details">
