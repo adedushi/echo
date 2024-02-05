@@ -19,7 +19,7 @@ const ProfileFollowerList = ({ closeFollowersModal , followers }) => {
                 <ul className="profile-follow-list">
                     {followers.map(user => {
                         return (
-                           <FollowListItem key={user._id} user={user}/>
+                           <FollowListItem key={user._id} user={user} handleClose={handleClose}/>
                         )
                     })}
                 </ul>

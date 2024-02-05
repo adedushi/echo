@@ -5,7 +5,7 @@ const Echo = require('../models/Echo');
 const bcrypt = require('bcryptjs');
 const { faker } = require('@faker-js/faker');
 
-const NUM_SEED_USERS = 10;
+const NUM_SEED_USERS = 7;
 const NUM_SEED_ECHOS = 30;
 
 const DEFAULT_PROFILE_IMAGE_URL = 'https://teamlab-echo.s3.amazonaws.com/public/blank-profile-picture.png';
@@ -86,18 +86,18 @@ users.push(
     })
 );
 
-for (let i = 6; i < NUM_SEED_USERS; i++) {
-    const firstName = faker.name.firstName();
-    const lastName = faker.name.lastName();
+// for (let i = 6; i < NUM_SEED_USERS; i++) {
+//     const firstName = faker.name.firstName();
+//     const lastName = faker.name.lastName();
 
-    const newUser = new User({
-        username: faker.internet.userName(firstName, lastName),
-        email: faker.internet.email(firstName, lastName),
-        hashedPassword: bcrypt.hashSync(faker.internet.password(), 10),
-        profileImageUrl: DEFAULT_PROFILE_IMAGE_URL,
-    })
-    users.push(newUser)
-}
+//     const newUser = new User({
+//         username: faker.internet.userName(firstName, lastName),
+//         email: faker.internet.email(firstName, lastName),
+//         hashedPassword: bcrypt.hashSync(faker.internet.password(), 10),
+//         profileImageUrl: DEFAULT_PROFILE_IMAGE_URL,
+//     })
+//     users.push(newUser)
+// }
 
 
 const addEchoLikes = () => {
@@ -150,22 +150,22 @@ const echoReplies = addEchoReplies()
 const echoReverbs = addEchoReverbs()
 
 
-for (let i = 0; i < NUM_SEED_ECHOS; i++) {
-    const echoLikes = addEchoLikes()
-    const echoReplies = addEchoReplies()
-    const echoReverbs = addEchoReverbs()
+// for (let i = 0; i < NUM_SEED_ECHOS; i++) {
+//     const echoLikes = addEchoLikes()
+//     const echoReplies = addEchoReplies()
+//     const echoReverbs = addEchoReverbs()
 
-    echos.push(
-        new Echo({
-            title: faker.hacker.phrase(),
-            author: users[Math.floor(Math.random() * NUM_SEED_USERS)]._id,
-            audioUrl: DEFAULT_AUDIO_URL,
-            replies: echoReplies,
-            likes: echoLikes,
-            reverbs: echoReverbs
-        })
-    )
-}
+//     echos.push(
+//         new Echo({
+//             title: faker.hacker.phrase(),
+//             author: users[Math.floor(Math.random() * NUM_SEED_USERS)]._id,
+//             audioUrl: DEFAULT_AUDIO_URL,
+//             replies: echoReplies,
+//             likes: echoLikes,
+//             reverbs: echoReverbs
+//         })
+//     )
+// }
 
 echos.push(
     new Echo({
