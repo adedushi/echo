@@ -30,7 +30,7 @@ function MainPage() {
 
     const handleDemoLogin = (e) => {
         e.preventDefault();
-        dispatch(login({ email: "demo-user@appacademy.io", password: "starwars" }))
+        dispatch(login({ email: "mark@zuckerberg.com", password: "password" }))
     }
 
     const sendToSignUp = (e) => {

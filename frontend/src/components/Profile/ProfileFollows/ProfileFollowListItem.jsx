@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import "./ProfileFollowsList.css"
 import { follow, unFollow } from '../../../store/users';
+import { useNavigate } from "react-router-dom";
 
 
 
 
-const FollowListItem = ({ user }) => {
+const FollowListItem = ({ user, handleClose }) => {
+    const navigate = useNavigate()
     const [isFollowing, setIsFollowing] = useState(false)
     const dispatch = useDispatch()
     let users = useSelector(state => state.users)
@@ -35,7 +37,10 @@ const FollowListItem = ({ user }) => {
 
     return (
         <li className='follow-list-item' key={user._id} >
-            <div className="follow-list-img-username">
+            <div className="follow-list-img-username" onClick={() => {
+                navigate(`/profile/${user._id}/echos`)
+                handleClose()
+            }}>
                 <img className='follow-list-image' src={user.profileImageUrl  } alt="" />
                 <p className='follow-list-username'>{user.username}</p>
             </div>

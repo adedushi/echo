@@ -79,7 +79,9 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    cursor: pointer;
 }
+
 
 .follow-list-image{
     width: 60px;
