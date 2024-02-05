@@ -6,6 +6,8 @@ import "./Profile.css"
 import { NavLink, Outlet, useParams } from 'react-router-dom';
 import { fetchProfileUser } from '../../store/users';
 import ProfileEchoReplies from '../Echos/EchoReplies/ProfileEchoReplies';
+import ProfileFollowingList from './ProfileFollows/ProfileFollowingList';
+import ProfileFollowerList from './ProfileFollows/ProfileFollowersList';
 
 export const Feed = ({ feedType }) => {
     const dispatch = useDispatch();
@@ -61,6 +63,8 @@ const Profile = () => {
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
     const [activeNavLink, setActiveNavLink] = useState('');
+    const [showFollowing, setShowFollowing] = useState(false)
+    const [showFollowers, setShowFollowers] = useState(false)
 
 
     useEffect(() => {
@@ -78,6 +82,22 @@ const Profile = () => {
         }, 2000);
     };
 
+    const openFollowingModal = () => {
+        setShowFollowing(true);
+    };
+
+    const openFollowersModal = () => {
+        setShowFollowers(true);
+    };
+
+    const closeFollowingModal = () => {
+        setShowFollowing(false);
+    };
+
+    const closeFollowersModal = () => {
+        setShowFollowers(false);
+    };
+
     
 
     return (
@@ -85,7 +105,7 @@ const Profile = () => {
             <div className='profile-header-nav'>
                 <div className="profile-header">
                     {profileUser? <img src={profileUser.profileImageUrl} className="profile-image-large"/> : null}
-                    {profileUser? <h1>{profileUser.username}</h1> : null}
+                    {profileUser? <h1 className='profile-username-header'>@{profileUser.username}</h1> : null}
                 </div>
                 <div className="profile-nav">
                     <NavLink
@@ -111,8 +131,26 @@ const Profile = () => {
                     >
                         Reverbs
                     </NavLink>
+
+                    <NavLink
+                        to={'#'}
+                        className={`profile-nav-link`}
+                        onClick={openFollowingModal}
+                    >
+                        Following
+                    </NavLink>
+
+                    <NavLink
+                        to={'#'}
+                        className={`profile-nav-link`}
+                        onClick={openFollowersModal}
+                    >
+                        Followers
+                    </NavLink>
                 </div>
             </div>
+            {showFollowing && <ProfileFollowingList following={profileUser.following} closeFollowingModal={closeFollowingModal}/>}
+            {showFollowers && <ProfileFollowerList followers={profileUser.followers} following={profileUser.following} closeFollowersModal={closeFollowersModal}/>}
             <Outlet />
         </div>
     );

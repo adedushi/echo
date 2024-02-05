@@ -150,7 +150,7 @@ function EchoBox({ echo, echoBoxProps }) {
 
 
     return (
-        <div className={`echo-box`} id={selectedEcho ? selectedEcho._id === _id ? 'selected-echo' : '' : ''} onClick={handleShowReplies}  onMouseEnter={() => setShowFollow(true)} onMouseLeave={() => setShowFollow(false)}>
+        <div className={`echo-box`} id={selectedEcho ? selectedEcho === echo ? 'selected-echo' : '' : ''} onClick={handleShowReplies}  onMouseEnter={() => setShowFollow(true)} onMouseLeave={() => setShowFollow(false)}>
             <p className='echo-username' onClick={() => navigate(`/profile/${author._id}/echos`)}>@{username}</p>
             <h2 className='echo-title'>{title}</h2>
             <div className="echo-content" >
