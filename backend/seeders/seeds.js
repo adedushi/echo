@@ -23,7 +23,70 @@ users.push(
     })
 )
 
-for (let i = 1; i < NUM_SEED_USERS; i++) {
+users.push(
+    new User({
+        username: 'zuck',
+        email: 'mark@zuckerberg.com',
+        hashedPassword: bcrypt.hashSync('password', 10),
+        profileImageUrl: 'https://teamlab-echo.s3.amazonaws.com/public/zuckerberg.webp',
+    })
+);
+
+users.push(
+    new User({
+        username: 'darth',
+        email: 'darth@vader.com',
+        hashedPassword: bcrypt.hashSync('password', 10),
+        profileImageUrl: 'https://teamlab-echo.s3.amazonaws.com/public/vader.webp',
+    })
+);
+
+users.push(
+    new User({
+        username: 'drakeOVO6',
+        email: 'drake@drake.com',
+        hashedPassword: bcrypt.hashSync('password', 10),
+        profileImageUrl: 'https://teamlab-echo.s3.amazonaws.com/public/drake.webp',
+    })
+);
+
+users.push(
+    new User({
+        username: 'Elon',
+        email: 'elon@musk.com',
+        hashedPassword: bcrypt.hashSync('password', 10),
+        profileImageUrl: 'https://teamlab-echo.s3.amazonaws.com/public/musk.webp',
+    })
+);
+
+users.push(
+    new User({
+        username: 'tswift',
+        email: 'taylor@swift.com',
+        hashedPassword: bcrypt.hashSync('password', 10),
+        profileImageUrl: 'https://teamlab-echo.s3.amazonaws.com/public/swift.webp',
+    })
+);
+
+users.push(
+    new User({
+        username: 'jeff',
+        email: 'jeff@bezos.com',
+        hashedPassword: bcrypt.hashSync('password', 10),
+        profileImageUrl: 'https://teamlab-echo.s3.amazonaws.com/public/bezos.webp',
+    })
+);
+
+users.push(
+    new User({
+        username: 'cardi',
+        email: 'cardi@b.com',
+        hashedPassword: bcrypt.hashSync('password', 10),
+        profileImageUrl: 'https://teamlab-echo.s3.amazonaws.com/public/cardi.webp',
+    })
+);
+
+for (let i = 6; i < NUM_SEED_USERS; i++) {
     const firstName = faker.name.firstName();
     const lastName = faker.name.lastName();
 
@@ -59,6 +122,7 @@ const addEchoReplies = () => {
         }
 
         while (newReply.replyLikes.length < 3) {
+            console.log(users);
             const id = users[Math.floor(Math.random() * NUM_SEED_USERS)]._id
             if (!newReply.replyLikes.includes(id)) {
                 newReply.replyLikes.push(id)
@@ -81,6 +145,10 @@ const addEchoReverbs = () => {
     return reverbs
 }
 
+const echoLikes = addEchoLikes()
+const echoReplies = addEchoReplies()
+const echoReverbs = addEchoReverbs()
+
 
 for (let i = 0; i < NUM_SEED_ECHOS; i++) {
     const echoLikes = addEchoLikes()
@@ -98,6 +166,81 @@ for (let i = 0; i < NUM_SEED_ECHOS; i++) {
         })
     )
 }
+
+echos.push(
+    new Echo({
+        title: 'feeling great',
+        author: users[1]._id,
+        audioUrl: 'https://teamlab-echo.s3.amazonaws.com/public/zuckerberg.mp3',
+        replies: echoReplies,
+        likes: echoLikes,
+        reverbs: echoReverbs
+    })
+);
+
+echos.push(
+    new Echo({
+        title: 'This is too bright!',
+        author: users[2]._id,
+        audioUrl: 'https://teamlab-echo.s3.amazonaws.com/public/vader.mp3',
+        replies: echoReplies,
+        likes: echoLikes,
+        reverbs: echoReverbs
+    })
+);
+
+echos.push(
+    new Echo({
+        title: 'Soon',
+        author: users[3]._id,
+        audioUrl: 'https://teamlab-echo.s3.amazonaws.com/public/drake.mp3',
+        replies: echoReplies,
+        likes: echoLikes,
+        reverbs: echoReverbs
+    })
+);
+
+echos.push(
+    new Echo({
+        title: 'Offer you cannot refuse',
+        author: users[4]._id,
+        audioUrl: 'https://teamlab-echo.s3.amazonaws.com/public/musk.mp3',
+        replies: echoReplies,
+        likes: echoLikes,
+        reverbs: echoReverbs
+    })
+);
+
+echos.push(
+    new Echo({
+        title: 'Grammy Night',
+        author: users[5]._id,
+        audioUrl: 'https://teamlab-echo.s3.amazonaws.com/public/swift.mp3',
+        replies: [{
+            replyAuthor: users[7]._id,
+            replyAudioUrl: 'https://teamlab-echo.s3.amazonaws.com/public/cardi.mp3',
+            replyText: undefined,
+            replyLikes: [],
+        }],
+        likes: echoLikes,
+        reverbs: echoReverbs
+    })
+);
+
+echos.push(
+    new Echo({
+        title: 'CEO Entrepreneur',
+        author: users[6]._id,
+        audioUrl: 'https://teamlab-echo.s3.amazonaws.com/public/bezos.mp3',
+        replies: echoReplies,
+        likes: echoLikes,
+        reverbs: echoReverbs
+    })
+);
+
+
+
+
 
 for (let i = 0; i < users.length; i++) {
     const user = users[i]
@@ -135,7 +278,6 @@ for (let i = 0; i < users.length; i++) {
     // user.likes = echos.filter(echo => echo.likes.includes(userId))
     // user.reverbs = echos.filter(echo => echo.reverbs.includes(userId));
 }
-
 
 
 mongoose
