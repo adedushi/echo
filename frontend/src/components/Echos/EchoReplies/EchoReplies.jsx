@@ -5,7 +5,7 @@ import { useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { removeEchoReply } from "../../../store/echos"
 
-const EchoReplies = ({echo, setShowReplies}) => {
+const EchoReplies = ({echo, setShowReplies, setSelectedEcho}) => {
     const containerRef = useRef(null)
     const dispatch = useDispatch()
     const replies = useSelector(state => {
@@ -34,7 +34,10 @@ const EchoReplies = ({echo, setShowReplies}) => {
                 ))}
             </div>
             <div className="hide-replies">
-                <i className="fa-solid fa-arrow-left" onClick={() => setShowReplies(false)}></i>
+                <i className="fa-solid fa-arrow-left" onClick={() => {
+                    setShowReplies(false)
+                    setSelectedEcho(null)
+                    }}></i>
             </div>
             <ReplyCompose echoId={echo._id} scrollToBottom={scrollToBottom} />
         </div>

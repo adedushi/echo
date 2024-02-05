@@ -50,7 +50,7 @@ function Echos() {
                     <EchoBox key={echo._id} echo={echo} echoBoxProps={echoBoxProps} />
                 ))}
             </div>
-            {showReplies && <EchoReplies echo={selectedEcho} setShowReplies={setShowReplies}/>}
+            {showReplies && <EchoReplies echo={selectedEcho} setShowReplies={setShowReplies} setSelectedEcho={setSelectedEcho}/>}
         </div>
         {/* </div> */}
         </>
