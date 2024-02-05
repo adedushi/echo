@@ -14,7 +14,6 @@ const EchoReplies = ({echo, setShowReplies}) => {
             return currentEcho.replies
         }
     })
-    console.log(replies)
 
 
     const deleteReply = (replyId) => {

@@ -4,8 +4,10 @@ import { addEchoReply, clearEchoErrors } from '../../../store/echos';
 import './ReplyCompose.css';
 import EchoRecorder from '../EchoRecorder/EchoRecorder';
 import ReplyPreview from './ReplyPreview/ReplyPreview';
+import { useParams } from 'react-router-dom';
+import { fetchProfileUser } from '../../../store/users';
 
-function ReplyCompose({ echoId, scrollToBottom}) {
+function ReplyCompose({ echoId, scrollToBottom, profileReply}) {
     // const echoId = '65ba730da50d777ab5531d43'
     const [comment, setComment] = useState('');
     const dispatch = useDispatch();
@@ -13,6 +15,7 @@ function ReplyCompose({ echoId, scrollToBottom}) {
     const [audioUrl, setAudioUrl] = useState(null);
     const [showRecord, setShowRecord] = useState(false)
     const [showComment, setShowComment] = useState(true)
+    const { userId } = useParams(); 
 
     useEffect(() => {
         return () => dispatch(clearEchoErrors());
@@ -29,6 +32,11 @@ function ReplyCompose({ echoId, scrollToBottom}) {
         } 
         setComment('');
         clearAudio();
+        if (profileReply) {
+            setTimeout(() => {
+                dispatch(fetchProfileUser(userId))
+            }, 300);
+        }
         setTimeout(() => scrollToBottom(), 500)
     };
 

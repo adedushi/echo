@@ -5,6 +5,7 @@ import EchoBox from '../Echos/EchoBox/EchoBox';
 import "./Profile.css"
 import { NavLink, Outlet, useParams } from 'react-router-dom';
 import { fetchProfileUser } from '../../store/users';
+import ProfileEchoReplies from '../Echos/EchoReplies/ProfileEchoReplies';
 
 export const Feed = ({ feedType }) => {
     const dispatch = useDispatch();
@@ -14,11 +15,13 @@ export const Feed = ({ feedType }) => {
     const [showReplies, setShowReplies] = useState(false)
     // eslint-disable-next-line no-unused-vars
     const [selectedEcho, setSelectedEcho] = useState()
-
+    
     const echoBoxProps = {
         setSelectedEcho,
-        setShowReplies
+        setShowReplies,
+        selectedEcho
     }
+    
 
     useEffect(() => {
         if (userId) {
@@ -32,14 +35,19 @@ export const Feed = ({ feedType }) => {
     }
 
     return (
-        <div>
-            {userEchos.map((echo, index) => (
-                <EchoBox
-                    key={`${echo._id}-${index}-${echo.wasReverb}`}
-                    echo={echo}
-                    echoBoxProps={echoBoxProps}
-                />
-            ))}
+        <div className={showReplies ? 'profile-echos-container-with-replies' : 'profile-echo-container'}>
+            <div className={showReplies ? 'profile-echo-list-with-replies' : 'profile-echo-list'}>
+                {userEchos.map((echo, index) => (
+                    <EchoBox
+                        key={`${echo._id}-${index}-${echo.wasReverb}`}
+                        echo={echo}
+                        echoBoxProps={echoBoxProps}
+                    />
+                ))}
+            </div>
+            <div className='profile-replies'>
+                {showReplies && <ProfileEchoReplies echo={selectedEcho} setShowReplies={setShowReplies} feedType={feedType}/>}
+            </div>
         </div>
     );
 }
@@ -51,6 +59,9 @@ const Profile = () => {
     const profileUser = useSelector(state => state.users.profileUser);
     const { userId } = useParams(); 
     const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(false);
+    const [activeNavLink, setActiveNavLink] = useState('');
+
 
     useEffect(() => {
         if (userId) {
@@ -58,39 +69,49 @@ const Profile = () => {
         }
     }, [userId, dispatch]);
 
+    const handleNavLinkClick = (navLink) => {
+        setIsLoading(true);
+        setActiveNavLink(navLink);
+
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 2000);
+    };
+
+    
+
     return (
         <div className="profile-page">
-            <div className="profile-header">
-                {profileUser? <img src={profileUser.profileImageUrl} className="profile-image-large"/> : null}
-                {profileUser? <h1>{profileUser.username}</h1> : null}
-            </div>
-            <div className="profile-nav">
-                <NavLink
-                    to={`echos`}
-                    className={({ isActive }) =>
-                        isActive ? "active" : ""
-                    }
-                >
-                    Echos
-                </NavLink>
+            <div className='profile-header-nav'>
+                <div className="profile-header">
+                    {profileUser? <img src={profileUser.profileImageUrl} className="profile-image-large"/> : null}
+                    {profileUser? <h1>{profileUser.username}</h1> : null}
+                </div>
+                <div className="profile-nav">
+                    <NavLink
+                        to={!isLoading ? `echos` : '#'}
+                        className={`profile-nav-link ${activeNavLink === 'echos' ? 'profile-nav-link-active' : ''}`}
+                        onClick={() => !isLoading && handleNavLinkClick('echos')}
+                    >
+                        Echos
+                    </NavLink>
 
-                <NavLink
-                    to={`likes`}
-                    className={({ isActive }) =>
-                        isActive ? "active" : ""
-                    }
-                >
-                    Likes
-                </NavLink>
+                    <NavLink
+                        to={!isLoading ? `likes` : '#'}
+                        className={`profile-nav-link ${activeNavLink === 'likes' ? 'profile-nav-link-active' : ''}`}
+                        onClick={() => !isLoading && handleNavLinkClick('likes')}
+                    >
+                        Likes
+                    </NavLink>
 
-                <NavLink
-                    to={`reverbs`}
-                    className={({ isActive }) =>
-                        isActive ? "active" : ""
-                    }
-                >
-                    Reverbs
-                </NavLink>
+                    <NavLink
+                        to={!isLoading ? `reverbs` : '#'}
+                        className={`profile-nav-link ${activeNavLink === 'reverbs' ? 'profile-nav-link-active' : ''}`}
+                        onClick={() => !isLoading && handleNavLinkClick('reverbs')}
+                    >
+                        Reverbs
+                    </NavLink>
+                </div>
             </div>
             <Outlet />
         </div>
