@@ -168,8 +168,15 @@ function EchoBox({ echo, echoBoxProps }) {
             
             <div className="echo-details">
                 <h3><i className="fa-solid fa-comment" id='reply-button' ></i> {replies.length}</h3>
-                <h3><i className={`${isLiked ? 'fa-solid' : (isLikeHovered ? 'fa-solid' : 'fa-regular')} fa-heart`} id='like-button' onClick={handleLike} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{ opacity: isLikeHovered && isLiked ? 0.7 : 1 }}></i> {likes.length}</h3>
-                <h3><i className={`${isReverbed ? (isReverbHovered ? 'reverb-button-half' : 'reverb-button-full') : (isReverbHovered ? 'reverb-button-full' : 'reverb-button-half')} fas fa-satellite-dish`} id='reverb-button' onClick={handleReverb} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}></i> {reverbs.length}</h3>
+                <h3><i className={`${isLiked ? 'fa-solid' : (isLikeHovered ? 'fa-solid' : 'fa-regular')} fa-heart`} id='like-button' onClick={(e) => {
+                    handleLike()
+                    e.stopPropagation()
+                    }} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{ opacity: isLikeHovered && isLiked ? 0.7 : 1 }}></i> {likes.length}</h3>
+                <h3><i className={`${isReverbed ? (isReverbHovered ? 'reverb-button-half' : 'reverb-button-full') : (isReverbHovered ? 'reverb-button-full' : 'reverb-button-half')} fas fa-satellite-dish`} id='reverb-button' onClick={(e) => {
+                    handleReverb()
+                    e.stopPropagation()
+                }
+                    } onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}></i> {reverbs.length}</h3>
                 {sessionUser._id === author._id && <button onClick={handleEditEcho}><i className="fa-regular fa-pen-to-square"></i></button>}
             </div>
            
