@@ -160,7 +160,7 @@ router.get('/:userId', async (req, res) => {
     })
     .populate({
       path: 'following',
-      select: '_id username ProfileImageUrl'
+      select: '_id username profileImageUrl'
     })
 
   if (!user) {
@@ -299,7 +299,7 @@ router.put ('/follow/:userId', requireUser, async (req, res) => {
         })
         .populate({
           path: 'following',
-          select: '_id username ProfileImageUrl'
+          select: '_id username profileImageUrl'
         })
 
     return res.json(result)

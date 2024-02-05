@@ -1,0 +1,112 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.profile-follows-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+.profile-follows-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    height: 600px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 40px;
+    opacity: 0;
+    animation: fadeIn 0.9s ease forwards;
+    margin-left: 8vw;
+
+}
+
+.eprofile-follows-modal.leave {
+    animation: fadeOut 0.9s ease forwards;
+}
+
+.profile-follows-container.leave {
+    animation: fadeOut 0.3s ease forwards;
+}
+
+.profile-follow-list {
+    width: 100%;
+    /* margin-left: 70px; */
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: auto;
+}
+
+.follow-list-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    margin-right: 25px;
+}
+
+.follow-list-img-username {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.follow-list-image{
+    width: 60px;
+    height: 60px;
+    margin-left: 15px;
+}
+
+.follow-list-username {
+    margin-left: 15px;
+}
+
+
+.profile-list-follow-button {
+    width: 60px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: white;
+    color: black;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    text-align: center;
+}
+
+.profile-list-follow-button:hover {
+    color: white;
+    background-color: #0077cc;
+    border-bottom: 3px solid blue;
+}
