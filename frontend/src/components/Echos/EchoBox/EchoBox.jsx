@@ -101,6 +101,8 @@ function EchoBox({ echo, echoBoxProps }) {
     }
 
     const handleDeleteEcho = (e) => {
+        setSelectedEcho(null)
+        setShowReplies(false)
         e.preventDefault();
         setConfirmDelete(false)
         dispatch(destroyEcho(_id));
@@ -154,7 +156,7 @@ function EchoBox({ echo, echoBoxProps }) {
             <p className='echo-username' onClick={() => navigate(`/profile/${author._id}/echos`)}>@{username}</p>
             <h2 className='echo-title'>{title}</h2>
             <div className="echo-content" >
-                    {profileImageUrl && <img className="profile-image" src={profileImageUrl} alt="profile" onClick={() => navigate(`/profile/${author._id}/echos`)} /> }
+                    {profileImageUrl && <img className="profile-image" src={profileImageUrl} alt="profile" onClick={() => {navigate(`/profile/${author._id}/echos`)}} /> }
                     {showFollow && 
                     <div className='follow-modal' onClick={handleFollow} >
                         {isFollowing ? 'Unfollow' : 'Follow'}
