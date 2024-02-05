@@ -38,6 +38,7 @@ const EchoReply = ({ reply, deleteReply, echoId }) => {
         if (reply.replyText) {
             setIsComment(true)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
      useEffect(() => {
