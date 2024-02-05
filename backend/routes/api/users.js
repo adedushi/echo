@@ -139,7 +139,20 @@ router.get('/:userId', async (req, res) => {
     })
     .populate({
       path: 'echos',
-      select: '_id title audioUrl likes reverbs replies'
+      select: '_id title audioUrl likes reverbs replies',
+      populate: [
+        {
+          path: 'author',
+          select: '_id username profileImageUrl'
+        },
+        {
+          path: 'reverbs',
+          select: '_id username'
+        },
+        {
+          path: 'likes',
+          select: '_id username'
+        }]
     })
     .populate({
       path: 'followers',
@@ -158,12 +171,32 @@ router.get('/:userId', async (req, res) => {
     .populate('author', '_id username profileImageUrl')
     .populate('likes', '_id username')
     .populate('reverbs', '_id username')
+    .populate({
+      path: 'replies',
+      select: '_id, replyText, replyAudioUrl, replyLikes',
+      populate: [
+        {
+          path: 'replyAuthor',
+          select: '_id username profileImageUrl'
+        }
+      ]
+    })
   const userEchosIds = userEchos.map(echo => echo._id)
   const userReverbEchos = await Echo.find({ _id: { $in: user.reverbs } })
     .sort({ createdAt: -1 })
     .populate('author', '_id username profileImageUrl')
     .populate('likes', '_id username')
     .populate('reverbs', '_id username')
+    .populate({
+      path: 'replies',
+      select: '_id, replyText, replyAudioUrl, replyLikes',
+      populate: [
+        {
+          path: 'replyAuthor',
+          select: '_id username profileImageUrl'
+        }
+      ]
+    })
 
   const reverbEchosWithAttribute = userReverbEchos.map(echo => {
     if (!userEchosIds.includes(echo._id)) {

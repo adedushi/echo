@@ -37,7 +37,8 @@ function Echos() {
 
     const echoBoxProps = {
         setSelectedEcho,
-        setShowReplies
+        setShowReplies,
+        selectedEcho
     }
     
     return (

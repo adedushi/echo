@@ -71,6 +71,7 @@ export const fetchUserEchos = (id, feed) => async dispatch => {
         const res = await jwtFetch(`/api/users/${id}`);
         const echos = await res.json();
         dispatch(receiveUserEchos(echos[feed]));
+        return res
     } catch (err) {
         const resBody = await err.json();
         if (resBody.statusCode === 400) {
@@ -188,6 +189,7 @@ export const addEchoReply = ( echoId, replyText, replyAudio ) => async dispatch 
         }
     }
 }
+
 
 export const removeEchoReply = (echoId, replyId) => async dispatch => {
     try {

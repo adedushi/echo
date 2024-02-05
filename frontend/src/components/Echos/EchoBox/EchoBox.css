@@ -31,9 +31,13 @@
     padding-left: 10px;
 }
 
+#selected-echo {
+    background-color: #c5c5c5c4;
+}
 .echo-box:hover {
     background-color: #f5f5f5c4;
 }
+
 
 .echo-content {
     max-height: 100%;

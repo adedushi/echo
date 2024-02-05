@@ -7,7 +7,7 @@ import { addEchoLike, addReverb, destroyEcho, removeEchoLike, removeReverb, upda
 import { follow, unFollow } from '../../../store/users';
 
 function EchoBox({ echo, echoBoxProps }) {
-    const {setSelectedEcho, setShowReplies} = echoBoxProps
+    const {setSelectedEcho, setShowReplies, selectedEcho} = echoBoxProps
     const { _id, author, audioUrl, replies, likes, reverbs, title, wasReverb = false } = echo
     const { username, profileImageUrl } = author;
     const sessionUser = useSelector(state => state.session.user);
@@ -150,11 +150,11 @@ function EchoBox({ echo, echoBoxProps }) {
 
 
     return (
-        <div className="echo-box" onClick={handleShowReplies}  onMouseEnter={() => setShowFollow(true)} onMouseLeave={() => setShowFollow(false)}>
-            <p className='echo-username' onClick={() => navigate(`/profile/${_id}/echos`)}>@{username}</p>
+        <div className={`echo-box`} id={selectedEcho ? selectedEcho._id === _id ? 'selected-echo' : '' : ''} onClick={handleShowReplies}  onMouseEnter={() => setShowFollow(true)} onMouseLeave={() => setShowFollow(false)}>
+            <p className='echo-username' onClick={() => navigate(`/profile/${author._id}/echos`)}>@{username}</p>
             <h2 className='echo-title'>{title}</h2>
             <div className="echo-content" >
-                    {profileImageUrl && <img className="profile-image" src={profileImageUrl} alt="profile" onClick={() => navigate(`/profile/${_id}/echos`)} /> }
+                    {profileImageUrl && <img className="profile-image" src={profileImageUrl} alt="profile" onClick={() => navigate(`/profile/${author._id}/echos`)} /> }
                     {showFollow && 
                     <div className='follow-modal' onClick={handleFollow} >
                         {isFollowing ? 'Unfollow' : 'Follow'}

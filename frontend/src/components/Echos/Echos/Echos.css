@@ -22,7 +22,6 @@
     align-items: center;
     width: 40vw;
     margin-top: 3vh;
-    /* border: 2px solid greenyellow; */
 }
 
 .echo-list-with-replies {
@@ -38,7 +37,8 @@
     position: sticky;
     top: 0px;
     width: 30vw;
-    height: 100vh;
+    height: 100%;
+    max-height: 100vh;
     border-left: 10px solid rgba(191, 191, 191, 0.248);
     border-right: 10px solid rgba(191, 191, 191, 0.248);
     display: flex;
