@@ -24,6 +24,9 @@ export const Feed = ({ feedType }) => {
         selectedEcho
     }
     
+    useEffect(() => {
+        setShowReplies(false)
+    }, [userId])
 
     useEffect(() => {
         if (userId) {

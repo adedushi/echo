@@ -57,13 +57,11 @@
 
 .hide-replies {
     position: fixed;
-    /* top: 45%; */
-    /* right: 25%; */
     opacity: 0;
     height: 100vh;
-    width: 5vw;
-    padding-left: 70px;
-    right: 22%;
+    width: 4vw;
+    /* padding-left: 70px; */
+    right: 24%;
     transition: opacity 0.3s ease-in-out;
 }
 

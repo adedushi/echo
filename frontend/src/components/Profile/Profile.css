@@ -99,9 +99,9 @@
     /* right: 25%; */
     opacity: 0;
     height: 100%;
-    width: 5vw;
+    width: 4vw;
     padding-left: 70px;
-    right: 22%;
+    right: 24%;
     transition: opacity 0.3s ease-in-out;
 }
 

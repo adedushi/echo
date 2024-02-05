@@ -9,7 +9,11 @@ import { follow, unFollow } from '../../../store/users';
 const FollowListItem = ({ user }) => {
     const [isFollowing, setIsFollowing] = useState(false)
     const dispatch = useDispatch()
-    const following = useSelector(state => state.users.currentUser.following)
+    let users = useSelector(state => state.users)
+    let following = []
+    if (users.currentUser) {
+        following = users.currentUser.following
+    }
 
     useEffect(() => {
         for (const followUser of following) {
