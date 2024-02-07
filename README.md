@@ -1,6 +1,6 @@
 
 # ECHO
-![LiveLink!](https://echo-p48f.onrender.com/)
+[Link](https://echo-p48f.onrender.com/)
 
 ## Introduction
 Echo is a social media platform built around the creation and sharing of short voice notes, or as we call them: Echos. Echos are short audio recordings users can share to their profiles and feed. The recordings are limited to 30 seconds in length, and followers will be able to listen, like, comment, and reverb (retweet) the Echo.
