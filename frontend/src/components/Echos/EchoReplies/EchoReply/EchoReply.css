@@ -67,6 +67,7 @@
     font-size: 14px;
     margin-top: 2px;
     cursor: pointer;
+    margin-right: 10px;
 }
 
 .reply-username:hover {
@@ -153,7 +154,7 @@
 
 .delete-icon {
     position: relative;
-    left: 5px;
+    left: px;
     cursor: pointer;
 }
 
