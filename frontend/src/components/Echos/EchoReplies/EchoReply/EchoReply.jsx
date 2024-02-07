@@ -60,7 +60,7 @@ const EchoReply = ({ reply, deleteReply, echoId }) => {
     const handleDeleteReply = () => {
         deleteReply(_id)
         // dispatch(removeEchoReply(echoId, _id))
-        setConfirmDelete(false)
+        // setConfirmDelete(false)
     }
 
     const handleLike = () => {

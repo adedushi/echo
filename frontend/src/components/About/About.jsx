@@ -29,15 +29,9 @@ function About() {
         } else if (dev === 'albert') {
             window.open('https://www.linkedin.com/in/adedushi/');
         } else {
-            window.open('https://github.com/lsherman98')
+            window.open('https://www.linkedin.com/in/lsherman98')
         }
     }
-
-
-
-
-
-
 
     return(
         <>
