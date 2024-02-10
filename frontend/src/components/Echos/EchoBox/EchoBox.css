@@ -22,7 +22,8 @@
     justify-content: center;
     border-radius: 10px;
     min-height: 57px;
-    min-width: 30vw;
+    width: 40vw;
+    /* min-width: 30vw; */
     width: 90%;
     height: 17vh;
     margin-top: 4vh;
