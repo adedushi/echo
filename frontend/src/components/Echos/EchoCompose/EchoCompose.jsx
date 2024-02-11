@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { clearEchoErrors, composeEcho } from '../../../store/echos';
 import './EchoCompose.css';
 import EchoRecorder from '../EchoRecorder/EchoRecorder';
@@ -10,7 +10,8 @@ function EchoCompose({ onClose }) {
     const [title, setTitle] = useState('');
     const dispatch = useDispatch();
     // const author = useSelector(state => state.session.user);
-    const errors = useSelector(state => state.errors.echos);
+    // const errors = useSelector(state => state.errors.echos);
+    const [errors, setErrors] = useState([])
     const fileRef = useRef(null);
     const [audio, setAudio] = useState(null);
     const [audioUrl, setAudioUrl] = useState(null);
@@ -33,11 +34,13 @@ function EchoCompose({ onClose }) {
 
     const handleSubmit = e => {
         if (title.length < 5) {
-            alert('Title must be at least 5 character')
+            setErrors(['Title must be at least 5 character'])
+            // alert('Title must be at least 5 character')
             return
         }
         if (!audio) {
-            alert('Record or upload an echo')
+            setErrors(['Record or upload an echo'])
+            // alert('Record or upload an echo')
             return
         }
         e.preventDefault();
@@ -108,7 +111,7 @@ function EchoCompose({ onClose }) {
         <div className={`echo-create-modal ${isVisible ? '' : 'leave'}`} onClick={handleClose}>
             <div className={`create-echo-container ${isVisible ? '' : 'leave'}`} onClick={(e) => e.stopPropagation()}>
                 <form className="create-echo-form" onSubmit={handleSubmit}>
-                    <div className="errors">{errors?.title}</div>
+                    
                 {showUpload && <div className='upload-file' onClick={handleUploadClick}>
                         <i className="fa-solid fa-file-arrow-up"></i>
                         <input
@@ -130,6 +133,7 @@ function EchoCompose({ onClose }) {
                         className="title-input"
                         minLength={5}
                     />
+                    <div className="errors">{errors}</div>
                     {showRecord && <div className='record-options'>
                         <i className="fa-solid fa-trash trash-icon" onClick={clearAudio}></i>
                         <i className="fa-solid fa-paper-plane send-icon" onClick={handleSubmit}></i>

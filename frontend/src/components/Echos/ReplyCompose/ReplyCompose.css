@@ -21,6 +21,7 @@
 .reply-comment {
     display: flex;
     position: relative;
+    width: 50%;
 }
 
 .reply-comment::before {
