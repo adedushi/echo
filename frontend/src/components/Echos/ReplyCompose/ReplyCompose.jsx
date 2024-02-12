@@ -26,7 +26,8 @@ function ReplyCompose({ echoId, scrollToBottom, profileReply}) {
         setAudioUrl(null)
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault()
         if (comment || audio) {
             dispatch(addEchoReply(echoId, comment, audio))
         } 
@@ -64,8 +65,8 @@ function ReplyCompose({ echoId, scrollToBottom, profileReply}) {
     
     return (
         <div className="create-reply-container">
-            <form className="create-reply-form" onSubmit={handleSubmit}>
                 {(audioUrl !== null) && <ReplyPreview audioUrl={audioUrl} /> }
+            <form className="create-reply-form">
                 {showRecord && <EchoRecorder setAudio={setAudio} setAudioUrl={setAudioUrl} />}
                 {showRecord && <div className='record-options'>
                     <i className="fa-solid fa-trash trash-icon" onClick={clearAudio}></i>
