@@ -11,7 +11,6 @@ function MainPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-
     useEffect(() => {
         return () => {
             dispatch(clearSessionErrors());
@@ -25,11 +24,14 @@ function MainPage() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const loginButton = e.target.elements['Log In'];
+        loginButton.value = "Logging In..."
         dispatch(login({ email, password }));
     }
 
     const handleDemoLogin = (e) => {
         e.preventDefault();
+        e.target.value = "Logging In..."
         dispatch(login({ email: "mark@zuckerberg.com", password: "password" }))
     }
 
@@ -37,9 +39,6 @@ function MainPage() {
         e.preventDefault();
         navigate("/signup");
     }
-
-
-
 
     return (
         <div className="welcome-page">
@@ -85,6 +84,7 @@ function MainPage() {
                         />
                     
                     <input
+                        name='Log In'
                         type="submit"
                         value="Log In"
                         disabled={!email || !password}
