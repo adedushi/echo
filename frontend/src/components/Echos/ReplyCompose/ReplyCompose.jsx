@@ -26,8 +26,7 @@ function ReplyCompose({ echoId, scrollToBottom, profileReply}) {
         setAudioUrl(null)
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
+    const handleSubmit = () => {
         if (comment || audio) {
             dispatch(addEchoReply(echoId, comment, audio))
         } 
