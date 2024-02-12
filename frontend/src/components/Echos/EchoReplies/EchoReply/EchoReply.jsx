@@ -124,9 +124,9 @@ const EchoReply = ({ reply, deleteReply, echoId }) => {
             <div className='reply-root-parent'>
             <div className="reply-comment-box" >
                 <div className="reply-content" >
-                        {!showFollow && profileImageUrl && <img className="reply-profile-image" src={profileImageUrl} alt="profile" onClick={() => navigate(`/profile/${authorId}/echos`)}  /> }
+                        {!showFollow && profileImageUrl && <img className="reply-profile-image" src={profileImageUrl} alt="profile" onClick={() => navigate(`/profile/${authorId}/echos`)}  onMouseEnter={() => setShowFollow(true)} /> }
                         {showFollow && 
-                        <div className='reply-follow-modal-comments' onClick={handleFollow} >
+                        <div className='reply-follow-modal-comments' onClick={handleFollow} onMouseLeave={() => setShowFollow(false)}>
                             {isFollowing ? 'Unfollow' : 'Follow'}
                         </div>
                         }
