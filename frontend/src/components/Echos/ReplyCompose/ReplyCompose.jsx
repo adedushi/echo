@@ -46,9 +46,7 @@ function ReplyCompose({ echoId, scrollToBottom, profileReply}) {
     };
 
     const handleKeyDown = (event) => {
-        console.log('in key down')
         if (event.key === 'Enter' && event.metaKey) {
-            console.log('in if')
             handleSubmit();
         }
     };
