@@ -118,7 +118,16 @@ router.get('/:userId', async (req, res) => {
       {
         path: 'likes',
         select: '_id username'
-      }]
+      },
+      {
+        path: 'replies',
+        select: '_id replyText replyAudioUrl replyLikes',
+        populate: {
+          path: 'replyAuthor',
+          select: '_id username profileImageUrl'
+        }
+      }
+    ]
     })
     .populate({
       path: 'reverbs',
@@ -135,7 +144,16 @@ router.get('/:userId', async (req, res) => {
         {
           path: 'likes',
           select: '_id username'
-        }]
+        },
+        {
+          path: 'replies',
+          select: '_id replyText replyAudioUrl replyLikes',
+          populate: {
+            path: 'replyAuthor',
+            select: '_id username profileImageUrl'
+          }
+        }
+      ]
     })
     .populate({
       path: 'echos',
