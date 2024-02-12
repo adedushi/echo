@@ -9,6 +9,7 @@ function SignupForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
+    const [clickOut, setClickOut] = useState(false);
     const [image, setImage] = useState(null);
     const errors = useSelector(state => state.errors.session);
     const dispatch = useDispatch();
@@ -64,19 +65,29 @@ function SignupForm() {
 
     const handleDemoLogin = (e) => {
         e.preventDefault();
+        e.target.value = "Logging In..."
         dispatch(login({ email: "mark@zuckerberg.com", password: "password" }))
     }
 
     const updateFile = e => setImage(e.target.files[0]);
+
+    const handleBlur = () => {
+        setClickOut(true);
+    }
 
     return (
         <>
         <div id='signUpBG'>
         <div id='signUpContainer'>
         <form className="signUpForm" onSubmit={handleSubmit}>
-            <h2>Create Your Account</h2>
-            <h3>Start listening today!</h3>
+
+            <div id='formHeader'>
+                <h2>Create Your Account</h2>
                 <i id='closeButton' className="fa-solid fa-square-xmark" onClick={backToHome}></i>
+            </div>
+            <div id='formSubHeader'>
+            <h3>Start listening today!</h3>
+            </div>
             <div className="errors">{errors?.email}</div>
             
                 <input className='signUpInput' type="text"
@@ -102,13 +113,14 @@ function SignupForm() {
                 />
             
             <div className="errors">
-                {password !== password2 && 'Confirm Password field must match'}
+                {clickOut && password !== password2 && 'Confirm Password field must match'}
             </div>
             
                 <input className='signUpInput' type="password"
                     value={password2}
                     onChange={update('password2')}
                     placeholder="Confirm Password"
+                    onBlur={handleBlur}
                 />
             
             <div id='fileInputContainer'>
