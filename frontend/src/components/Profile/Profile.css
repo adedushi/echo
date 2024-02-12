@@ -102,11 +102,14 @@
     /* top: 45%; */
     /* right: 25%; */
     opacity: 0;
-    height: 100%;
+    height: 65%;
     width: 4vw;
-    padding-left: 70px;
-    right: 24%;
+    /* padding-left: 70px; */
+    right: 30.5%;
     transition: opacity 0.3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .profile-hide-replies:hover {
@@ -114,8 +117,8 @@
 }
 
 .profile-hide-replies > i {
-    position: relative;
-    top: 30%;
+    /* position: relative;
+    top: 30%; */
     transform: scale(5);
     color: rgba(0, 0, 0, 0.15);
     transition: color 0.3s ease-in-out;

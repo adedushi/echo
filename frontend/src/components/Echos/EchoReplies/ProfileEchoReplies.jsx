@@ -54,7 +54,7 @@ const ProfileEchoReplies = ({echo, setShowReplies, feedType}) => {
                 ))}
             </div>
             <div className="profile-hide-replies">
-                <i className="fa-solid fa-arrow-left" onClick={() => setShowReplies(false)}></i>
+                <i className="fa-solid fa-chevron-left" onClick={() => setShowReplies(false)}></i>
             </div>
             <ReplyCompose echoId={echo._id} scrollToBottom={scrollToBottom} profileReply={true} />
         </div>

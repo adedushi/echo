@@ -34,7 +34,7 @@ const EchoReplies = ({echo, setShowReplies, setSelectedEcho}) => {
                 ))}
             </div>
             <div className="hide-replies">
-                <i className="fa-solid fa-arrow-left" onClick={() => {
+                <i className="fa-solid fa-chevron-left" onClick={() => {
                     setShowReplies(false)
                     setSelectedEcho(null)
                     }}></i>

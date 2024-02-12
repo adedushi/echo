@@ -26,8 +26,7 @@ function ReplyCompose({ echoId, scrollToBottom, profileReply}) {
         setAudioUrl(null)
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
+    const handleSubmit = () => {
         if (comment || audio) {
             dispatch(addEchoReply(echoId, comment, audio))
         } 
@@ -47,7 +46,9 @@ function ReplyCompose({ echoId, scrollToBottom, profileReply}) {
     };
 
     const handleKeyDown = (event) => {
+        console.log('in key down')
         if (event.key === 'Enter' && event.metaKey) {
+            console.log('in if')
             handleSubmit();
         }
     };
