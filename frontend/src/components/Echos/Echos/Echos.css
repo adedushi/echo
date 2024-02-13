@@ -45,14 +45,18 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    /* padding-left: 20px; */
 }
 
 .replies-container {
     margin-top: 10px;
     max-height: 85%;
-    overflow: auto;
+    overflow: scroll;
     scroll-behavior: smooth;
+}
+
+.replies-container::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
 }
 
 .hide-replies {
