@@ -47,8 +47,8 @@ const ProfileEchoReplies = ({echo, setShowReplies, feedType}) => {
 
 
     return (
-        <div className="reply-list" >
-            <div className="replies-container" ref={containerRef} >
+        <div className="profile-reply-list" >
+            <div className="profile-replies-container" ref={containerRef} >
                 {replies.map(reply => (
                     <EchoReply key={reply._id} reply={reply} deleteReply={deleteReply} echoId={echo._id} />
                 ))}

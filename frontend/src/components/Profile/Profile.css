@@ -84,27 +84,21 @@
 
 .profile-echos-container-with-replies {
     display: flex;
-    width: 32vw;
-    
+    width: 65vw;
 }
 
 .profile-replies {
-    position: fixed;
-    right: 0vw;
+    position: sticky;
+    top: 40vh;
     height: 100%;
-    max-height: 66vh;
-    margin-top: 0px;
-    /* width: 10vw; */
+    max-height: 60vh;
 }
 
 .profile-hide-replies {
     position: fixed;
-    /* top: 45%; */
-    /* right: 25%; */
     opacity: 0;
     height: 65%;
     width: 4vw;
-    /* padding-left: 70px; */
     right: 30.5%;
     transition: opacity 0.3s ease-in-out;
     display: flex;
@@ -117,8 +111,6 @@
 }
 
 .profile-hide-replies > i {
-    /* position: relative;
-    top: 30%; */
     transform: scale(5);
     color: rgba(0, 0, 0, 0.15);
     transition: color 0.3s ease-in-out;
@@ -139,5 +131,30 @@
 
 .profile-echo-list-with-replies {
     width: 40vw;
-    /* margin-left: 40px; */
+}
+
+.profile-reply-list {
+    position: sticky;
+    top: 35vh;
+    width: 30vw;
+    height: 100%;
+    max-height: 66vh;
+    border-left: 10px solid rgba(191, 191, 191, 0.248);
+    border-right: 10px solid rgba(191, 191, 191, 0.248);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile-replies-container {
+    margin-top: 10px;
+    /* max-height: 85%; */
+    overflow: scroll;
+    scroll-behavior: smooth;
+}
+
+.profile-replies-container::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
 }

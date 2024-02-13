@@ -8,6 +8,7 @@
     border-top: 5px solid rgba(191, 191, 191, 0.248);
     width: 100%;
     margin-bottom: 20px;
+    position: relative;
 }
 
 .create-reply-form {
@@ -45,6 +46,11 @@
     word-wrap: break-word;
     resize: none;
     font-size: 16px;
+}
+
+.reply-input::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
 }
 
 
