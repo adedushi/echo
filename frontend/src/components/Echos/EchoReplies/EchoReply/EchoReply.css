@@ -24,7 +24,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 30vw;
+    width: 26vw;
     height: 5vw;
     background-color: aliceblue;
     border-bottom: 2px solid rgba(198, 198, 198, 0.194);
@@ -130,6 +130,10 @@
     border-bottom: 3px solid blue;
 }
 
+/* .reply-list {
+    width: 50vw;
+} */
+
 .reply-list-comment {
     width: 100%;
     padding: 10px;
@@ -145,13 +149,14 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 30vw;
+    width: 26vw;
     min-height: 5vw;
     background-color: aliceblue;
     border-bottom: 2px solid rgba(198, 198, 198, 0.194);
     border-top: 2px solid rgba(198, 198, 198, 0.194);
     transition: background-color 0.3s ease;
 }
+
 
 .delete-icon {
     position: relative;
