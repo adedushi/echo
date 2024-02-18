@@ -110,7 +110,7 @@ function EchoCompose({ onClose }) {
     return (
         <div className={`echo-create-modal ${isVisible ? '' : 'leave'}`} onClick={handleClose}>
             <div className={`create-echo-container ${isVisible ? '' : 'leave'}`} onClick={(e) => e.stopPropagation()}>
-                <form className="create-echo-form" onSubmit={handleSubmit}>
+                <form className="create-echo-form" >
                     
                 {showUpload && <div className='upload-file' onClick={handleUploadClick}>
                         <i className="fa-solid fa-file-arrow-up"></i>
@@ -145,8 +145,8 @@ function EchoCompose({ onClose }) {
                         <i className="fa-solid fa-microphone" onClick={handleShowRecord}></i>
                     </div>}
                     
-                    <div className="">
-                        {(audioUrl !== null) && <ReplyPreview audioUrl={audioUrl} /> }
+                    <div className="" onClick={(e) => e.preventDefault()}>
+                        {(audioUrl !== null) && <ReplyPreview audioUrl={audioUrl}  /> }
                     </div>
                 </form>
             </div>
