@@ -33,6 +33,16 @@ function About() {
         }
     }
 
+    const handleSendToPort = (dev) => {
+        if (dev === 'billy') {
+            window.open('https://wremsen.github.io/br-portfolio/');
+        } else if (dev === 'albert') {
+            window.open('https://adedushi.com/');
+        } else {
+            window.open('https://www.levisherman.xyz/')
+        }
+    }
+
     return(
         <>
         <div id="aboutContainer">
@@ -56,7 +66,7 @@ function About() {
                     <div className='iconLinksWrapper'>
                         <div className='iconButtons'><i id='githubButton' className="fa-brands fa-github" onClick={() => handleSendToGithub('levi')}></i></div>
                         <div className='iconButtons'><i id='liButton' className="fa-brands fa-linkedin" onClick={() => handleSendToLinkedin('levi')}></i></div>
-                        <div className='iconButtons'><i id='wellfoundButton' className="fa-solid fa-hand-peace"></i></div>
+                        <div className='iconButtons'><i id='wellfoundButton' className="fa-regular fa-address-card" onClick={() => handleSendToPort('levi')}></i></div>
                     </div>
 
 
@@ -74,7 +84,7 @@ function About() {
                     <div className='iconLinksWrapper'>
                         <div className='iconButtons'><i id='githubButton' className="fa-brands fa-github" onClick={() => handleSendToGithub('albert')}></i></div>
                         <div className='iconButtons'><i id='liButton' className="fa-brands fa-linkedin" onClick={() => handleSendToLinkedin('albert')}></i></div>
-                        <div className='iconButtons'><i id='wellfoundButton' className="fa-solid fa-hand-peace"></i></div>
+                        <div className='iconButtons'><i id='wellfoundButton' className="fa-regular fa-address-card" onClick={() => handleSendToPort('albert')}></i></div>
                     </div>
 
                 </div>
@@ -92,7 +102,7 @@ function About() {
                     <div className='iconLinksWrapper'>
                         <div className='iconButtons'><i id='githubButton' className="fa-brands fa-github" onClick={() => handleSendToGithub('billy')}></i></div>
                         <div className='iconButtons'><i id='liButton' className="fa-brands fa-linkedin" onClick={() => handleSendToLinkedin('billy')}></i></div>
-                        <div className='iconButtons'><i id='wellfoundButton' className="fa-solid fa-hand-peace"></i></div>
+                        <div className='iconButtons'><i id='wellfoundButton' className="fa-regular fa-address-card" onClick={() => handleSendToPort('billy')}></i></div>
                     </div>
 
                 </div>
