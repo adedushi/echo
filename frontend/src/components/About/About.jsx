@@ -2,7 +2,7 @@ import "./About.css"
 import { useNavigate } from 'react-router';
 import levi from '../../../assets/images/headshotLS.jpg'
 import albert from '../../../assets/images/headshotAD.jpg'
-import billy from '../../../assets/images/headshotBR.jpg'
+import billy from '../../../assets/images/newBRss.jpg'
 
 
 function About() {
